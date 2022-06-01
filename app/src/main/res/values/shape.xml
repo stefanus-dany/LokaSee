@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Shape-->
+    <style name="ShapeAppearance.LokaSee.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/lokasee_small_component_corner_radius</item>
+    </style>
+
+    <style name="ShapeAppearance.LokaSee.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/lokasee_medium_component_corner_radius</item>
+    </style>
+
+    <style name="ShapeAppearance.LokaSee.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/lokasee_large_component_corner_radius</item>
+    </style>
+
+
+    <dimen name="lokasee_small_component_corner_radius">24dp</dimen>
+    <dimen name="lokasee_medium_component_corner_radius">8dp</dimen>
+    <dimen name="lokasee_large_component_corner_radius">12dp</dimen>
+</resources>

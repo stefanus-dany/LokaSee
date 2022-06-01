@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.auth.onboarding.OnboardingFragment">
+
+    <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+        android:id="@+id/carouselOnboarding"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:autoPlay="true"
+        app:autoPlayDelay="3000"
+        app:autoWidthFixing="true"
+        app:bottomShadowAlpha="0.6"
+        app:bottomShadowHeight="64dp"
+        app:carouselGravity="CENTER"
+        app:carouselPadding="0dp"
+        app:carouselPaddingBottom="0dp"
+        app:carouselPaddingEnd="0dp"
+        app:carouselPaddingStart="0dp"
+        app:carouselPaddingTop="0dp"
+        app:carouselType="BLOCK"
+        app:imagePlaceholder="@color/lokasee_orange_500"
+        app:imageScaleType="centerCrop"
+        app:indicatorMargin="4dp"
+        app:infiniteCarousel="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:scaleOnScroll="true"
+        app:scalingFactor="0.15"
+        app:showBottomShadow="false"
+        app:showCaption="false"
+        app:showIndicator="true"
+        app:showNavigationButtons="false"
+        app:showTopShadow="false"
+        app:touchToPause="true" />
+
+    <TextView
+        android:id="@+id/txtCarouselTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Find the Perfect Place"
+        android:textAppearance="@style/TextAppearance.LokaSee.Headline5"
+        android:textColor="@color/lokasee_blue_700"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/carouselOnboarding" />
+
+    <TextView
+        android:id="@+id/txtCarouselSubtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:text="Find perfect place for your next business with our recommendation system."
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.LokaSee.Subtitle1"
+        android:textColor="@color/lokasee_black_900_alpha_060"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCarouselTitle" />
+
+    <Button
+        android:id="@+id/btnSkip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Continue as Guest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCarouselSubtitle" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Have an account?"
+        app:layout_constraintBottom_toBottomOf="@+id/btnLogin"
+        app:layout_constraintEnd_toStartOf="@+id/btnLogin"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnLogin" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        style="@android:style/Widget.Material.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="8dp"
+        android:insetLeft="8dp"
+        android:insetRight="8dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        android:text="Login"
+        android:textAppearance="@style/TextAppearance.LokaSee.Subtitle2"
+        android:textColor="@color/lokasee_orange_500"
+        app:iconPadding="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/btnSkip" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardPost"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/grid_0_5"
+    android:layout_marginVertical="@dimen/grid_0_25"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="@dimen/plane_02">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/grid_2"
+        android:paddingBottom="@dimen/grid_2">
+
+        <TextView
+            android:id="@+id/txtPostLocation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_2"
+            android:layout_marginTop="@dimen/grid_1"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:drawableLeft="@drawable/ic_twotone_location"
+            android:maxLines="1"
+            android:text="Laweyan, Surakarta - 12m"
+            android:textAppearance="?attr/textAppearanceBody2"
+            app:layout_constraintEnd_toStartOf="@+id/imgPostSellerProfile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtPostTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_2"
+            android:layout_marginTop="@dimen/grid_1"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:maxLines="1"
+            android:text="Dijual Tanah Startegis"
+            android:textAppearance="@style/TextAppearance.LokaSee.Headline5"
+            android:textColor="@color/lokasee_blue_700"
+            app:layout_constraintEnd_toStartOf="@+id/imgPostSellerProfile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtPostLocation"
+            app:layout_goneMarginEnd="@dimen/grid_2" />
+
+        <TextView
+            android:id="@+id/txtPostDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_2"
+            android:layout_marginTop="@dimen/grid_1"
+            android:maxLines="2"
+            android:text="Rp 120.000.000"
+            android:textAppearance="@style/TextAppearance.LokaSee.Headline6"
+            app:layout_constraintEnd_toStartOf="@+id/textView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtPostTitle" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/attachment_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:layout_marginTop="@dimen/grid_2"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:overScrollMode="never"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtPostDesc" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgPostSellerProfile"
+            android:layout_width="@dimen/email_sender_profile_image_size"
+            android:layout_height="@dimen/email_sender_profile_image_size"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:background="@drawable/avatar_0"
+            app:layout_constraintBottom_toBottomOf="@+id/txtPostTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/txtPostLocation"
+            app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="120 ftsqr"
+            app:layout_constraintBottom_toBottomOf="@+id/txtPostDesc"
+            app:layout_constraintStart_toEndOf="@+id/txtPostDesc"
+            app:layout_constraintTop_toTopOf="@+id/txtPostDesc" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

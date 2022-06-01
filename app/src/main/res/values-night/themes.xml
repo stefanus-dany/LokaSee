@@ -1,0 +1,32 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!--Final, top-level theme-->
+    <style name="Theme.LokaSee.DayNight" parent="Theme.LokaSee.Dark"/>
+
+    <style name="Theme.LokaSee.Dark" parent="Theme.LokaSee">
+        <!--Color-->
+        <item name="colorPrimary">@color/lokasee_blue_200</item>
+        <item name="colorPrimaryVariant">@color/lokasee_blue_300</item>
+        <item name="colorSecondary">@color/lokasee_orange_300</item>
+        <item name="colorSecondaryVariant">@color/lokasee_orange_300</item>
+
+        <item name="android:colorBackground">@color/lokasee_black_900</item>
+        <item name="colorSurface">@color/lokasee_black_800</item>
+        <item name="colorPrimarySurfaceVariant">?attr/colorSurface</item>
+        <item name="colorError">@color/lokasee_red_200</item>
+
+        <item name="colorOnPrimary">@color/lokasee_black_900</item>
+        <item name="colorOnSecondary">@color/lokasee_black_900</item>
+        <item name="colorOnBackground">@color/lokasee_white_50</item>
+        <item name="colorOnSurface">@color/lokasee_white_50</item>
+        <item name="colorOnError">@color/lokasee_black_900</item>
+
+        <item name="scrimBackground">@color/lokasee_black_900_alpha_087</item>
+        <item name="android:statusBarColor">@color/lokasee_black_900_alpha_060</item>
+
+        <item name="elevationOverlayEnabled">true</item>
+
+        <!--System/Platform attributes-->
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
+    </style>
+</resources>
