@@ -4,6 +4,47 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Annas A/AppData/Local/Temp/drawable-temp/fake_of_asl_edit_reply1.xml" value="0.1" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/drawable/avd_edit_to_reply.xml" value="0.1" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/drawable/avd_reply_to_edit.xml" value="0.216" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/drawable/bg_gradient.xml" value="0.238" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/drawable/bg_indicator.xml" value="0.224" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/drawable/bg_tab.xml" value="0.238" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/drawable/custom_pop_up_background.xml" value="0.224" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/drawable/field.xml" value="0.1" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/drawable/ic_area.xml" value="0.237" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/drawable/ic_edit.xml" value="0.237" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/drawable/ic_field.xml" value="0.237" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/drawable/ic_mic.xml" value="0.237" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/drawable/ic_reply_all.xml" value="0.237" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/drawable/ic_reply_logo.xml" value="0.237" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/drawable/ic_schedule.xml" value="0.237" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/drawable/ic_search.xml" value="0.237" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/drawable/ic_settings.xml" value="0.237" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/drawable/ic_twotone_edit.xml" value="0.237" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/drawable/ic_twotone_location.xml" value="0.237" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/layout/activity_auth.xml" value="0.2006340579710145" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/layout/activity_main.xml" value="0.2006340579710145" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/layout/activity_seller.xml" value="0.22146739130434784" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/layout/bottom_nav_drawer_main.xml" value="0.264" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/layout/content_seller.xml" value="0.22146739130434784" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/layout/fragment_first.xml" value="0.22146739130434784" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/layout/fragment_home.xml" value="0.264" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/layout/fragment_login.xml" value="0.264" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/layout/fragment_map.xml" value="0.264" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/layout/fragment_onboarding.xml" value="0.264" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/layout/fragment_post.xml" value="0.4" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/layout/fragment_register.xml" value="0.264" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/layout/fragment_search.xml" value="0.2" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/layout/fragment_second.xml" value="0.22146739130434784" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/layout/fragment_seller_create.xml" value="0.264" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/layout/fragment_seller_home.xml" value="0.22146739130434784" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/layout/item_input_post_image.xml" value="0.8" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/layout/item_post.xml" value="0.4" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/layout/modal_filter.xml" value="0.264" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/layout/modal_post_contact.xml" value="0.24320652173913043" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/menu/bottom_app_bar_home_menu.xml" value="0.25" />
+        <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/LokaSee/app/src/main/res/menu/bottom_app_bar_settings_menu.xml" value="0.25" />
         <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/app/src/main/res/drawable-v24/ic_search.xml" value="0.1" />
         <entry key="..\:/Users/Annas A/Documents/Bangkit/LokaSee/app/src/main/res/drawable-v24/ic_settings.xml" value="0.1" />

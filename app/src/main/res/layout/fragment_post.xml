@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.main.post.PostFragment">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/containerBack"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/roundedImageViewRounded">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_margin="4dp"
+            android:background="?attr/actionBarItemBackground"
+            android:padding="@dimen/grid_0_25"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_arrow_back"
+            app:tint="@color/lokasee_orange_400" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/containerRoute"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/roundedImageViewRounded">
+
+        <ImageButton
+            android:id="@+id/btnRoute"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_margin="4dp"
+            android:background="?attr/actionBarItemBackground"
+            android:padding="@dimen/grid_0_5"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_navigation"
+            app:tint="@color/lokasee_orange_400" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="-24dp"
+        android:layout_marginBottom="-24dp"
+        app:cardBackgroundColor="@color/lokasee_blue_50"
+        app:cardCornerRadius="@dimen/lokasee_small_component_corner_radius"
+        app:cardElevation="@dimen/plane_02"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/carouselPost">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="24dp"
+            android:fillViewport="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txtPostLocation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:drawableLeft="@drawable/ic_twotone_location"
+                    android:drawablePadding="4dp"
+                    android:maxLines="1"
+                    android:text="Laweyan, Surakarta - Hari ini"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtPostTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/grid_1"
+                    android:layout_marginEnd="24dp"
+                    android:maxLines="1"
+                    android:text="Dijual Tanah Startegis"
+                    android:textAppearance="@style/TextAppearance.LokaSee.Headline5"
+                    android:textColor="@color/lokasee_blue_800"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/txtPostLocation"
+                    app:layout_constraintTop_toBottomOf="@+id/txtPostLocation"
+                    app:layout_goneMarginEnd="@dimen/grid_2" />
+
+                <TextView
+                    android:id="@+id/txtPostPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:maxLines="2"
+                    android:text="Rp 120.000.000"
+                    android:textAppearance="@style/TextAppearance.LokaSee.Headline6"
+                    app:layout_constraintStart_toStartOf="@+id/txtPostTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/txtPostTitle" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/containerArea"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="4dp"
+                    app:cardCornerRadius="@dimen/lokasee_medium_component_corner_radius"
+                    app:layout_constraintEnd_toStartOf="@+id/containerLand"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtPostPrice">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:src="@drawable/ic_area"
+                            app:layout_constraintBottom_toBottomOf="@+id/txtPostArea"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/textView1"
+                            app:tint="@color/lokasee_blue_600" />
+
+                        <TextView
+                            android:id="@+id/textView1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:text="Area"
+                            android:textAppearance="@style/TextAppearance.LokaSee.Overline"
+                            android:textColor="@color/lokasee_blue_600"
+                            app:layout_constraintStart_toEndOf="@+id/imageView"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/txtPostArea"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="120 m²"
+                            android:textAppearance="@style/TextAppearance.LokaSee.Body2"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/textView1"
+                            app:layout_constraintTop_toBottomOf="@+id/textView1" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/containerLand"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="24dp"
+                    app:cardCornerRadius="@dimen/lokasee_medium_component_corner_radius"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/containerArea"
+                    app:layout_constraintTop_toBottomOf="@+id/txtPostPrice">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/imageView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:src="@drawable/ic_field"
+                            app:layout_constraintBottom_toBottomOf="@+id/txtLand"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/textView2"
+                            app:tint="@color/lokasee_blue_600" />
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:text="Land Type"
+                            android:textAppearance="@style/TextAppearance.LokaSee.Overline"
+                            android:textColor="@color/lokasee_blue_600"
+                            app:layout_constraintStart_toEndOf="@+id/imageView2"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/txtPostLandType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="Garden"
+                            android:textAppearance="@style/TextAppearance.LokaSee.Body2"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/textView2"
+                            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/materialDivider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/containerArea" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabPost"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="64dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="64dp"
+                    android:background="@drawable/bg_tab"
+                    android:elevation="@dimen/plane_02"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/materialDivider2"
+                    app:tabGravity="fill"
+                    app:tabIndicator="@drawable/bg_indicator"
+                    app:tabIndicatorAnimationMode="elastic"
+                    app:tabIndicatorColor="@color/lokasee_blue_600"
+                    app:tabIndicatorGravity="stretch"
+                    app:tabMode="fixed"
+                    app:tabSelectedTextColor="@color/lokasee_white_50"
+                    app:tabTextAppearance="@style/TextAppearance.LokaSee.Overline"
+                    app:tabUnboundedRipple="true">
+
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/tabDesc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Description" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/tabMap"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Map" />
+                </com.google.android.material.tabs.TabLayout>
+
+                <LinearLayout
+                    android:id="@+id/containerDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tabPost">
+
+                    <TextView
+                        android:id="@+id/txtPostDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        app:layout_wrapBehaviorInParent="vertical_only" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/containerMap"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tabPost" >
+
+                    <TextView
+                        android:id="@+id/txtPostAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        app:layout_wrapBehaviorInParent="vertical_only" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+        android:id="@+id/carouselPost"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:animateLayoutChanges="true"
+        app:autoPlay="false"
+        app:autoPlayDelay="3000"
+        app:autoWidthFixing="true"
+        app:carouselBackground="@color/lokasee_blue_200"
+        app:carouselGravity="START"
+        app:carouselType="BLOCK"
+        app:imagePlaceholder="@color/lokasee_orange_500"
+        app:imageScaleType="centerCrop"
+        app:indicatorMargin="32dp"
+        app:infiniteCarousel="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:scaleOnScroll="false"
+        app:scalingFactor="0.15"
+        app:showBottomShadow="false"
+        app:showCaption="false"
+        app:showIndicator="true"
+        app:showNavigationButtons="false"
+        app:showTopShadow="false"
+        app:touchToPause="true"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -33,12 +33,12 @@
                 android:inputType="textNoSuggestions" />
 
             <ImageButton
-                android:id="@+id/btnSearch"
+                android:id="@+id/btnFilter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/actionBarItemBackground"
                 android:padding="@dimen/grid_2"
-                app:srcCompat="@drawable/ic_search" />
+                app:srcCompat="@drawable/ic_filter" />
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 

@@ -38,6 +38,7 @@ class PasswordEditText: AppCompatEditText, View.OnTouchListener {
     }
 
     private fun init() {
+        typeface = ResourcesCompat.getFont(context, R.font.worksans_regular)
         inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD or InputType.TYPE_CLASS_TEXT
         clearButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_close) as Drawable
         setOnTouchListener(this)

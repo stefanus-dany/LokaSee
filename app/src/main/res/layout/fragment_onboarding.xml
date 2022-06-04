@@ -45,7 +45,7 @@
         android:layout_marginTop="32dp"
         android:text="Find the Perfect Place"
         android:textAppearance="@style/TextAppearance.LokaSee.Headline5"
-        android:textColor="@color/lokasee_blue_700"
+        android:textColor="@color/lokasee_blue_800"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/carouselOnboarding" />
@@ -71,6 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Continue as Guest"
+        android:textAllCaps="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCarouselSubtitle" />
@@ -80,15 +81,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Have an account?"
-        app:layout_constraintBottom_toBottomOf="@+id/btnLogin"
-        app:layout_constraintEnd_toStartOf="@+id/btnLogin"
+        android:textAppearance="@style/TextAppearance.LokaSee.Body1"
+        app:layout_constraintBottom_toBottomOf="@+id/btnGoToLogin"
+        app:layout_constraintEnd_toStartOf="@+id/btnGoToLogin"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnLogin" />
+        app:layout_constraintTop_toTopOf="@+id/btnGoToLogin" />
 
     <Button
-        android:id="@+id/btnLogin"
-        style="@android:style/Widget.Material.Button.Borderless"
+        android:id="@+id/btnGoToLogin"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
@@ -96,12 +98,13 @@
         android:insetLeft="8dp"
         android:insetRight="8dp"
         android:minWidth="0dp"
-        android:minHeight="0dp"
+        android:minHeight="48dp"
         android:paddingLeft="0dp"
         android:paddingTop="0dp"
         android:paddingRight="0dp"
         android:paddingBottom="0dp"
         android:text="Login"
+        android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.LokaSee.Subtitle2"
         android:textColor="@color/lokasee_orange_500"
         app:iconPadding="0dp"

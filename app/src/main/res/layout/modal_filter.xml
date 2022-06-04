@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/CustomCardViewStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:text="Filter"
+            android:textAppearance="@style/TextAppearance.LokaSee.Headline5" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/selectFilterType"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:hint="Land Type"
+            app:boxBackgroundColor="@color/lokasee_blue_100"
+            app:boxBackgroundMode="filled"
+            app:boxCornerRadiusBottomEnd="@dimen/lokasee_large_component_corner_radius"
+            app:boxCornerRadiusBottomStart="@dimen/lokasee_large_component_corner_radius"
+            app:boxCornerRadiusTopEnd="@dimen/lokasee_large_component_corner_radius"
+            app:boxCornerRadiusTopStart="@dimen/lokasee_large_component_corner_radius"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp">
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputFilterPriceMin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="0.5"
+                android:hint="Price Min"
+                app:boxBackgroundColor="@color/lokasee_blue_100"
+                app:boxBackgroundMode="filled"
+                app:boxCornerRadiusBottomEnd="@dimen/lokasee_large_component_corner_radius"
+                app:boxCornerRadiusBottomStart="@dimen/lokasee_large_component_corner_radius"
+                app:boxCornerRadiusTopEnd="@dimen/lokasee_large_component_corner_radius"
+                app:boxCornerRadiusTopStart="@dimen/lokasee_large_component_corner_radius"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number|numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputFilterPriceMax"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_weight="0.5"
+                android:hint="Price Max"
+                app:boxBackgroundColor="@color/lokasee_blue_100"
+                app:boxBackgroundMode="filled"
+                app:boxCornerRadiusBottomEnd="@dimen/lokasee_large_component_corner_radius"
+                app:boxCornerRadiusBottomStart="@dimen/lokasee_large_component_corner_radius"
+                app:boxCornerRadiusTopEnd="@dimen/lokasee_large_component_corner_radius"
+                app:boxCornerRadiusTopStart="@dimen/lokasee_large_component_corner_radius"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number|numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputFilterAreaMin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="0.5"
+                android:hint="Area Min"
+                app:boxBackgroundColor="@color/lokasee_blue_100"
+                app:boxBackgroundMode="filled"
+                app:boxCornerRadiusBottomEnd="@dimen/lokasee_large_component_corner_radius"
+                app:boxCornerRadiusBottomStart="@dimen/lokasee_large_component_corner_radius"
+                app:boxCornerRadiusTopEnd="@dimen/lokasee_large_component_corner_radius"
+                app:boxCornerRadiusTopStart="@dimen/lokasee_large_component_corner_radius"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number|numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputFilterAreaMax"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_weight="0.5"
+                android:hint="Area Max"
+                app:boxBackgroundColor="@color/lokasee_blue_100"
+                app:boxBackgroundMode="filled"
+                app:boxCornerRadiusBottomEnd="@dimen/lokasee_large_component_corner_radius"
+                app:boxCornerRadiusBottomStart="@dimen/lokasee_large_component_corner_radius"
+                app:boxCornerRadiusTopEnd="@dimen/lokasee_large_component_corner_radius"
+                app:boxCornerRadiusTopStart="@dimen/lokasee_large_component_corner_radius"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number|numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputFilterDistance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:hint="Distance"
+            app:boxBackgroundColor="@color/lokasee_blue_100"
+            app:boxBackgroundMode="filled"
+            app:boxCornerRadiusBottomEnd="@dimen/lokasee_large_component_corner_radius"
+            app:boxCornerRadiusBottomStart="@dimen/lokasee_large_component_corner_radius"
+            app:boxCornerRadiusTopEnd="@dimen/lokasee_large_component_corner_radius"
+            app:boxCornerRadiusTopStart="@dimen/lokasee_large_component_corner_radius"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/selectFilterProvinsi"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:hint="Region"
+            app:boxBackgroundColor="@color/lokasee_blue_100"
+            app:boxCornerRadiusBottomEnd="@dimen/lokasee_large_component_corner_radius"
+            app:boxCornerRadiusBottomStart="@dimen/lokasee_large_component_corner_radius"
+            app:boxCornerRadiusTopEnd="@dimen/lokasee_large_component_corner_radius"
+            app:boxCornerRadiusTopStart="@dimen/lokasee_large_component_corner_radius"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp">
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/selectFilterKota"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:hint="City"
+            app:boxBackgroundColor="@color/lokasee_blue_100"
+            app:boxCornerRadiusBottomEnd="@dimen/lokasee_large_component_corner_radius"
+            app:boxCornerRadiusBottomStart="@dimen/lokasee_large_component_corner_radius"
+            app:boxCornerRadiusTopEnd="@dimen/lokasee_large_component_corner_radius"
+            app:boxCornerRadiusTopStart="@dimen/lokasee_large_component_corner_radius"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp">
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/selectFilterKecamatan"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:hint="District"
+            app:boxBackgroundColor="@color/lokasee_blue_100"
+            app:boxCornerRadiusBottomEnd="@dimen/lokasee_large_component_corner_radius"
+            app:boxCornerRadiusBottomStart="@dimen/lokasee_large_component_corner_radius"
+            app:boxCornerRadiusTopEnd="@dimen/lokasee_large_component_corner_radius"
+            app:boxCornerRadiusTopStart="@dimen/lokasee_large_component_corner_radius"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp">
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/btnApplyFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="0.4"
+                android:text="Apply"
+                android:textAppearance="@style/TextAppearance.LokaSee.Overline" />
+
+            <Button
+                android:id="@+id/btnClearFilter"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_weight="0.4"
+                android:text="Clear"
+                android:textAppearance="@style/TextAppearance.LokaSee.Overline" />
+        </LinearLayout>
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

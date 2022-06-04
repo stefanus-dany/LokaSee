@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!--Final, top-level theme-->
-    <style name="Theme.LokaSee.DayNight" parent="Theme.LokaSee"/>
+    <style name="Theme.LokaSee.DayNight" parent="Theme.LokaSee" />
 
     <style name="Theme.LokaSee" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!--Color-->
@@ -24,9 +24,12 @@
         <item name="android:statusBarColor">@color/lokasee_blue_50_alpha_060</item>
         <item name="android:navigationBarColor">@color/nav_bar</item>
 
-        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.LokaSee.SmallComponent</item>
-        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.LokaSee.MediumComponent</item>
-        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.LokaSee.LargeComponent</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.LokaSee.SmallComponent
+        </item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.LokaSee.MediumComponent
+        </item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.LokaSee.LargeComponent
+        </item>
 
         <!--Typography-->
         <item name="textAppearanceHeadline2">@style/TextAppearance.LokaSee.Headline2</item>
@@ -51,12 +54,27 @@
         <item name="motionInterpolatorOutgoing">@android:interpolator/accelerate_cubic</item>
 
         <!--Styles-->
-        <item name="bottomAppBarStyle">@style/Widget.MaterialComponents.BottomAppBar.PrimarySurface</item>
+        <item name="bottomAppBarStyle">
+            @style/Widget.MaterialComponents.BottomAppBar.PrimarySurface
+        </item>
         <item name="bottomSheetStyle">@style/Widget.MaterialComponents.BottomSheet.Modal</item>
         <item name="navigationViewStyle">@style/Widget.LokaSee.NavigationView</item>
 
         <!--System/Platform attributes-->
         <item name="android:windowBackground">?android:colorBackground</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+
+        <item name="textAppearanceLargePopupMenu">@style/TextAppearance.App.Subtitle1</item>
+        <item name="textAppearanceSmallPopupMenu">@style/TextAppearance.App.Subtitle1</item>
+        <item name="popupMenuBackground">@drawable/bg_popup</item>
     </style>
+
+    <style name="Theme.LokaSee.DayNight.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.LokaSee.DayNight.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.LokaSee.DayNight.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

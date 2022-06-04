@@ -5,48 +5,77 @@
     android:id="@+id/cardPost"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/grid_0_5"
-    android:layout_marginVertical="@dimen/grid_0_25"
     android:clickable="true"
     android:focusable="true"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="@dimen/plane_02">
+    app:cardCornerRadius="@dimen/lokasee_large_component_corner_radius"
+    app:cardElevation="@dimen/plane_02"
+    app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/grid_2"
         android:paddingBottom="@dimen/grid_2">
+
+        <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+            android:id="@+id/carouselPost"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:animateLayoutChanges="true"
+            app:autoPlay="false"
+            app:autoPlayDelay="3000"
+            app:autoWidthFixing="true"
+            app:carouselBackground="@color/lokasee_blue_200"
+            app:carouselGravity="START"
+            app:carouselType="BLOCK"
+            app:imagePlaceholder="@color/lokasee_orange_500"
+            app:imageScaleType="centerCrop"
+            app:indicatorMargin="32dp"
+            app:infiniteCarousel="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:scaleOnScroll="false"
+            app:scalingFactor="0.15"
+            app:showBottomShadow="false"
+            app:showCaption="false"
+            app:showIndicator="true"
+            app:showNavigationButtons="false"
+            app:showTopShadow="false"
+            app:touchToPause="true">
+
+        </org.imaginativeworld.whynotimagecarousel.ImageCarousel>
 
         <TextView
             android:id="@+id/txtPostLocation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/grid_2"
-            android:layout_marginTop="@dimen/grid_1"
-            android:layout_marginEnd="@dimen/grid_2"
+            android:layout_marginTop="@dimen/grid_2"
             android:drawableLeft="@drawable/ic_twotone_location"
+            android:drawablePadding="4dp"
+            android:fontFamily="@font/worksans_medium"
             android:maxLines="1"
-            android:text="Laweyan, Surakarta - 12m"
-            android:textAppearance="?attr/textAppearanceBody2"
-            app:layout_constraintEnd_toStartOf="@+id/imgPostSellerProfile"
+            android:text="Laweyan, Surakarta"
+            android:textAppearance="@style/TextAppearance.LokaSee.Body2"
+            android:textColor="@color/lokasee_white_50"
+            app:drawableTint="@color/lokasee_white_50"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/carouselPost" />
 
         <TextView
             android:id="@+id/txtPostTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/grid_2"
-            android:layout_marginTop="@dimen/grid_1"
+            android:layout_marginTop="@dimen/grid_2"
             android:layout_marginEnd="@dimen/grid_2"
             android:maxLines="1"
             android:text="Dijual Tanah Startegis"
             android:textAppearance="@style/TextAppearance.LokaSee.Headline5"
-            android:textColor="@color/lokasee_blue_700"
+            android:textColor="@color/lokasee_blue_800"
             app:layout_constraintEnd_toStartOf="@+id/imgPostSellerProfile"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtPostLocation"
+            app:layout_constraintTop_toBottomOf="@+id/carouselPost"
             app:layout_goneMarginEnd="@dimen/grid_2" />
 
         <TextView
@@ -58,25 +87,20 @@
             android:maxLines="2"
             android:text="Rp 120.000.000"
             android:textAppearance="@style/TextAppearance.LokaSee.Headline6"
-            app:layout_constraintEnd_toStartOf="@+id/textView"
+            app:layout_constraintEnd_toStartOf="@+id/txtPostArea"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtPostTitle" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/attachment_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:layout_marginTop="@dimen/grid_2"
-            android:clipToPadding="false"
-            android:orientation="horizontal"
-            android:overScrollMode="never"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtPostDesc" />
+        <TextView
+            android:id="@+id/txtPostArea"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="120 m²"
+            app:layout_constraintBottom_toBottomOf="@+id/txtPostDesc"
+            app:layout_constraintStart_toEndOf="@+id/txtPostDesc"
+            app:layout_constraintTop_toTopOf="@+id/txtPostDesc" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgPostSellerProfile"
@@ -84,20 +108,10 @@
             android:layout_height="@dimen/email_sender_profile_image_size"
             android:layout_marginEnd="@dimen/grid_2"
             android:background="@drawable/avatar_0"
-            app:layout_constraintBottom_toBottomOf="@+id/txtPostTitle"
+            android:elevation="@dimen/plane_08"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/txtPostLocation"
+            app:layout_constraintTop_toTopOf="@+id/txtPostTitle"
             app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="120 ftsqr"
-            app:layout_constraintBottom_toBottomOf="@+id/txtPostDesc"
-            app:layout_constraintStart_toEndOf="@+id/txtPostDesc"
-            app:layout_constraintTop_toTopOf="@+id/txtPostDesc" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
