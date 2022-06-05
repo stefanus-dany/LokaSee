@@ -1,60 +1,94 @@
 package com.bangkit.lokasee.ui.auth.login
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bangkit.lokasee.R
+import com.bangkit.lokasee.databinding.FragmentLoginBinding
+import com.bangkit.lokasee.helper.ViewHelper.gone
+import com.bangkit.lokasee.helper.ViewHelper.visible
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [LoginFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class LoginFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
+    ): View {
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LoginFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LoginFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupViewModel()
+        setupAction()
+    }
+
+    private fun setupViewModel() {
+        //TODO
+//        val factory: ViewModelFactory = ViewModelFactory.getInstance(this)
+//        loginViewModel = factory.create(LoginViewModel::class.java)
+    }
+
+    private fun setupAction() {
+        binding.btnLogin.setOnClickListener {
+            binding.progressBar.visible()
+            val email = binding.inputEmail.text.toString()
+            val password = binding.inputPassword.text.toString()
+            when {
+                email.isEmpty() -> {
+                    with(binding) {
+                        inputEmail.error = getString(R.string.error_input_email)
+                        inputEmail.requestFocus()
+                        progressBar.gone()
+                    }
+                }
+                !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
+                    with(binding) {
+                        inputEmail.error = getString(R.string.error_email_not_valid)
+                        inputEmail.requestFocus()
+                        progressBar.gone()
+                    }
+                }
+                password.isEmpty() -> {
+                    with(binding) {
+                        inputPassword.error = getString(R.string.error_input_password)
+                        inputPassword.requestFocus()
+                        progressBar.gone()
+                    }
+                }
+                password.length < 6 -> {
+                    with(binding) {
+                        inputPassword.error =
+                            getString(R.string.error_password_less_than_6_char)
+                        inputPassword.requestFocus()
+                        progressBar.gone()
+                    }
+                }
+                else -> {
+                    //TODO LOGIN
+                    binding.progressBar.gone()
+                    findNavController().navigate(R.id.action_loginFragment_to_navigation_graph)
+                    //TODO CLEAR ALL BACKSTACK
                 }
             }
+        }
+
+        binding.btnGoToRegister.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

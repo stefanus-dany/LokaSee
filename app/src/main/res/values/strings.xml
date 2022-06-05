@@ -13,4 +13,10 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <string name="error_input_name">Please insert your name!</string>
+    <string name="error_input_email">Please insert your email!</string>
+    <string name="error_input_password">Please insert your password!</string>
+    <string name="error_email_not_valid">Email is not valid!</string>
+    <string name="error_password_less_than_6_char">Password less than 6 character!</string>
 </resources>
