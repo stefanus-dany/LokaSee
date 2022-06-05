@@ -1,60 +1,110 @@
 package com.bangkit.lokasee.ui.auth.onboarding
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.bangkit.lokasee.R
+import com.bangkit.lokasee.databinding.FragmentOnboardingBinding
+import org.imaginativeworld.whynotimagecarousel.listener.CarouselOnScrollListener
+import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [OnboardingFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class OnboardingFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentOnboardingBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_onboarding, container, false)
+    ): View {
+        _binding = FragmentOnboardingBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment OnboardingFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            OnboardingFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupCarousel()
+        setupAction()
+    }
+
+    private fun setupCarousel() {
+        val list: MutableList<CarouselItem> = ArrayList()
+
+        list.add(
+            CarouselItem(
+                "https://images.unsplash.com/photo-1532581291347-9c39cf10a73c?w=1080",
+                "Photo by Aaron Wu on Unsplash"
+            )
+        )
+
+        list.add(
+            CarouselItem(
+                "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1080"
+            )
+        )
+
+        binding.carouselOnboarding.apply {
+            registerLifecycle(lifecycle)
+            setData(list)
+            onScrollListener = object : CarouselOnScrollListener {
+                override fun onScrollStateChanged(
+                    recyclerView: RecyclerView,
+                    newState: Int,
+                    position: Int,
+                    carouselItem: CarouselItem?
+                ) {
+                    // ...
+                }
+
+                override fun onScrolled(
+                    recyclerView: RecyclerView,
+                    dx: Int,
+                    dy: Int,
+                    position: Int,
+                    carouselItem: CarouselItem?
+                ) {
+                    when (position){
+                        0 -> {
+                            binding.apply {
+                                tvCarouselTitle.text = "ITEM 0"
+                                tvCarouselSubtitle.text = "Ini adalah item 0"
+                            }
+                        }
+
+                        1 -> {
+                            binding.apply {
+                                tvCarouselTitle.text = "ITEM 1"
+                                tvCarouselSubtitle.text = "Ini adalah item 1"
+                            }
+                        }
+                    }
+
+
+
                 }
             }
+        }
+    }
+
+    private fun setupAction(){
+        binding.apply {
+            btnGoToLogin.setOnClickListener {
+                findNavController().navigate(R.id.action_onboardingFragment_to_loginFragment)
+            }
+
+            btnSkip.setOnClickListener {
+                //TODO GO WITHOUT AUTH
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

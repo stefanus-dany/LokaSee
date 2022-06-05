@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         app:autoPlay="true"
-        app:autoPlayDelay="3000"
+        app:autoPlayDelay="6000"
         app:autoWidthFixing="true"
         app:bottomShadowAlpha="0.6"
         app:bottomShadowHeight="64dp"
@@ -22,7 +22,7 @@
         app:carouselPaddingStart="0dp"
         app:carouselPaddingTop="0dp"
         app:carouselType="BLOCK"
-        app:imagePlaceholder="@color/lokasee_orange_500"
+        app:imagePlaceholder="@color/white"
         app:imageScaleType="centerCrop"
         app:indicatorMargin="4dp"
         app:infiniteCarousel="true"
@@ -39,7 +39,7 @@
         app:touchToPause="true" />
 
     <TextView
-        android:id="@+id/txtCarouselTitle"
+        android:id="@+id/tvCarouselTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -51,7 +51,7 @@
         app:layout_constraintTop_toBottomOf="@+id/carouselOnboarding" />
 
     <TextView
-        android:id="@+id/txtCarouselSubtitle"
+        android:id="@+id/tvCarouselSubtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -63,7 +63,7 @@
         android:textColor="@color/lokasee_black_900_alpha_060"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCarouselTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/tvCarouselTitle" />
 
     <Button
         android:id="@+id/btnSkip"
@@ -74,7 +74,7 @@
         android:textAllCaps="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCarouselSubtitle" />
+        app:layout_constraintTop_toBottomOf="@+id/tvCarouselSubtitle" />
 
     <TextView
         android:id="@+id/textView6"
