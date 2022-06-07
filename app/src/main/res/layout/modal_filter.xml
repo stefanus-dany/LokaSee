@@ -30,8 +30,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="Land Type"
-            android:visibility="gone"
+            android:hint="Any land type"
             app:boxBackgroundColor="@color/lokasee_blue_100"
             app:boxBackgroundMode="filled"
             app:boxCornerRadiusBottomEnd="@dimen/lokasee_large_component_corner_radius"
@@ -61,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
                 android:layout_weight="0.5"
-                android:hint="Price Min"
+                android:hint="Set price min"
                 app:boxBackgroundColor="@color/lokasee_blue_100"
                 app:boxBackgroundMode="filled"
                 app:boxCornerRadiusBottomEnd="@dimen/lokasee_large_component_corner_radius"
@@ -83,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_weight="0.5"
-                android:hint="Price Max"
+                android:hint="Set price max"
                 app:boxBackgroundColor="@color/lokasee_blue_100"
                 app:boxBackgroundMode="filled"
                 app:boxCornerRadiusBottomEnd="@dimen/lokasee_large_component_corner_radius"
@@ -114,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
                 android:layout_weight="0.5"
-                android:hint="Area Min"
+                android:hint="Set area min"
                 app:boxBackgroundColor="@color/lokasee_blue_100"
                 app:boxBackgroundMode="filled"
                 app:boxCornerRadiusBottomEnd="@dimen/lokasee_large_component_corner_radius"
@@ -136,7 +135,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_weight="0.5"
-                android:hint="Area Max"
+                android:hint="Set area min"
                 app:boxBackgroundColor="@color/lokasee_blue_100"
                 app:boxBackgroundMode="filled"
                 app:boxCornerRadiusBottomEnd="@dimen/lokasee_large_component_corner_radius"
@@ -152,98 +151,6 @@
                     android:inputType="number|numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputFilterDistance"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:hint="Distance"
-            app:boxBackgroundColor="@color/lokasee_blue_100"
-            app:boxBackgroundMode="filled"
-            app:boxCornerRadiusBottomEnd="@dimen/lokasee_large_component_corner_radius"
-            app:boxCornerRadiusBottomStart="@dimen/lokasee_large_component_corner_radius"
-            app:boxCornerRadiusTopEnd="@dimen/lokasee_large_component_corner_radius"
-            app:boxCornerRadiusTopStart="@dimen/lokasee_large_component_corner_radius"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/selectFilterProvinsi"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:hint="Region"
-            app:boxBackgroundColor="@color/lokasee_blue_100"
-            app:boxCornerRadiusBottomEnd="@dimen/lokasee_large_component_corner_radius"
-            app:boxCornerRadiusBottomStart="@dimen/lokasee_large_component_corner_radius"
-            app:boxCornerRadiusTopEnd="@dimen/lokasee_large_component_corner_radius"
-            app:boxCornerRadiusTopStart="@dimen/lokasee_large_component_corner_radius"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp">
-
-            <AutoCompleteTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/selectFilterKota"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:hint="City"
-            app:boxBackgroundColor="@color/lokasee_blue_100"
-            app:boxCornerRadiusBottomEnd="@dimen/lokasee_large_component_corner_radius"
-            app:boxCornerRadiusBottomStart="@dimen/lokasee_large_component_corner_radius"
-            app:boxCornerRadiusTopEnd="@dimen/lokasee_large_component_corner_radius"
-            app:boxCornerRadiusTopStart="@dimen/lokasee_large_component_corner_radius"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp">
-
-            <AutoCompleteTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/selectFilterKecamatan"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:hint="District"
-            app:boxBackgroundColor="@color/lokasee_blue_100"
-            app:boxCornerRadiusBottomEnd="@dimen/lokasee_large_component_corner_radius"
-            app:boxCornerRadiusBottomStart="@dimen/lokasee_large_component_corner_radius"
-            app:boxCornerRadiusTopEnd="@dimen/lokasee_large_component_corner_radius"
-            app:boxCornerRadiusTopStart="@dimen/lokasee_large_component_corner_radius"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp">
-
-            <AutoCompleteTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none" />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
