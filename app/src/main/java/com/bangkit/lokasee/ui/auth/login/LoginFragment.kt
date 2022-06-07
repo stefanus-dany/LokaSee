@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bangkit.lokasee.R
 import com.bangkit.lokasee.databinding.FragmentLoginBinding
-import com.bangkit.lokasee.helper.ViewHelper.gone
-import com.bangkit.lokasee.helper.ViewHelper.visible
+import com.bangkit.lokasee.util.ViewHelper.gone
+import com.bangkit.lokasee.util.ViewHelper.visible
 
 
 class LoginFragment : Fragment() {

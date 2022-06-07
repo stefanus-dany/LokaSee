@@ -190,7 +190,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:src="@drawable/ic_field"
-                            app:layout_constraintBottom_toBottomOf="@+id/txtLand"
+                            app:layout_constraintBottom_toBottomOf="@+id/txtPostLandType"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/textView2"
                             app:tint="@color/lokasee_blue_600" />

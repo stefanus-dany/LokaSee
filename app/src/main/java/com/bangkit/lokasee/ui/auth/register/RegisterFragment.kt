@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bangkit.lokasee.R
 import com.bangkit.lokasee.databinding.FragmentRegisterBinding
-import com.bangkit.lokasee.helper.ViewHelper.gone
+import com.bangkit.lokasee.util.ViewHelper.gone
 
 class RegisterFragment : Fragment() {
 

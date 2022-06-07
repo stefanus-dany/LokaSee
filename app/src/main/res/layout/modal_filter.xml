@@ -31,6 +31,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:hint="Land Type"
+            android:visibility="gone"
             app:boxBackgroundColor="@color/lokasee_blue_100"
             app:boxBackgroundMode="filled"
             app:boxCornerRadiusBottomEnd="@dimen/lokasee_large_component_corner_radius"
@@ -261,7 +262,7 @@
                 android:layout_marginEnd="4dp"
                 android:layout_weight="0.4"
                 android:text="Apply"
-                android:textAppearance="@style/TextAppearance.LokaSee.Overline" />
+                android:textAppearance="@style/TextAppearance.LokaSee.Button" />
 
             <Button
                 android:id="@+id/btnClearFilter"
@@ -271,7 +272,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_weight="0.4"
                 android:text="Clear"
-                android:textAppearance="@style/TextAppearance.LokaSee.Overline" />
+                android:textAppearance="@style/TextAppearance.LokaSee.Button" />
         </LinearLayout>
     </LinearLayout>
 

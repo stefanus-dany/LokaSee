@@ -168,7 +168,24 @@ class BottomNavDrawerFragment : Fragment(){
                     binding.imgProfile
                 ))
                 // Recycler transforms
-                addOnStateChangedAction(ScrollToTopStateAction(rvNavigation))
+
+
+
+
+
+
+
+                // addOnStateChangedAction(ScrollToTopStateAction(rvNavigation))
+
+
+
+
+
+
+
+
+
+
                 // Close the sandwiching account picker if open
                 addOnStateChangedAction(object : OnStateChangedAction {
                     override fun onStateChanged(sheet: View, newState: Int) {

@@ -33,7 +33,7 @@ class SellerHomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonFirst.setOnClickListener {
+        binding.fabSellerAddPost.setOnClickListener {
             findNavController().navigate(R.id.action_sellerHomeFragment_to_sellerCreateFragment)
         }
     }

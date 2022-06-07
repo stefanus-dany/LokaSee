@@ -47,7 +47,7 @@
             android:background="@android:color/transparent"
             android:drawableEnd="@drawable/ic_search"
             android:ems="10"
-            android:hint=" Search any post in this area..."
+            android:hint=" Search post in this area..."
             android:inputType="textPersonName"
             android:paddingStart="16dp"
             android:paddingTop="4dp"

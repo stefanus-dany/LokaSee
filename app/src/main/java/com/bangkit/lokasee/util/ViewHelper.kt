@@ -1,4 +1,4 @@
-package com.bangkit.lokasee.helper
+package com.bangkit.lokasee.util
 
 import android.view.View
 

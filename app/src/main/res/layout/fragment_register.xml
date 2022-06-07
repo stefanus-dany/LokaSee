@@ -133,6 +133,7 @@
                 android:layout_marginTop="16dp"
                 android:text="Register"
                 android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.LokaSee.Button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView3" />
@@ -169,6 +170,7 @@
                 android:minHeight="48dp"
                 android:text="Login"
                 android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.LokaSee.Button"
                 android:textColor="@color/lokasee_orange_500"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView3"

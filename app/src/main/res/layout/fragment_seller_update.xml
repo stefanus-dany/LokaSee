@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.seller.SellerCreateFragment">
-
     <ImageButton
         android:id="@+id/btnBack"
         android:layout_width="36dp"
@@ -21,7 +20,21 @@
         app:tint="@color/color_on_surface_emphasis_medium" />
 
     <ImageButton
-        android:id="@+id/btnPostUpload"
+        android:id="@+id/btnPostDelete"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="?attr/actionBarItemBackground"
+        android:padding="@dimen/grid_0_25"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toStartOf="@id/btnPostUpdate"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_delete"
+        app:tint="@color/lokasee_red_400" />
+
+    <ImageButton
+        android:id="@+id/btnPostUpdate"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginTop="16dp"
@@ -38,7 +51,7 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Post"
+        android:text="Edit Post"
         android:textAppearance="@style/TextAppearance.LokaSee.Headline5"
         android:textColor="@color/color_on_surface_emphasis_medium"
         app:layout_constraintBottom_toBottomOf="@+id/btnBack"
@@ -87,7 +100,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputPostDesc"
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
@@ -103,8 +116,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="textMultiLine" />
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
