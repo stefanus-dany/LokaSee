@@ -16,7 +16,21 @@
 
     <string name="error_input_name">Please insert your name!</string>
     <string name="error_input_email">Please insert your email!</string>
+    <string name="error_input_phone_number">Please insert your phone number!</string>
     <string name="error_input_password">Please insert your password!</string>
     <string name="error_email_not_valid">Email is not valid!</string>
     <string name="error_password_less_than_6_char">Password less than 6 character!</string>
+
+    <string name="title_alert_success">Yeah!</string>
+    <string name="title_alert_failed">Oops!</string>
+    <string name="message_alert_register_success">Your account has been created.</string>
+    <string name="message_alert_add_story_success">Story has been uploaded!</string>
+    <string name="message_alert_add_story_failed">Story failed to upload!</string>
+    <string name="message_alert_login_success">You have successfully logged in.</string>
+    <string name="message_alert_login_failed">Email or password does not match.</string>
+    <string name="message_alert_register_failed">Something went wrong. Try again!</string>
+    <string name="back">Back</string>
+    <string name="ok">OK</string>
+    <string name="signup">Register</string>
+    <string name="login">Login</string>
 </resources>

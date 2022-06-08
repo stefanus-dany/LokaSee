@@ -1,22 +1,28 @@
 package com.bangkit.lokasee.ui.auth.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bangkit.lokasee.R
 import com.bangkit.lokasee.databinding.FragmentLoginBinding
+import com.bangkit.lokasee.ui.main.MainActivity
 import com.bangkit.lokasee.util.ViewHelper.gone
 import com.bangkit.lokasee.util.ViewHelper.visible
+import com.bangkit.lokasee.data.Result
+import com.bangkit.lokasee.ui.ViewModelFactory
 
 
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+    private lateinit var loginViewModel: LoginViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,9 +39,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun setupViewModel() {
-        //TODO
-//        val factory: ViewModelFactory = ViewModelFactory.getInstance(this)
-//        loginViewModel = factory.create(LoginViewModel::class.java)
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(requireContext())
+        loginViewModel = factory.create(LoginViewModel::class.java)
     }
 
     private fun setupAction() {
@@ -74,16 +79,82 @@ class LoginFragment : Fragment() {
                     }
                 }
                 else -> {
-                    //TODO LOGIN
-                    binding.progressBar.gone()
-                    findNavController().navigate(R.id.action_loginFragment_to_navigation_graph)
-                    //TODO CLEAR ALL BACKSTACK
+                    loadUser(email, password)
                 }
             }
         }
 
         binding.btnGoToRegister.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+        }
+    }
+
+    private fun loadUser(email: String, password: String) {
+        loginViewModel.login(email, password).observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {
+                        binding.progressBar.visible()
+                    }
+
+                    is Result.Success -> {
+                        binding.progressBar.gone()
+                        val resultResponse = result.data.data
+                        if (resultResponse!=null){
+                            val token = result.data.accessToken
+                            resultResponse.avatarUrl?.let {
+                                if (token != null) {
+                                    loginViewModel.saveUser(
+                                        resultResponse.id,
+                                        resultResponse.name,
+                                        resultResponse.email,
+                                        resultResponse.phoneNumber,
+                                        it,
+                                        token,
+                                    )
+                                }
+                            }
+
+                            AlertDialog.Builder(requireContext()).apply {
+                                setTitle(getString(R.string.title_alert_success))
+                                setMessage(getString(R.string.message_alert_login_success))
+                                setPositiveButton(getString(R.string.next)) { _, _ ->
+                                    val intent = Intent(requireContext(), MainActivity::class.java)
+                                    intent.flags =
+                                        Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                    startActivity(intent)
+                                    activity?.finish()
+                                }
+                                create()
+                                show()
+                            }
+                        } else {
+                            AlertDialog.Builder(requireContext()).apply {
+                                setTitle(getString(R.string.title_alert_failed))
+                                setMessage(getString(R.string.message_alert_login_failed))
+                                setPositiveButton(getString(R.string.back)) { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                create()
+                                show()
+                            }
+                        }
+                    }
+
+                    is Result.Error -> {
+                        binding.progressBar.gone()
+                        AlertDialog.Builder(requireContext()).apply {
+                            setTitle(getString(R.string.title_alert_failed))
+                            setMessage(getString(R.string.message_alert_login_failed))
+                            setPositiveButton(getString(R.string.back)) { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                            create()
+                            show()
+                        }
+                    }
+                }
+            }
         }
     }
 

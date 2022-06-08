@@ -1,7 +1,10 @@
 package com.bangkit.lokasee.util
 
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.*
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -28,6 +31,24 @@ class AppPreferences private constructor(private val dataStore: DataStore<Prefer
     fun getUserName(): Flow<String> {
         return dataStore.data.map { preferences ->
             preferences[USER_NAME_KEY] ?: ""
+        }
+    }
+
+    suspend fun saveUserLogin(
+        userId: Int,
+        userName: String,
+        email: String,
+        phoneNumber: String,
+        avatarUrl: String,
+        token: String
+    ) {
+        dataStore.edit { preferences ->
+            preferences[USER_ID_KEY] = userId
+            preferences[USER_NAME_KEY] = userName
+            preferences[USER_EMAIL_KEY] = userName
+            preferences[USER_PHONE_KEY] = userName
+            preferences[USER_AVATAR_KEY] = userName
+            preferences[USER_TOKEN_KEY] = token
         }
     }
 

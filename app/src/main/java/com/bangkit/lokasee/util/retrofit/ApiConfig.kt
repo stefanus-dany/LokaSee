@@ -8,7 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiConfig {
-    const val HOST: String = "127.0.0.1:8000"
+    const val HOST: String = "http://127.0.0.1:8000"
     var TOKEN: String = ""
 
     fun getApiService(): ApiService {
