@@ -12,7 +12,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.lokasee.R
-import com.bangkit.lokasee.databinding.FragmentSellerCreateBinding
+import com.bangkit.lokasee.data.Kabupaten
+import com.bangkit.lokasee.data.Kecamatan
+import com.bangkit.lokasee.data.Post
+import com.bangkit.lokasee.data.Provinsi
+import com.bangkit.lokasee.databinding.FragmentSellerUpdateBinding
 import com.bangkit.lokasee.ui.seller.adapter.InputPostImageListAdapter
 import com.bangkit.lokasee.util.uriToFile
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -21,23 +25,32 @@ import java.io.File
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
-class SellerCreateFragment : Fragment() {
+class SellerUpdateFragment : Fragment() {
 
-    private var _binding: FragmentSellerCreateBinding? = null
+    private var _binding: FragmentSellerUpdateBinding? = null
     private val binding get() = _binding!!
     private var selectedImages = mutableListOf<File>()
+    private val arrProvinsi = mutableListOf<Provinsi>()
+    private val arrKabupaten = mutableListOf<Kabupaten>()
+    private val arrKecamatan = mutableListOf<Kecamatan>()
     private lateinit var listPostImageListAdapter: InputPostImageListAdapter
+    private lateinit var post: Post
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentSellerCreateBinding.inflate(inflater, container, false)
+        _binding = FragmentSellerUpdateBinding.inflate(inflater, container, false)
 
+        post = arguments?.getParcelable("POST")!!
         listPostImageListAdapter = InputPostImageListAdapter(selectedImages)
         binding.rvPostImageList.setHasFixedSize(true)
         binding.rvPostImageList.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         binding.rvPostImageList.adapter = listPostImageListAdapter
+
+        val provinsiList = arrProvinsi.mapTo(mutableListOf()) { it.title }
+        val kabupatenList = arrKabupaten.mapTo(mutableListOf()) { it.title }
+        val kecamatanList = arrKecamatan.mapTo(mutableListOf()) { it.title }
 
         return binding.root
     }
@@ -45,6 +58,18 @@ class SellerCreateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.apply {
+            inputPostTitle.editText?.setText(post.title)
+            inputPostDesc.editText?.setText(post.desc)
+            inputPostPrice.editText?.setText(post.price)
+            inputPostArea.editText?.setText(post.area)
+            inputPostAddress.editText?.setText(post.address)
+            inputPostAddress.editText?.setText(post.address)
+            inputPostAddress.editText?.setText(post.address)
+            selectPostProvinsi.editText?.setText(post.provinsi?.title)
+            selectPostKabupaten.editText?.setText(post.kabupaten?.title)
+            selectPostKecamatan.editText?.setText(post.kecamatan?.title)
+        }
         binding.btnBack.setOnClickListener {
             findNavController().navigateUp()
         }
@@ -63,6 +88,12 @@ class SellerCreateFragment : Fragment() {
                     startForInputImageResult.launch(intent)
                 }
         }
+        binding.btnPostUpdate.setOnClickListener{
+            //TODO ADD UPDATE LOGIC
+        }
+        binding.btnPostUpdate.setOnClickListener{
+            //TODO ADD DELETE LOGIC
+        }
     }
 
     override fun onDestroyView() {
@@ -78,7 +109,7 @@ class SellerCreateFragment : Fragment() {
                 val fileUri = data?.data!!
                 val imageFile = uriToFile(fileUri, requireContext())
                 selectedImages.add(imageFile)
-                listPostImageListAdapter.notifyDataSetChanged()
+                listPostImageListAdapter.notifyItemInserted(selectedImages.size - 1);
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
                 Toast.makeText(activity, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
             } else {

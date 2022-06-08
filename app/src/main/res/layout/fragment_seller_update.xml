@@ -238,7 +238,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/selectPostKota"
+                android:id="@+id/selectPostKabupaten"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -306,9 +306,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 tools:itemCount="3"
-                tools:listitem="@layout/item_input_post_image"
-                tools:orientation="horizontal"
-                tools:scrollbars="horizontal" />
+                tools:listitem="@layout/item_input_post_image" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

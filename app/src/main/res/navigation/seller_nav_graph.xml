@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_sellerHomeFragment_to_sellerCreateFragment"
             app:destination="@id/sellerCreateFragment" />
+        <action
+            android:id="@+id/action_sellerHomeFragment_to_sellerUpdateFragment"
+            app:destination="@id/sellerUpdateFragment" />
     </fragment>
     <fragment
         android:id="@+id/sellerCreateFragment"
@@ -23,6 +26,16 @@
 
         <action
             android:id="@+id/action_sellerCreateFragment_to_sellerHomeFragment"
+            app:destination="@id/sellerHomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sellerUpdateFragment"
+        android:name="com.bangkit.lokasee.ui.seller.SellerUpdateFragment"
+        android:label="Update Post"
+        tools:layout="@layout/fragment_seller_update">
+
+        <action
+            android:id="@+id/action_sellerUpdateFragment_to_sellerHomeFragment"
             app:destination="@id/sellerHomeFragment" />
     </fragment>
 </navigation>
