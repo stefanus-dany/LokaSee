@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bangkit.lokasee.R
 import com.bangkit.lokasee.data.store.AREA_MAX
 import com.bangkit.lokasee.data.store.AREA_MIN
 import com.bangkit.lokasee.data.store.FilterStore.currentFilter
@@ -15,15 +16,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class FilterBottomSheet : BottomSheetDialogFragment() {
     private var tempFilter: HashMap<String, Int?> = HashMap()
-    private var _binding: ModalFilterBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: ModalFilterBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = ModalFilterBinding.inflate(inflater, container, false)
+        binding = ModalFilterBinding.inflate(layoutInflater)
         return binding.root
     }
 

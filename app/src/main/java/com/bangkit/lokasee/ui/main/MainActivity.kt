@@ -2,7 +2,10 @@ package com.bangkit.lokasee.ui.main
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
+import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
 import androidx.annotation.MenuRes
@@ -16,6 +19,7 @@ import androidx.navigation.findNavController
 import com.bangkit.lokasee.R
 import com.bangkit.lokasee.databinding.ActivityMainBinding
 import com.bangkit.lokasee.ui.main.home.HomeFragmentDirections
+import com.bangkit.lokasee.ui.main.profile.ProfileFragmentDirections
 import com.bangkit.lokasee.ui.main.search.SearchFragmentDirections
 import com.bangkit.lokasee.util.*
 import com.google.android.material.transition.MaterialFadeThrough
@@ -37,11 +41,10 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-
-        setContentView(binding.root)
         bottomNavDrawer = supportFragmentManager.findFragmentById(R.id.bottom_nav_drawer) as BottomNavDrawerFragment
         setUpBottomNavigationAndFab()
     }
@@ -99,10 +102,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
         destination: NavDestination,
         arguments: Bundle?
     ) {
-        // Set the currentEmail being viewed so when the FAB is pressed, the correct email
-        // reply is created. In a real app, this should be done in a ViewModel but is done
-        // here to keep things simple. Here we're also setting the configuration of the
-        // BottomAppBar and FAB based on the current destination.
         when (destination.id) {
             R.id.homeFragment -> {
                 currentEmailId = -1
@@ -115,14 +114,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
         }
     }
 
-    /**
-     * Helper function which returns the menu which should be displayed for the current
-     * destination.
-     *
-     * Used both when the destination has changed, centralizing destination-to-menu mapping, as
-     * well as switching between the alternate menu used when the BottomNavigationDrawer is
-     * open and closed.
-     */
     @MenuRes
     private fun getBottomAppBarMenuForDestination(destination: NavDestination? = null): Int {
         val dest = destination ?: findNavController(R.id.nav_host_fragment).currentDestination
@@ -173,9 +164,8 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menu_settings -> {
-                val directions = HomeFragmentDirections.actionGlobalProfileFragment()
-                findNavController(R.id.nav_host_fragment).navigate(directions)
                 bottomNavDrawer.close()
+                navigateToProfile()
             }
             R.id.menu_search -> navigateToSearch()
             R.id.menu_filter -> showFilterModal()
@@ -207,7 +197,20 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
         findNavController(R.id.nav_host_fragment).navigate(directions)
     }
 
+    private fun navigateToProfile() {
+        currentNavigationFragment?.apply {
+            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+                duration = resources.getInteger(R.integer.lokasee_motion_duration_large).toLong()
+            }
+            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+                duration = resources.getInteger(R.integer.lokasee_motion_duration_large).toLong()
+            }
+        }
+        val directions = ProfileFragmentDirections.actionGlobalProfileFragment()
+        findNavController(R.id.nav_host_fragment).navigate(directions)
+    }
+
     private fun showFilterModal() {
-        FilterBottomSheet().show(supportFragmentManager, null)
+        FilterBottomSheet.newInstance().show(supportFragmentManager, null)
     }
 }

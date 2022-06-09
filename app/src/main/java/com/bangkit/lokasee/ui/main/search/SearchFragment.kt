@@ -35,9 +35,11 @@ class SearchFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.searchToolbar.setNavigationOnClickListener { findNavController().navigateUp() }
+        binding.searchToolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            // With blank your fragment BackPressed will be disabled.
+            findNavController().navigateUp()
         }
     }
 }
