@@ -6,8 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class PostCreateUpdateDeleteResponse(
-
+data class PostGetCreateUpdateDeleteResponse(
 	@field:SerializedName("data")
 	val data: Post? = null,
 

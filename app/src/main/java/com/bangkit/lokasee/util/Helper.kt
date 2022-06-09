@@ -4,7 +4,13 @@ import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import android.os.Environment
-import java.io.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,4 +37,8 @@ fun uriToFile(selectedImg: Uri, context: Context): File {
     outputStream.close()
     inputStream.close()
     return myFile
+}
+
+private fun createPartFromString(descriptionString: String): RequestBody {
+    return descriptionString.toRequestBody(MultipartBody.FORM)
 }
