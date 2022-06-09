@@ -2,14 +2,17 @@ package com.bangkit.lokasee.ui.main.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bangkit.lokasee.data.Result
+import com.bangkit.lokasee.data.store.UserStore.currentUserToken
 import com.bangkit.lokasee.databinding.FragmentHomeBinding
 import com.bangkit.lokasee.ui.ViewModelFactory
 import com.bangkit.lokasee.ui.auth.AuthActivity
+import com.bangkit.lokasee.ui.main.MainActivity
 import com.bangkit.lokasee.util.ViewHelper.gone
 import com.bangkit.lokasee.util.ViewHelper.visible
 import com.google.android.material.snackbar.Snackbar
@@ -45,9 +48,10 @@ class HomeFragment : Fragment() {
                             Snackbar.make(binding.root, result.data.message, Snackbar.LENGTH_LONG)
                                 .show()
                             homeViewModel.deleteUser()
-                            val goToAuthActivity = Intent(activity, AuthActivity::class.java)
-                            activity?.startActivity(goToAuthActivity)
-                            activity?.finish()
+                            val intent = Intent(activity, AuthActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                            startActivity(intent)
+                            requireActivity().finish()
                         }
 
                         is Result.Error -> {

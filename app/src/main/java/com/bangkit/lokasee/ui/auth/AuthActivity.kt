@@ -28,13 +28,13 @@ class AuthActivity : AppCompatActivity() {
             if (pref.getUserToken().first() != "") {
                 UserStore.currentUser = pref.getUserLogin()
                 UserStore.currentUserToken = pref.getUserToken().first()
-                ApiConfig.TOKEN = UserStore.currentUserToken
             }
         }
         if (UserStore.currentUserToken != "") {
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
+            finish()
         }
 
         setContentView(R.layout.activity_auth)

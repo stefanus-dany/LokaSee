@@ -3,6 +3,7 @@ package com.bangkit.lokasee.data.retrofit
 import com.bangkit.lokasee.data.body.BodyLogin
 import com.bangkit.lokasee.data.body.BodyRegister
 import com.bangkit.lokasee.data.response.*
+import com.bangkit.lokasee.data.store.UserStore.currentUserToken
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -13,7 +14,7 @@ interface ApiService {
 
     @GET("post/filter")
     suspend fun getAllPostsFiltered(
-        @QueryMap options: Map<String, Any?>
+        @QueryMap options: Map<String, Int?>
     ): PostListResponse
 
     @GET("post/{id}")

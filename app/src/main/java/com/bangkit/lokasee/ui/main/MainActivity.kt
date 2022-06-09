@@ -173,9 +173,12 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menu_settings -> {
+                val directions = HomeFragmentDirections.actionGlobalProfileFragment()
+                findNavController(R.id.nav_host_fragment).navigate(directions)
                 bottomNavDrawer.close()
             }
             R.id.menu_search -> navigateToSearch()
+            R.id.menu_filter -> showFilterModal()
         }
         return true
     }
@@ -202,5 +205,9 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
         }
         val directions = SearchFragmentDirections.actionGlobalSearchFragment()
         findNavController(R.id.nav_host_fragment).navigate(directions)
+    }
+
+    private fun showFilterModal() {
+        FilterBottomSheet().show(supportFragmentManager, null)
     }
 }

@@ -1,5 +1,6 @@
 package com.bangkit.lokasee.data.repo
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.bangkit.lokasee.data.AppPreferences
@@ -7,10 +8,14 @@ import com.bangkit.lokasee.data.Result
 import com.bangkit.lokasee.data.body.BodyLogin
 import com.bangkit.lokasee.data.body.BodyRegister
 import com.bangkit.lokasee.data.response.*
+import com.bangkit.lokasee.data.retrofit.ApiConfig
 import com.bangkit.lokasee.data.retrofit.ApiService
 import com.bangkit.lokasee.data.store.FilterStore
+import com.bangkit.lokasee.data.store.UserStore.currentUser
+import com.bangkit.lokasee.data.store.UserStore.currentUserToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -46,6 +51,7 @@ class Repository(private val apiService: ApiService, private val pref: AppPrefer
     fun logout(): LiveData<Result<LogoutResponse>> = liveData {
         emit(Result.Loading)
         try {
+            Log.e("Ini mau logout", currentUserToken)
             val response = apiService.logout()
             emit(Result.Success(response))
         } catch (e: Exception) {
@@ -63,12 +69,18 @@ class Repository(private val apiService: ApiService, private val pref: AppPrefer
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             pref.saveUserLogin(userId, userName, email, phoneNumber, avatarUrl, token)
+            currentUser = pref.getUserLogin()
+            currentUserToken = pref.getUserToken().first()
+            Log.e("Ini habis login", currentUserToken)
         }
     }
 
     fun deleteUser( ) {
         CoroutineScope(Dispatchers.IO).launch {
             pref.deleteUserLogin()
+            currentUser = pref.getUserLogin()
+            currentUserToken = pref.getUserToken().first()
+            Log.e("Ini habis logout", currentUserToken)
         }
     }
 
@@ -86,7 +98,7 @@ class Repository(private val apiService: ApiService, private val pref: AppPrefer
     fun getAllPostsFiltered(): LiveData<Result<PostListResponse>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.getAllPostsFiltered(FilterStore.getFiter())
+            val response = apiService.getAllPostsFiltered(FilterStore.currentFilter)
             emit(Result.Success(response))
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))

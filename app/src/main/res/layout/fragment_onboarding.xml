@@ -69,12 +69,13 @@
         android:id="@+id/btnSkip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="60dp"
         android:text="Continue as Guest"
         android:textAllCaps="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCarouselSubtitle" />
+        app:layout_constraintTop_toBottomOf="@+id/carouselOnboarding" />
 
     <TextView
         android:id="@+id/textView6"

@@ -10,22 +10,16 @@ const val KABUPATEN = "kabupaten"
 const val KECAMATAN = "kecamatan"
 
 object FilterStore {
-    private var currentFilter : HashMap<String, Any?> = HashMap()
+    var currentFilter : HashMap<String, Int?> = HashMap()
 
     init {
         currentFilter[PRICE_MIN] = null
         currentFilter[PRICE_MAX] = null
         currentFilter[AREA_MIN] = null
         currentFilter[AREA_MAX] = null
-        //currentFilter[TYPE] = null
         currentFilter[PROVINSI] = null
         currentFilter[KABUPATEN] = null
         currentFilter[KECAMATAN] = null
+        //currentFilter[TYPE] = null
     }
-
-    fun setFilter(key: String, value: Any?){
-        currentFilter[key] = value
-    }
-
-    fun getFiter() : HashMap<String, Any?> = currentFilter
 }

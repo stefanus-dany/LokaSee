@@ -20,5 +20,10 @@
         android:icon="@drawable/ic_search"
         app:showAsAction="ifRoom"
         android:title="Search"/>
+    <item
+        android:id="@+id/menu_filter"
+        android:icon="@drawable/ic_filter"
+        app:showAsAction="ifRoom"
+        android:title="Filter"/>
 
 </menu>

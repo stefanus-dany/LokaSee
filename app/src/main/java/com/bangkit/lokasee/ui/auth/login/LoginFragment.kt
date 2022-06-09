@@ -2,6 +2,7 @@ package com.bangkit.lokasee.ui.auth.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +13,11 @@ import androidx.navigation.fragment.findNavController
 import com.bangkit.lokasee.R
 import com.bangkit.lokasee.databinding.FragmentLoginBinding
 import com.bangkit.lokasee.ui.main.MainActivity
+import com.bangkit.lokasee.data.Result
+import com.bangkit.lokasee.data.store.UserStore.currentUserToken
+import com.bangkit.lokasee.ui.ViewModelFactory
 import com.bangkit.lokasee.util.ViewHelper.gone
 import com.bangkit.lokasee.util.ViewHelper.visible
-import com.bangkit.lokasee.data.Result
-import com.bangkit.lokasee.ui.ViewModelFactory
-
 
 class LoginFragment : Fragment() {
 
@@ -112,7 +113,6 @@ class LoginFragment : Fragment() {
                                     token,
                                     )
                             }
-
                             AlertDialog.Builder(requireContext()).apply {
                                 setTitle(getString(R.string.title_alert_success))
                                 setMessage(getString(R.string.message_alert_login_success))
