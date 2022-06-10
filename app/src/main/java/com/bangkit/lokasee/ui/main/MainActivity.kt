@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -21,8 +22,6 @@ import cn.pedant.SweetAlert.SweetAlertDialog
 import com.bangkit.lokasee.R
 import com.bangkit.lokasee.data.Result
 import com.bangkit.lokasee.databinding.ActivityMainBinding
-import com.bangkit.lokasee.di.Injection
-import com.bangkit.lokasee.ui.MainViewModelFactory
 import com.bangkit.lokasee.ui.ViewModelFactory
 import com.bangkit.lokasee.ui.auth.AuthActivity
 import com.bangkit.lokasee.ui.main.home.HomeFragmentDirections
@@ -58,7 +57,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
         bottomNavDrawer = supportFragmentManager.findFragmentById(R.id.bottom_nav_drawer) as BottomNavDrawerFragment
         setUpBottomNavigationAndFab()
-
     }
 
     private fun setUpBottomNavigationAndFab() {
@@ -229,7 +227,8 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
     }
 
     private fun setUpViewModel() {
-        mainViewModel = ViewModelProvider(this, MainViewModelFactory(Injection.provideRepository(this)))[MainViewModel::class.java]
+        val factory: ViewModelFactory = ViewModelFactory.newInstance(this)
+        mainViewModel = factory.create(MainViewModel::class.java)
     }
 
     private fun logout(){

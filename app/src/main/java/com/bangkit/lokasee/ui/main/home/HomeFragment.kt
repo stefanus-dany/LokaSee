@@ -1,7 +1,7 @@
 package com.bangkit.lokasee.ui.main.home
 
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.lokasee.R
 import com.bangkit.lokasee.data.Post
 import com.bangkit.lokasee.data.Result
+import com.bangkit.lokasee.data.store.UserStore.currentUserToken
 import com.bangkit.lokasee.databinding.FragmentHomeBinding
-import com.bangkit.lokasee.ui.main.FilterBottomSheet
-import com.bangkit.lokasee.ui.main.MainActivity
+import com.bangkit.lokasee.ui.ViewModelFactory
+import com.bangkit.lokasee.ui.auth.login.LoginViewModel
 import com.bangkit.lokasee.ui.main.MainViewModel
 import com.bangkit.lokasee.util.ViewHelper.gone
 import com.bangkit.lokasee.util.ViewHelper.visible
@@ -23,16 +24,16 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val mainViewModel: MainViewModel by activityViewModels()
     private var listPost = mutableListOf<Post>()
+    private lateinit var homeViewModel: HomeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setupViewModel()
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -44,8 +45,15 @@ class HomeFragment : Fragment() {
         loadPost()
     }
 
+    private fun setupViewModel() {
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(requireContext())
+        homeViewModel = factory.create(HomeViewModel::class.java)
+    }
+
     private fun loadPost() {
-        mainViewModel.getAllPostsFiltered().observe(viewLifecycleOwner) { result ->
+        Log.e("ssssssssss", currentUserToken)
+        homeViewModel.getAllPostsFiltered().observe(viewLifecycleOwner) { result ->
+
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
@@ -86,7 +94,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun showFilterModal() {
-        getFragmentManager()?.let { LocationFilterBottomSheet.newInstance().show(it, LocationFilterBottomSheet.TAG) }
+        getFragmentManager()?.let { LocationFilterBottomSheet(homeViewModel).show(it, LocationFilterBottomSheet.TAG) }
     }
 
 }

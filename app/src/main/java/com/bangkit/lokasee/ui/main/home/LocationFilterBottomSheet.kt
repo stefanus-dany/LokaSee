@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.activityViewModels
 import com.bangkit.lokasee.R
 import com.bangkit.lokasee.data.Kabupaten
 import com.bangkit.lokasee.data.Kecamatan
@@ -20,17 +19,17 @@ import com.bangkit.lokasee.data.store.FilterStore.kabupatenList
 import com.bangkit.lokasee.data.store.FilterStore.kecamatanList
 import com.bangkit.lokasee.data.store.FilterStore.provinsiList
 import com.bangkit.lokasee.databinding.ModalLocationFilterBinding
-import com.bangkit.lokasee.ui.main.MainViewModel
 import com.bangkit.lokasee.util.ViewHelper.gone
 import com.bangkit.lokasee.util.ViewHelper.visible
+import com.bangkit.lokasee.util.getKabupaten
+import com.bangkit.lokasee.util.getKecamatan
+import com.bangkit.lokasee.util.getProvinsi
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class LocationFilterBottomSheet : BottomSheetDialogFragment() {
+
+class LocationFilterBottomSheet(homeViewModel: HomeViewModel) : BottomSheetDialogFragment() {
     private var tempFilter: HashMap<String, Int?> = HashMap()
-    private var arrProvinsi = mutableListOf<String>()
-    private var arrKabupaten = mutableListOf<String>()
-    private var arrKecamatan = mutableListOf<String>()
-    private val mainViewModel: MainViewModel by activityViewModels()
+    private val homeViewModel = homeViewModel
     private lateinit var binding: ModalLocationFilterBinding
 
     override fun onCreateView(
@@ -44,18 +43,9 @@ class LocationFilterBottomSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getProvinsi()
         tempFilter = currentFilter
+        getProvinsiData()
         with(binding){
-            if (tempFilter[KABUPATEN] != null)
-                selectFilterKabupaten.editText?.setText(kabupatenList.filter {
-                    it.id == tempFilter[KABUPATEN]!!
-                }.first().title)
-            if (tempFilter[KECAMATAN] != null)
-                selectFilterKecamatan.editText?.setText(kecamatanList.filter {
-                    it.id == tempFilter[KECAMATAN]!!
-                }.first().title)
-
             btnClearFilter.setOnClickListener{
                 for ((key, value) in tempFilter) {
                     tempFilter[key] = null
@@ -63,26 +53,11 @@ class LocationFilterBottomSheet : BottomSheetDialogFragment() {
                 selectFilterProvinsi.editText?.text?.clear()
                 selectFilterKabupaten.editText?.text?.clear()
                 selectFilterKecamatan.editText?.text?.clear()
+                binding.selectFilterKabupaten.gone()
+                binding.selectFilterKecamatan.gone()
             }
 
             btnApplyFilter.setOnClickListener{
-
-                val provinsi: Provinsi? = provinsiList.firstOrNull{
-                    it.title == selectFilterProvinsi.editText?.text.toString()
-                }
-                val kabupaten: Kabupaten? = kabupatenList.firstOrNull{
-                    it.title == selectFilterKabupaten.editText?.text.toString()
-                }
-                val kecamatan: Kecamatan? = kecamatanList.firstOrNull{
-                    it.title == selectFilterKecamatan.editText?.text.toString()
-                }
-
-
-
-                tempFilter[PROVINSI] = provinsi!!.id
-                tempFilter[KABUPATEN] = kabupaten!!.id
-                tempFilter[KECAMATAN] = kecamatan!!.id
-
                 currentFilter[PROVINSI] = tempFilter[PROVINSI]
                 currentFilter[KABUPATEN] = tempFilter[KABUPATEN]
                 currentFilter[KECAMATAN] = tempFilter[KECAMATAN]
@@ -90,13 +65,14 @@ class LocationFilterBottomSheet : BottomSheetDialogFragment() {
                 for ((key, value) in currentFilter) {
                     Log.e(key, value.toString())
                 }
+
                 dismiss()
             }
         }
     }
 
-    private fun getProvinsi() {
-        mainViewModel.getAllProvinsi().observe(this) { result ->
+    private fun getProvinsiData() {
+        homeViewModel.getAllProvinsi().observe(this) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
@@ -112,26 +88,33 @@ class LocationFilterBottomSheet : BottomSheetDialogFragment() {
                             provinsiList = provinsiData as MutableList<Provinsi>
                         }
 
-                        arrProvinsi = provinsiList.mapTo(mutableListOf()) {
-                            it.title
+                        if (tempFilter[PROVINSI] != null) {
+                            binding.selectFilterProvinsi.editText?.setText(
+                                getProvinsi(
+                                    tempFilter[PROVINSI]!!,
+                                    provinsiList
+                                ).title
+                            )
+                            getKabupatenByProvinsi(tempFilter[PROVINSI]!!)
                         }
-                        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, arrProvinsi)
-                        if (tempFilter[PROVINSI] != null)
-                            binding.selectFilterProvinsi.editText?.setText(provinsiList[tempFilter[PROVINSI]!!].title)
+
+                        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, provinsiList)
                         binding.atvProvinsi.setAdapter(arrayAdapter)
-                        if (currentFilter[PROVINSI] != null) {
-                            binding.selectFilterProvinsi.editText?.setText(provinsiList.filter {
-                                it.id == currentFilter[PROVINSI]!!
-                            }.first().title)
-                            getKabupatenByProvinsi(currentFilter[PROVINSI]!!)
-                        }
                         binding.selectFilterProvinsi.editText?.addTextChangedListener {
-                            val provinsi: Provinsi? = provinsiList.firstOrNull{
-                                it.title == binding.selectFilterProvinsi.editText?.text.toString()
+                            if(it.toString() != ""){
+                                val selectedProvinsi = getProvinsi(
+                                    binding.selectFilterProvinsi.editText?.text.toString(),
+                                    provinsiList
+                                )
+                                binding.selectFilterKabupaten.editText?.text?.clear()
+                                binding.selectFilterKecamatan.editText?.text?.clear()
+                                tempFilter[PROVINSI] = selectedProvinsi.id
+                                tempFilter[KABUPATEN] = null
+                                tempFilter[KECAMATAN] = null
+                                getKabupatenByProvinsi(selectedProvinsi.id)
                             }
-                            getKabupatenByProvinsi(provinsi!!.id)
-                            binding.selectFilterKabupaten.editText?.text?.clear()
                         }
+
                         binding.selectFilterProvinsi.visible()
                     }
                     is Result.Error -> {
@@ -145,7 +128,7 @@ class LocationFilterBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun getKabupatenByProvinsi(provinsiId: Int) {
-        mainViewModel.getKabupatenByProvinsi(provinsiId).observe(this) { result ->
+        homeViewModel.getKabupatenByProvinsi(provinsiId).observe(this) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
@@ -160,26 +143,32 @@ class LocationFilterBottomSheet : BottomSheetDialogFragment() {
                         if (kabupatenData?.isNotEmpty() == true){
                             kabupatenList = kabupatenData as MutableList<Kabupaten>
                         }
-                        arrKabupaten = kabupatenList.mapTo(mutableListOf()) {
-                            it.title
+
+                        if (tempFilter[KABUPATEN] != null) {
+                            binding.selectFilterKabupaten.editText?.setText(
+                                getKabupaten(
+                                    tempFilter[KABUPATEN]!!,
+                                    kabupatenList
+                                ).title
+                            )
+                            getKecamatanByKabupaten(tempFilter[KABUPATEN]!!)
                         }
-                        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, arrKabupaten)
-                        if (currentFilter[KABUPATEN] != null)
-                            binding.selectFilterKabupaten.editText?.setText(kabupatenList[currentFilter[KABUPATEN]!!].title)
+
+                        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, kabupatenList)
                         binding.atvKabupaten.setAdapter(arrayAdapter)
-                        if (currentFilter[KABUPATEN] != null) {
-                            binding.selectFilterKabupaten.editText?.setText(kabupatenList.filter {
-                                it.id == currentFilter[KABUPATEN]!!
-                            }.first().title)
-                            getKecamatanByKabupaten(currentFilter[KABUPATEN]!!)
-                        }
                         binding.selectFilterKabupaten.editText?.addTextChangedListener {
-                            val kabupaten: Kabupaten? = kabupatenList.firstOrNull{
-                                it.title == binding.selectFilterKabupaten.editText?.text.toString()
+                            if(it.toString() != ""){
+                                val selectedKabupaten = getKabupaten(
+                                    binding.selectFilterKabupaten.editText?.text.toString(),
+                                    kabupatenList
+                                )
+                                tempFilter[KABUPATEN] = selectedKabupaten.id
+                                tempFilter[KECAMATAN] = null
+                                binding.selectFilterKecamatan.editText?.text?.clear()
+                                getKecamatanByKabupaten(selectedKabupaten.id)
                             }
-                            getKecamatanByKabupaten(kabupaten!!.id)
-                            binding.selectFilterKecamatan.editText?.text?.clear()
                         }
+
                         binding.selectFilterKabupaten.visible()
                     }
                     is Result.Error -> {
@@ -193,7 +182,7 @@ class LocationFilterBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun getKecamatanByKabupaten(kabupatenId: Int) {
-        mainViewModel.getKecamatanByKabupaten(kabupatenId).observe(this) { result ->
+        homeViewModel.getKecamatanByKabupaten(kabupatenId).observe(this) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
@@ -207,18 +196,28 @@ class LocationFilterBottomSheet : BottomSheetDialogFragment() {
                         if (kecamatanData?.isNotEmpty() == true){
                             kecamatanList = kecamatanData as MutableList<Kecamatan>
                         }
-                        arrKecamatan = kecamatanList.mapTo(mutableListOf()) {
-                            it.title
+
+                        if (tempFilter[KECAMATAN] != null) {
+                            binding.selectFilterKecamatan.editText?.setText(
+                                getKecamatan(
+                                    tempFilter[KECAMATAN]!!,
+                                    kecamatanList
+                                ).title
+                            )
                         }
-                        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, arrKecamatan)
-                        if (currentFilter[KECAMATAN] != null)
-                            binding.selectFilterKecamatan.editText?.setText(kecamatanList[currentFilter[KECAMATAN]!!].title)
+
+                        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, kecamatanList)
                         binding.atvKecamatan.setAdapter(arrayAdapter)
                         binding.selectFilterKecamatan.editText?.addTextChangedListener {
-                            val kecamatan: Kecamatan? = kecamatanList.firstOrNull{
-                                it.title == binding.selectFilterKecamatan.editText?.text.toString()
+                            if(it.toString() != "") {
+                                val selectedKecamatan = getKecamatan(
+                                    binding.selectFilterKecamatan.editText?.text.toString(),
+                                    kecamatanList
+                                )
+                                tempFilter[KECAMATAN] = selectedKecamatan.id
                             }
                         }
+
                         binding.selectFilterKecamatan.visible()
                     }
                     is Result.Error -> {
@@ -234,8 +233,5 @@ class LocationFilterBottomSheet : BottomSheetDialogFragment() {
 
     companion object {
         const val TAG = "CustomBottomSheetDialogFragment"
-        fun newInstance(): LocationFilterBottomSheet {
-            return LocationFilterBottomSheet()
-        }
     }
 }

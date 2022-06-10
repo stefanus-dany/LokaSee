@@ -208,5 +208,15 @@ class Repository(private val apiService: ApiService, private val pref: AppPrefer
             instance ?: synchronized(this) {
                 instance ?: Repository(apiService, pref)
             }.also { instance = it }
+
+        fun newInstance(
+            apiService: ApiService,
+            pref: AppPreferences
+        ): Repository {
+            instance = null
+            return instance ?: synchronized(this) {
+                instance ?: Repository(apiService, pref)
+            }.also { instance = it }
+        }
     }
 }

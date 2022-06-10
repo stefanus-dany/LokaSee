@@ -2,7 +2,6 @@ package com.bangkit.lokasee.ui.auth.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +14,7 @@ import com.bangkit.lokasee.databinding.FragmentLoginBinding
 import com.bangkit.lokasee.ui.main.MainActivity
 import com.bangkit.lokasee.data.Result
 import com.bangkit.lokasee.data.store.UserStore.currentUserToken
+import com.bangkit.lokasee.di.Injection
 import com.bangkit.lokasee.ui.ViewModelFactory
 import com.bangkit.lokasee.util.ViewHelper.gone
 import com.bangkit.lokasee.util.ViewHelper.visible
@@ -80,7 +80,7 @@ class LoginFragment : Fragment() {
                     }
                 }
                 else -> {
-                    loadUser(email, password)
+                    loginUser(email, password)
                 }
             }
         }
@@ -90,7 +90,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun loadUser(email: String, password: String) {
+    private fun loginUser(email: String, password: String) {
         loginViewModel.login(email, password).observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
@@ -112,6 +112,7 @@ class LoginFragment : Fragment() {
                                     resultResponse.avatarUrl,
                                     token,
                                     )
+
                             }
                             AlertDialog.Builder(requireContext()).apply {
                                 setTitle(getString(R.string.title_alert_success))

@@ -253,13 +253,11 @@
                     app:tabUnboundedRipple="true">
 
                     <com.google.android.material.tabs.TabItem
-                        android:id="@+id/tabDesc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Description" />
 
                     <com.google.android.material.tabs.TabItem
-                        android:id="@+id/tabMap"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Map" />
@@ -295,15 +293,7 @@
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tabPost" >
-
-                    <TextView
-                        android:id="@+id/txtPostAddress"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="TextView"
-                        app:layout_wrapBehaviorInParent="vertical_only" />
-                </LinearLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/tabPost" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

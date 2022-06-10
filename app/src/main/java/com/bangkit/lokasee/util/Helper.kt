@@ -4,7 +4,13 @@ import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import android.os.Environment
+import android.util.Log
+import com.bangkit.lokasee.data.Kabupaten
+import com.bangkit.lokasee.data.Kecamatan
+import com.bangkit.lokasee.data.Provinsi
+import com.bangkit.lokasee.data.User
 import com.bangkit.lokasee.data.retrofit.ApiConfig.HOST
+import com.bangkit.lokasee.data.store.KABUPATEN
 import com.bangkit.lokasee.data.store.UserStore.currentUser
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -47,9 +53,9 @@ fun createPartFromString(descriptionString: String): RequestBody {
 
 const val AVATAR_URL_BASE = "https://ui-avatars.com/api/?bold=true&size=128&background=random&name="
 
-fun getAvatarUrl(): String {
-    return if (currentUser.avatarUrl == "") StringBuilder(AVATAR_URL_BASE).append(currentUser.avatarUrl.replace(' ', '+')).toString()
-    else "${HOST}/${currentUser.avatarUrl}"
+fun getAvatarUrl(user: User): String {
+    return if (user.avatarUrl == "") StringBuilder(AVATAR_URL_BASE).append(user.name.replace(' ', '+')).toString()
+    else "${HOST}/${user.avatarUrl}"
 }
 
 fun <K, V> Map<out K?, V?>.filterNotNull(): Map<K, V> = this.mapNotNull {
@@ -59,3 +65,39 @@ fun <K, V> Map<out K?, V?>.filterNotNull(): Map<K, V> = this.mapNotNull {
         }
     }
 }.toMap()
+
+fun getProvinsi( param: Any, list : List<Provinsi>) : Provinsi {
+    val temp = list
+    return if (param is String)
+        temp.filter {
+            it.title == param
+        }.first()
+
+    else temp.filter {
+        it.id == param
+    }.first()
+}
+
+fun getKabupaten( param: Any, list : List<Kabupaten>) : Kabupaten {
+    val temp = list
+    return if (param is String)
+        temp.filter {
+            it.title == param
+        }.first()
+
+    else temp.filter {
+        it.id == param
+    }.first()
+}
+
+fun getKecamatan( param: Any, list : List<Kecamatan>) : Kecamatan {
+    val temp = list
+    return if (param is String)
+        temp.filter {
+            it.title == param
+        }.first()
+
+    else temp.filter {
+        it.id == param
+    }.first()
+}

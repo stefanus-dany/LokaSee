@@ -2,6 +2,7 @@ package com.bangkit.lokasee.ui.auth.login
 
 import androidx.lifecycle.ViewModel
 import com.bangkit.lokasee.data.repo.Repository
+import com.bangkit.lokasee.data.retrofit.ApiConfig
 
 class LoginViewModel(private val repository: Repository) : ViewModel() {
 

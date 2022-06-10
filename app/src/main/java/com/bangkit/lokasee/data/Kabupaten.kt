@@ -15,4 +15,9 @@ data class Kabupaten(
 
 	@field:SerializedName("title")
 	val title: String
-) : Parcelable
+) : Parcelable {
+
+	override fun toString(): String {
+		return title
+	}
+}

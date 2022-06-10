@@ -189,12 +189,11 @@ class BottomNavDrawerFragment : Fragment(), NavigationAdapter.NavigationAdapterL
                 })
             }
 
-            if(currentUser.avatarUrl == ""){
-                Glide.with(requireActivity())
-                    .load(getAvatarUrl())
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .into(binding.imgProfile)
-            }
+
+            Glide.with(requireActivity())
+                .load(getAvatarUrl(currentUser))
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .into(binding.imgProfile)
 
             behavior.addBottomSheetCallback(bottomSheetCallback)
             behavior.state = STATE_HIDDEN
