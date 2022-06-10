@@ -7,6 +7,7 @@ import com.bangkit.lokasee.data.repo.Repository
 import com.bangkit.lokasee.di.Injection
 import com.bangkit.lokasee.ui.auth.login.LoginViewModel
 import com.bangkit.lokasee.ui.auth.register.RegisterViewModel
+import com.bangkit.lokasee.ui.main.MainViewModel
 import com.bangkit.lokasee.ui.main.home.HomeViewModel
 
 class ViewModelFactory(private val repository: Repository) :
@@ -23,6 +24,9 @@ class ViewModelFactory(private val repository: Repository) :
             }
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
                 HomeViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(MainViewModel::class.java) -> {
+                MainViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

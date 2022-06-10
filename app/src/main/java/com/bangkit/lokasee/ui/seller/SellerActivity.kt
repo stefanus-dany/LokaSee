@@ -25,4 +25,5 @@ class SellerActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment_content_seller)
     }
+
 }

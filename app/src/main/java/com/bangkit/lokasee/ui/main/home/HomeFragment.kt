@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bangkit.lokasee.data.Result
 import com.bangkit.lokasee.data.store.UserStore.currentUserToken
@@ -35,33 +36,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
-        binding.btnLogout.setOnClickListener {
-            homeViewModel.logout().observe(viewLifecycleOwner) { result ->
-                if (result != null) {
-                    when (result) {
-                        is Result.Loading -> {
-                            binding.progressBar.visible()
-                        }
 
-                        is Result.Success -> {
-                            binding.progressBar.gone()
-                            Snackbar.make(binding.root, result.data.message, Snackbar.LENGTH_LONG)
-                                .show()
-                            homeViewModel.deleteUser()
-                            val intent = Intent(activity, AuthActivity::class.java)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                            startActivity(intent)
-                            requireActivity().finish()
-                        }
-
-                        is Result.Error -> {
-                            binding.progressBar.gone()
-                            Snackbar.make(binding.root, result.error, Snackbar.LENGTH_LONG).show()
-                        }
-                    }
-                }
-            }
-        }
     }
 
     private fun setupViewModel() {

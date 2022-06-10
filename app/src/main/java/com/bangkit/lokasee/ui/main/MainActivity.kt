@@ -2,12 +2,12 @@ package com.bangkit.lokasee.ui.main
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.app.Activity
-import android.content.Context
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
-import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -16,21 +16,27 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.bangkit.lokasee.R
+import com.bangkit.lokasee.data.Result
 import com.bangkit.lokasee.databinding.ActivityMainBinding
+import com.bangkit.lokasee.ui.ViewModelFactory
+import com.bangkit.lokasee.ui.auth.AuthActivity
 import com.bangkit.lokasee.ui.main.home.HomeFragmentDirections
+import com.bangkit.lokasee.ui.main.navigation.NavigationAdapter
+import com.bangkit.lokasee.ui.main.navigation.NavigationModelItem
 import com.bangkit.lokasee.ui.main.profile.ProfileFragmentDirections
 import com.bangkit.lokasee.ui.main.search.SearchFragmentDirections
 import com.bangkit.lokasee.util.*
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 
-class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavController.OnDestinationChangedListener {
+
+class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavController.OnDestinationChangedListener, NavigationAdapter.NavigationAdapterListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var bottomNavDrawer: BottomNavDrawerFragment
-
-    private var currentEmailId = -1L
+    private lateinit var mainViewModel: MainViewModel
 
     val currentNavigationFragment: Fragment?
         get() = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
@@ -47,6 +53,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
         bottomNavDrawer = supportFragmentManager.findFragmentById(R.id.bottom_nav_drawer) as BottomNavDrawerFragment
         setUpBottomNavigationAndFab()
+        setUpViewModel()
     }
 
     private fun setUpBottomNavigationAndFab() {
@@ -81,6 +88,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
             })
 
             addOnSandwichSlideAction(HalfCounterClockwiseRotateSlideAction(binding.bottomAppBarChevron))
+            addNavigationListener(this@MainActivity)
         }
 
         // Set up the BottomAppBar menu
@@ -104,11 +112,9 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
     ) {
         when (destination.id) {
             R.id.homeFragment -> {
-                currentEmailId = -1
                 setBottomAppBarForHome(getBottomAppBarMenuForDestination(destination))
             }
             R.id.searchFragment -> {
-                currentEmailId = -1
                 setBottomAppBarForSearch()
             }
         }
@@ -158,6 +164,13 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
                     isCanceled = true
                 }
             })
+        }
+    }
+
+    override fun onNavMenuItemClicked(item: NavigationModelItem.NavMenuItem) {
+        Toast.makeText(this, item.title, Toast.LENGTH_LONG).show()
+        when(item.id){
+            4 -> logout()
         }
     }
 
@@ -212,5 +225,39 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
 
     private fun showFilterModal() {
         FilterBottomSheet.newInstance().show(supportFragmentManager, null)
+    }
+
+    private fun setUpViewModel() {
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(this)
+        mainViewModel = factory.create(MainViewModel::class.java)
+    }
+
+    private fun logout(){
+        val pDialog = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
+            pDialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+            pDialog.titleText = "Logging Out"
+            pDialog.setCancelable(false)
+
+        mainViewModel.logout().observe(this) { result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {
+                        pDialog.show()
+                    }
+                    is Result.Success -> {
+                        pDialog.hide()
+                        mainViewModel.deleteUser()
+                        val intent = Intent(this, AuthActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(intent)
+                        finish()
+                    }
+                    is Result.Error -> {
+                        pDialog.hide()
+                        Toast.makeText(this, result.error, Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
     }
 }
