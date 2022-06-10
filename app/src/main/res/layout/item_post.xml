@@ -29,7 +29,7 @@
             app:carouselType="BLOCK"
             app:imagePlaceholder="@color/lokasee_orange_500"
             app:imageScaleType="centerCrop"
-            app:indicatorMargin="32dp"
+            app:indicatorMargin="8dp"
             app:infiniteCarousel="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

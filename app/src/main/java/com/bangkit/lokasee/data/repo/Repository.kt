@@ -11,8 +11,10 @@ import com.bangkit.lokasee.data.response.*
 import com.bangkit.lokasee.data.retrofit.ApiConfig
 import com.bangkit.lokasee.data.retrofit.ApiService
 import com.bangkit.lokasee.data.store.FilterStore
+import com.bangkit.lokasee.data.store.FilterStore.currentFilter
 import com.bangkit.lokasee.data.store.UserStore.currentUser
 import com.bangkit.lokasee.data.store.UserStore.currentUserToken
+import com.bangkit.lokasee.util.filterNotNull
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -98,7 +100,8 @@ class Repository(private val apiService: ApiService, private val pref: AppPrefer
     fun getAllPostsFiltered(): LiveData<Result<PostListResponse>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.getAllPostsFiltered(FilterStore.currentFilter)
+            val filter = currentFilter.filterNotNull()
+            val response = apiService.getAllPostsFiltered(filter)
             emit(Result.Success(response))
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
@@ -134,6 +137,39 @@ class Repository(private val apiService: ApiService, private val pref: AppPrefer
             emit(Result.Error(e.message.toString()))
         }
     }
+
+    // Location Repo
+    fun getAllProvinsi(): LiveData<Result<ProvinsiListResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getAllProvinsi()
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun getKabupatenByProvinsi(provinsiId : Int): LiveData<Result<KabupatenListResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getKabupatenByProvinsi(provinsiId)
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun getKecamatanByKabupaten(kabupatenId : Int): LiveData<Result<KecamatanListResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getKecamatanByKabupaten(kabupatenId)
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+
 //    fun getAllMarkerMaps(token: String, location: Int): LiveData<Result<StoryResponse>> = liveData {
 //        emit(Result.Loading)
 //        try {

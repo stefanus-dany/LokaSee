@@ -1,4 +1,4 @@
-package com.bangkit.lokasee.ui.seller
+package com.bangkit.lokasee.ui.main.seller
 
 import android.app.Activity
 import android.os.Bundle
@@ -11,9 +11,8 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bangkit.lokasee.R
 import com.bangkit.lokasee.databinding.FragmentSellerCreateBinding
-import com.bangkit.lokasee.ui.seller.adapter.InputPostImageListAdapter
+import com.bangkit.lokasee.ui.main.seller.adapter.InputPostImageListAdapter
 import com.bangkit.lokasee.util.uriToFile
 import com.github.dhaval2404.imagepicker.ImagePicker
 import java.io.File

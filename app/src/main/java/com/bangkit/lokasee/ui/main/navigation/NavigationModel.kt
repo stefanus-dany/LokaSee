@@ -4,9 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bangkit.lokasee.R
 
-/**
- * A class which maintains and generates a navigation list to be displayed by [NavigationAdapter].
- */
 object NavigationModel {
 
     const val HOME_ID = 0
@@ -56,11 +53,6 @@ object NavigationModel {
         postListUpdate()
     }
 
-    /**
-     * Set the currently selected menu item.
-     *
-     * @return true if the currently selected item has changed.
-     */
     fun setNavigationMenuItemChecked(id: Int): Boolean {
         var updated = false
         navigationMenuItems.forEachIndexed { index, item ->

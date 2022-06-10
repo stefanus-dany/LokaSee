@@ -1,4 +1,4 @@
-package com.bangkit.lokasee.ui.main
+package com.bangkit.lokasee.ui.main.navigation
 
 import android.animation.ValueAnimator
 import android.content.res.ColorStateList
@@ -12,8 +12,6 @@ import androidx.fragment.app.Fragment
 import com.bangkit.lokasee.R
 import com.bangkit.lokasee.data.store.UserStore.currentUser
 import com.bangkit.lokasee.databinding.BottomNavDrawerMainBinding
-import com.bangkit.lokasee.ui.main.navigation.NavigationModel
-import com.bangkit.lokasee.ui.main.navigation.NavigationModelItem
 import com.bangkit.lokasee.util.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
@@ -22,7 +20,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HALF_EX
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
 import com.google.android.material.bottomsheet.BottomSheetBehavior.from
 import com.google.android.material.shape.MaterialShapeDrawable
-import com.bangkit.lokasee.ui.main.navigation.NavigationAdapter
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlin.LazyThreadSafetyMode.NONE
 import kotlin.math.abs
 
@@ -191,15 +190,10 @@ class BottomNavDrawerFragment : Fragment(), NavigationAdapter.NavigationAdapterL
             }
 
             if(currentUser.avatarUrl == ""){
-
-
-
-
-
-
-
-
-
+                Glide.with(requireActivity())
+                    .load(getAvatarUrl())
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(binding.imgProfile)
             }
 
             behavior.addBottomSheetCallback(bottomSheetCallback)

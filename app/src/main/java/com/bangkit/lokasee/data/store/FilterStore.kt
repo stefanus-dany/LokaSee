@@ -1,5 +1,9 @@
 package com.bangkit.lokasee.data.store
 
+import com.bangkit.lokasee.data.Kabupaten
+import com.bangkit.lokasee.data.Kecamatan
+import com.bangkit.lokasee.data.Provinsi
+
 const val PRICE_MIN = "price_min"
 const val PRICE_MAX = "price_max"
 const val AREA_MIN = "area_min"
@@ -11,6 +15,9 @@ const val KECAMATAN = "kecamatan"
 
 object FilterStore {
     var currentFilter : HashMap<String, Int?> = HashMap()
+    var provinsiList = mutableListOf<Provinsi>()
+    var kabupatenList = mutableListOf<Kabupaten>()
+    var kecamatanList = mutableListOf<Kecamatan>()
 
     init {
         currentFilter[PRICE_MIN] = null

@@ -4,6 +4,8 @@ import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import android.os.Environment
+import com.bangkit.lokasee.data.retrofit.ApiConfig.HOST
+import com.bangkit.lokasee.data.store.UserStore.currentUser
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -39,6 +41,21 @@ fun uriToFile(selectedImg: Uri, context: Context): File {
     return myFile
 }
 
-private fun createPartFromString(descriptionString: String): RequestBody {
+fun createPartFromString(descriptionString: String): RequestBody {
     return descriptionString.toRequestBody(MultipartBody.FORM)
 }
+
+const val AVATAR_URL_BASE = "https://ui-avatars.com/api/?bold=true&size=128&background=random&name="
+
+fun getAvatarUrl(): String {
+    return if (currentUser.avatarUrl == "") StringBuilder(AVATAR_URL_BASE).append(currentUser.avatarUrl.replace(' ', '+')).toString()
+    else "${HOST}/${currentUser.avatarUrl}"
+}
+
+fun <K, V> Map<out K?, V?>.filterNotNull(): Map<K, V> = this.mapNotNull {
+    it.key?.let { key ->
+        it.value?.let { value ->
+            key to value
+        }
+    }
+}.toMap()

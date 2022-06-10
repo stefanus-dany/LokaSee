@@ -1,4 +1,4 @@
-package com.bangkit.lokasee.ui.seller.adapter
+package com.bangkit.lokasee.ui.main.seller.adapter
 
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater

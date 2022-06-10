@@ -8,7 +8,6 @@ import com.bangkit.lokasee.di.Injection
 import com.bangkit.lokasee.ui.auth.login.LoginViewModel
 import com.bangkit.lokasee.ui.auth.register.RegisterViewModel
 import com.bangkit.lokasee.ui.main.MainViewModel
-import com.bangkit.lokasee.ui.main.home.HomeViewModel
 
 class ViewModelFactory(private val repository: Repository) :
     ViewModelProvider.NewInstanceFactory() {
@@ -21,9 +20,6 @@ class ViewModelFactory(private val repository: Repository) :
             }
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
                 LoginViewModel(repository) as T
-            }
-            modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
-                HomeViewModel(repository) as T
             }
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 MainViewModel(repository) as T

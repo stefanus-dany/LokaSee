@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bangkit.lokasee.R
 import com.bangkit.lokasee.data.store.AREA_MAX
 import com.bangkit.lokasee.data.store.AREA_MIN
 import com.bangkit.lokasee.data.store.FilterStore.currentFilter

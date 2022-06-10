@@ -1,4 +1,4 @@
-package com.bangkit.lokasee.ui.seller
+package com.bangkit.lokasee.ui.main.seller
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

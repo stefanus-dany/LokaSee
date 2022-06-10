@@ -13,6 +13,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
@@ -20,9 +21,12 @@ import cn.pedant.SweetAlert.SweetAlertDialog
 import com.bangkit.lokasee.R
 import com.bangkit.lokasee.data.Result
 import com.bangkit.lokasee.databinding.ActivityMainBinding
+import com.bangkit.lokasee.di.Injection
+import com.bangkit.lokasee.ui.MainViewModelFactory
 import com.bangkit.lokasee.ui.ViewModelFactory
 import com.bangkit.lokasee.ui.auth.AuthActivity
 import com.bangkit.lokasee.ui.main.home.HomeFragmentDirections
+import com.bangkit.lokasee.ui.main.navigation.BottomNavDrawerFragment
 import com.bangkit.lokasee.ui.main.navigation.NavigationAdapter
 import com.bangkit.lokasee.ui.main.navigation.NavigationModelItem
 import com.bangkit.lokasee.ui.main.profile.ProfileFragmentDirections
@@ -46,6 +50,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setUpViewModel()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
@@ -53,7 +58,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
         bottomNavDrawer = supportFragmentManager.findFragmentById(R.id.bottom_nav_drawer) as BottomNavDrawerFragment
         setUpBottomNavigationAndFab()
-        setUpViewModel()
+
     }
 
     private fun setUpBottomNavigationAndFab() {
@@ -148,15 +153,11 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
     private fun hideBottomAppBar() {
         binding.run {
             bottomAppBar.performHide()
-            // Get a handle on the animator that hides the bottom app bar so we can wait to hide
-            // the fab and bottom app bar until after it's exit animation finishes.
             bottomAppBar.animate().setListener(object : AnimatorListenerAdapter() {
                 var isCanceled = false
                 override fun onAnimationEnd(animation: Animator?) {
                     if (isCanceled) return
 
-                    // Hide the BottomAppBar to avoid it showing above the keyboard
-                    // when composing a new email.
                     bottomAppBar.visibility = View.GONE
                     fabMain.visibility = View.INVISIBLE
                 }
@@ -228,8 +229,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
     }
 
     private fun setUpViewModel() {
-        val factory: ViewModelFactory = ViewModelFactory.getInstance(this)
-        mainViewModel = factory.create(MainViewModel::class.java)
+        mainViewModel = ViewModelProvider(this, MainViewModelFactory(Injection.provideRepository(this)))[MainViewModel::class.java]
     }
 
     private fun logout(){

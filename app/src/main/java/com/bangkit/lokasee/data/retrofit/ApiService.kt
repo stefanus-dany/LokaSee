@@ -70,6 +70,19 @@ interface ApiService {
         @Part images: Array<MultipartBody.Part>,
     ): PostGetCreateUpdateDeleteResponse
 
+    @GET("location/provinsi")
+    suspend fun getAllProvinsi(): ProvinsiListResponse
+
+    @GET("location/kabupaten")
+    suspend fun getKabupatenByProvinsi(
+        @Query("provinsi") provinsi: Int,
+    ): KabupatenListResponse
+
+    @GET("location/kecamatan")
+    suspend fun getKecamatanByKabupaten(
+        @Query("kabupaten") kabupaten: Int,
+    ): KecamatanListResponse
+
     @POST("login")
     suspend fun login(@Body params: BodyLogin): LoginResponse
 
