@@ -53,6 +53,9 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
+    // maps
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
+
     implementation 'me.relex:circleindicator:2.1.6'
     implementation 'org.imaginativeworld.whynotimagecarousel:whynotimagecarousel:2.1.0'
     implementation 'com.github.f0ris.sweetalert:library:1.6.2'
