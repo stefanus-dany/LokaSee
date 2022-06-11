@@ -9,6 +9,7 @@ import com.bangkit.lokasee.ui.auth.login.LoginViewModel
 import com.bangkit.lokasee.ui.auth.register.RegisterViewModel
 import com.bangkit.lokasee.ui.main.MainViewModel
 import com.bangkit.lokasee.ui.main.home.HomeViewModel
+import com.bangkit.lokasee.ui.main.seller.SellerViewModel
 
 class ViewModelFactory(private val repository: Repository) :  ViewModelProvider.NewInstanceFactory() {
 
@@ -27,12 +28,16 @@ class ViewModelFactory(private val repository: Repository) :  ViewModelProvider.
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 MainViewModel(repository) as T
             }
+            modelClass.isAssignableFrom(SellerViewModel::class.java) -> {
+                SellerViewModel(repository) as T
+            }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }
 
     companion object {
         @Volatile
+
         private var instance: ViewModelFactory? = null
         fun getInstance(context: Context): ViewModelFactory = instance
             ?: synchronized(this) {

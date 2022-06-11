@@ -22,6 +22,9 @@ interface ApiService {
         @Path("id") id: Int,
     ): PostGetCreateUpdateDeleteResponse
 
+    @GET("post/user/{id}")
+    suspend fun getUserPosts(@Path("id") id: Int): PostListResponse
+
     @DELETE("post/{id}")
     suspend fun deletePost(
         @Path("id") id: Int,

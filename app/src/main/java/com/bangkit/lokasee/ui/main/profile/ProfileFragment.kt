@@ -9,6 +9,7 @@ import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
 import com.bangkit.lokasee.R
 import com.bangkit.lokasee.databinding.FragmentProfileBinding
+import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 
 class ProfileFragment : Fragment() {
@@ -16,10 +17,8 @@ class ProfileFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-            duration = resources.getInteger(R.integer.lokasee_motion_duration_large).toLong()
-        }
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+
+        enterTransition = MaterialFadeThrough().apply {
             duration = resources.getInteger(R.integer.lokasee_motion_duration_large).toLong()
         }
     }
@@ -30,12 +29,10 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentProfileBinding.inflate(layoutInflater)
-        binding.btnBack.setOnClickListener{
-            findNavController().navigateUp()
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            findNavController().navigateUp()
-        }
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 }

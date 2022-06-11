@@ -1,5 +1,6 @@
 package com.bangkit.lokasee.ui.main.post
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,21 +8,33 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.transition.Slide
 import com.bangkit.lokasee.R
 import com.bangkit.lokasee.data.Post
 import com.bangkit.lokasee.data.retrofit.ApiConfig
 import com.bangkit.lokasee.databinding.FragmentPostBinding
 import com.bangkit.lokasee.ui.main.MainViewModel
 import com.bangkit.lokasee.util.getAvatarUrl
+import com.bangkit.lokasee.util.themeColor
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.MaterialSharedAxis
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
 class PostFragment : Fragment() {
     private lateinit var post: Post
     private var _binding: FragmentPostBinding? = null
     private val binding get() = _binding!!
-    private val mainViewModel: MainViewModel by activityViewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        enterTransition = MaterialFadeThrough().apply {
+            duration = resources.getInteger(R.integer.lokasee_motion_duration_large).toLong()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -125,7 +125,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp" />
 
+        <Button
+            android:id="@+id/btnReload"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:text="Reload"
+            android:textAppearance="@style/TextAppearance.LokaSee.Button"
+            android:visibility="gone" />
+
         <LinearLayout
+            android:id="@+id/lnrApply"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
@@ -133,6 +147,7 @@
             android:layout_marginEnd="16dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:weightSum="1">
 
             <Button

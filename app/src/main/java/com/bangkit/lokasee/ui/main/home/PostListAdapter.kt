@@ -31,7 +31,7 @@ class PostListAdapter(private var data:MutableList<Post>): RecyclerView.Adapter<
         with(holder.binding){
             carouselPost.setData(imageUrlList)
             txtPostTitle.text = post.title
-            txtPostPrice.text = post.price.toString()
+            txtPostPrice.text = "Rp ${post.price.toString()}"
             txtPostArea.text = "${post.area} m²"
             txtPostLocation.text = "${post.kecamatan!!.title}, ${post.kabupaten!!.title}"
             Glide.with(root)

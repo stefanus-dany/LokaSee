@@ -1,6 +1,7 @@
 package com.bangkit.lokasee.data
 
 import android.os.Parcelable
+import com.bangkit.lokasee.data.retrofit.ApiConfig
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -65,4 +66,9 @@ data class Post(
 
 	@field:SerializedName("deleted_at")
 	var deletedAt: String? = null,
-) : Parcelable
+) : Parcelable{
+
+	fun getImageUrl(url: String): String {
+		return "${ApiConfig.HOST}/${url}"
+	}
+}

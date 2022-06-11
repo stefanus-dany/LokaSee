@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.bangkit.lokasee.data.store.AREA_MAX
 import com.bangkit.lokasee.data.store.AREA_MIN
 import com.bangkit.lokasee.data.store.FilterStore.currentFilter
+import com.bangkit.lokasee.data.store.FilterStore.liveFilter
 import com.bangkit.lokasee.data.store.PRICE_MAX
 import com.bangkit.lokasee.data.store.PRICE_MIN
 import com.bangkit.lokasee.databinding.ModalFilterBinding
@@ -82,6 +83,7 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
                     tempFilter[PRICE_MIN] = inputFilterPriceMin.editText?.text.toString().toIntOrNull()
                     tempFilter[PRICE_MAX] = inputFilterPriceMax.editText?.text.toString().toIntOrNull()
                     currentFilter = tempFilter
+                    liveFilter.value = currentFilter
                     for ((key, value) in currentFilter) {
                         Log.e(key, value.toString())
                     }

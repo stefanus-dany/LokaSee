@@ -7,20 +7,6 @@
     tools:context=".ui.main.profile.ProfileFragment"
     android:fitsSystemWindows="true">
 
-    <ImageButton
-        android:id="@+id/btnBack"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="?attr/actionBarItemBackground"
-        android:padding="@dimen/grid_0_25"
-        android:scaleType="fitCenter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_arrow_back"
-        app:tint="@color/color_on_surface_emphasis_medium" />
-
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
@@ -28,10 +14,9 @@
         android:text="Profile"
         android:textAppearance="@style/TextAppearance.LokaSee.Headline5"
         android:textColor="@color/color_on_surface_emphasis_medium"
-        app:layout_constraintBottom_toBottomOf="@+id/btnBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnBack" />
+        tools:layout_editor_absoluteY="17dp" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgProfile"

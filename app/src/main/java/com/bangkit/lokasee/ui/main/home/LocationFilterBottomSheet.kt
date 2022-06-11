@@ -17,6 +17,7 @@ import com.bangkit.lokasee.data.store.*
 import com.bangkit.lokasee.data.store.FilterStore.currentFilter
 import com.bangkit.lokasee.data.store.FilterStore.kabupatenList
 import com.bangkit.lokasee.data.store.FilterStore.kecamatanList
+import com.bangkit.lokasee.data.store.FilterStore.liveFilter
 import com.bangkit.lokasee.data.store.FilterStore.provinsiList
 import com.bangkit.lokasee.databinding.ModalLocationFilterBinding
 import com.bangkit.lokasee.util.ViewHelper.gone
@@ -53,19 +54,15 @@ class LocationFilterBottomSheet(homeViewModel: HomeViewModel) : BottomSheetDialo
                 selectFilterProvinsi.editText?.text?.clear()
                 selectFilterKabupaten.editText?.text?.clear()
                 selectFilterKecamatan.editText?.text?.clear()
-                binding.selectFilterKabupaten.gone()
-                binding.selectFilterKecamatan.gone()
+                selectFilterKabupaten.gone()
+                selectFilterKecamatan.gone()
             }
 
             btnApplyFilter.setOnClickListener{
                 currentFilter[PROVINSI] = tempFilter[PROVINSI]
                 currentFilter[KABUPATEN] = tempFilter[KABUPATEN]
                 currentFilter[KECAMATAN] = tempFilter[KECAMATAN]
-
-                for ((key, value) in currentFilter) {
-                    Log.e(key, value.toString())
-                }
-
+                liveFilter.value = currentFilter
                 dismiss()
             }
         }
@@ -80,9 +77,10 @@ class LocationFilterBottomSheet(homeViewModel: HomeViewModel) : BottomSheetDialo
                         binding.selectFilterProvinsi.gone()
                         binding.selectFilterKabupaten.gone()
                         binding.selectFilterKecamatan.gone()
+                        binding.lnrApply.gone()
+                        binding.btnReload.gone()
                     }
                     is Result.Success -> {
-                        binding.progLocation.gone()
                         val provinsiData = result.data.data
                         if (provinsiData?.isNotEmpty() == true){
                             provinsiList = provinsiData as MutableList<Provinsi>
@@ -114,13 +112,20 @@ class LocationFilterBottomSheet(homeViewModel: HomeViewModel) : BottomSheetDialo
                                 getKabupatenByProvinsi(selectedProvinsi.id)
                             }
                         }
-
+                        binding.progLocation.gone()
                         binding.selectFilterProvinsi.visible()
+                        binding.lnrApply.visible()
+                        binding.btnReload.gone()
                     }
                     is Result.Error -> {
                         Toast.makeText(requireContext(), result.error, Toast.LENGTH_LONG).show()
                         binding.progLocation.gone()
                         binding.selectFilterProvinsi.gone()
+                        binding.lnrApply.gone()
+                        binding.btnReload.visible()
+                        binding.btnReload.setOnClickListener {
+                            getProvinsiData()
+                        }
                     }
                 }
             }
@@ -135,10 +140,10 @@ class LocationFilterBottomSheet(homeViewModel: HomeViewModel) : BottomSheetDialo
                         binding.selectFilterKabupaten.gone()
                         binding.selectFilterKecamatan.gone()
                         binding.progLocation.visible()
+                        binding.lnrApply.gone()
+                        binding.btnReload.gone()
                     }
                     is Result.Success -> {
-                        binding.progLocation.gone()
-                        binding.selectFilterKabupaten.visible()
                         val kabupatenData = result.data.data
                         if (kabupatenData?.isNotEmpty() == true){
                             kabupatenList = kabupatenData as MutableList<Kabupaten>
@@ -168,13 +173,20 @@ class LocationFilterBottomSheet(homeViewModel: HomeViewModel) : BottomSheetDialo
                                 getKecamatanByKabupaten(selectedKabupaten.id)
                             }
                         }
-
+                        binding.progLocation.gone()
                         binding.selectFilterKabupaten.visible()
+                        binding.lnrApply.visible()
+                        binding.btnReload.gone()
                     }
                     is Result.Error -> {
                         Toast.makeText(requireContext(), result.error, Toast.LENGTH_LONG).show()
                         binding.progLocation.gone()
                         binding.selectFilterKabupaten.gone()
+                        binding.lnrApply.gone()
+                        binding.btnReload.visible()
+                        binding.btnReload.setOnClickListener {
+                            getKabupatenByProvinsi(provinsiId)
+                        }
                     }
                 }
             }
@@ -188,10 +200,10 @@ class LocationFilterBottomSheet(homeViewModel: HomeViewModel) : BottomSheetDialo
                     is Result.Loading -> {
                         binding.selectFilterKecamatan.gone()
                         binding.progLocation.visible()
+                        binding.lnrApply.gone()
+                        binding.btnReload.gone()
                     }
                     is Result.Success -> {
-                        binding.progLocation.gone()
-                        binding.selectFilterKecamatan.visible()
                         val kecamatanData = result.data.data
                         if (kecamatanData?.isNotEmpty() == true){
                             kecamatanList = kecamatanData as MutableList<Kecamatan>
@@ -217,19 +229,25 @@ class LocationFilterBottomSheet(homeViewModel: HomeViewModel) : BottomSheetDialo
                                 tempFilter[KECAMATAN] = selectedKecamatan.id
                             }
                         }
-
+                        binding.progLocation.gone()
                         binding.selectFilterKecamatan.visible()
+                        binding.lnrApply.visible()
+                        binding.btnReload.gone()
                     }
                     is Result.Error -> {
                         Toast.makeText(requireContext(), result.error, Toast.LENGTH_LONG).show()
                         binding.progLocation.gone()
                         binding.selectFilterKecamatan.gone()
+                        binding.lnrApply.gone()
+                        binding.btnReload.visible()
+                        binding.btnReload.setOnClickListener {
+                            getKecamatanByKabupaten(kabupatenId)
+                        }
                     }
                 }
             }
         }
     }
-
 
     companion object {
         const val TAG = "CustomBottomSheetDialogFragment"

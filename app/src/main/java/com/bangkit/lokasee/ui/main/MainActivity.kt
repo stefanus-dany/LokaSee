@@ -2,22 +2,23 @@ package com.bangkit.lokasee.ui.main
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.bangkit.lokasee.R
 import com.bangkit.lokasee.data.Result
@@ -25,11 +26,13 @@ import com.bangkit.lokasee.databinding.ActivityMainBinding
 import com.bangkit.lokasee.ui.ViewModelFactory
 import com.bangkit.lokasee.ui.auth.AuthActivity
 import com.bangkit.lokasee.ui.main.home.HomeFragmentDirections
+import com.bangkit.lokasee.ui.main.map.MapFragmentDirections
 import com.bangkit.lokasee.ui.main.navigation.BottomNavDrawerFragment
 import com.bangkit.lokasee.ui.main.navigation.NavigationAdapter
 import com.bangkit.lokasee.ui.main.navigation.NavigationModelItem
 import com.bangkit.lokasee.ui.main.profile.ProfileFragmentDirections
 import com.bangkit.lokasee.ui.main.search.SearchFragmentDirections
+import com.bangkit.lokasee.ui.main.seller.SellerHomeFragmentDirections
 import com.bangkit.lokasee.util.*
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
@@ -49,7 +52,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setUpViewModel()
+        setupViewModel()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
@@ -57,6 +60,10 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
         bottomNavDrawer = supportFragmentManager.findFragmentById(R.id.bottom_nav_drawer) as BottomNavDrawerFragment
         setUpBottomNavigationAndFab()
+
+        binding.fabMain.setOnClickListener{
+            findNavController(R.id.nav_host_fragment).navigate(R.id.action_global_sellerCreateFragment)
+        }
     }
 
     private fun setUpBottomNavigationAndFab() {
@@ -118,7 +125,29 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
                 setBottomAppBarForHome(getBottomAppBarMenuForDestination(destination))
             }
             R.id.searchFragment -> {
-                setBottomAppBarForSearch()
+                hideBottomAppBar()
+                binding.fabMain.hide()
+            }
+            R.id.mapFragment ->{
+
+            }
+            R.id.postFragment ->{
+                hideBottomAppBar()
+                binding.fabMain.hide()
+            }
+            R.id.profileFragment ->{
+
+            }
+            R.id.sellerHomeFragment ->{
+                setBottomAppBarForSellerHome()
+            }
+            R.id.sellerCreateFragment ->{
+                hideBottomAppBar()
+                binding.fabMain.hide()
+            }
+            R.id.sellerUpdateFragment ->{
+                hideBottomAppBar()
+                binding.fabMain.hide()
             }
         }
     }
@@ -143,9 +172,14 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
         }
     }
 
-    private fun setBottomAppBarForSearch() {
-        hideBottomAppBar()
-        binding.fabMain.hide()
+    private fun setBottomAppBarForSellerHome() {
+        binding.run {
+            fabMain.setImageState(intArrayOf(-android.R.attr.state_activated), true)
+            bottomAppBar.visibility = View.VISIBLE
+            bottomAppBarTitle.visibility = View.VISIBLE
+            bottomAppBar.performShow()
+            fabMain.show()
+        }
     }
 
     private fun hideBottomAppBar() {
@@ -169,6 +203,10 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
     override fun onNavMenuItemClicked(item: NavigationModelItem.NavMenuItem) {
         Toast.makeText(this, item.title, Toast.LENGTH_LONG).show()
         when(item.id){
+            0 -> navigateToHome()
+            1 -> navigateToMap()
+            2 -> navigateToSeller()
+            3 -> navigateToProfile()
             4 -> logout()
         }
     }
@@ -177,7 +215,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
         when (item?.itemId) {
             R.id.menu_settings -> {
                 bottomNavDrawer.close()
-                navigateToProfile()
             }
             R.id.menu_search -> navigateToSearch()
             R.id.menu_filter -> showFilterModal()
@@ -185,40 +222,28 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
         return true
     }
 
-    fun navigateToHome(@StringRes titleRes: Int) {
-        binding.bottomAppBarTitle.text = getString(titleRes)
-        currentNavigationFragment?.apply {
-            exitTransition = MaterialFadeThrough().apply {
-                duration = resources.getInteger(R.integer.lokasee_motion_duration_large).toLong()
-            }
-        }
+    private fun navigateToHome() {
         val directions = HomeFragmentDirections.actionGlobalHomeFragment()
         findNavController(R.id.nav_host_fragment).navigate(directions)
     }
 
     private fun navigateToSearch() {
-        currentNavigationFragment?.apply {
-            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-                duration = resources.getInteger(R.integer.lokasee_motion_duration_large).toLong()
-            }
-            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-                duration = resources.getInteger(R.integer.lokasee_motion_duration_large).toLong()
-            }
-        }
         val directions = SearchFragmentDirections.actionGlobalSearchFragment()
         findNavController(R.id.nav_host_fragment).navigate(directions)
     }
 
+    private fun navigateToMap() {
+        val directions = MapFragmentDirections.actionGlobalMapFragment()
+        findNavController(R.id.nav_host_fragment).navigate(directions)
+    }
+
     private fun navigateToProfile() {
-        currentNavigationFragment?.apply {
-            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-                duration = resources.getInteger(R.integer.lokasee_motion_duration_large).toLong()
-            }
-            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-                duration = resources.getInteger(R.integer.lokasee_motion_duration_large).toLong()
-            }
-        }
         val directions = ProfileFragmentDirections.actionGlobalProfileFragment()
+        findNavController(R.id.nav_host_fragment).navigate(directions)
+    }
+
+    private fun navigateToSeller() {
+        val directions = SellerHomeFragmentDirections.actionGlobalSellerHomeFragment()
         findNavController(R.id.nav_host_fragment).navigate(directions)
     }
 
@@ -226,9 +251,20 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
         FilterBottomSheet.newInstance().show(supportFragmentManager, null)
     }
 
-    private fun setUpViewModel() {
+    private fun setupViewModel() {
         val factory: ViewModelFactory = ViewModelFactory.newInstance(this)
         mainViewModel = factory.create(MainViewModel::class.java)
+    }
+
+    private fun setupTransition(){
+        currentNavigationFragment?.apply {
+            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+                duration = resources.getInteger(R.integer.lokasee_motion_duration_large).toLong()
+            }
+            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+                duration = resources.getInteger(R.integer.lokasee_motion_duration_large).toLong()
+            }
+        }
     }
 
     private fun logout(){
@@ -236,16 +272,17 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
             pDialog.progressHelper.barColor = Color.parseColor("#A5DC86")
             pDialog.titleText = "Logging Out"
             pDialog.setCancelable(false)
-
+            pDialog.show()
         mainViewModel.logout().observe(this) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
-                        pDialog.show()
+
                     }
                     is Result.Success -> {
                         pDialog.hide()
                         mainViewModel.deleteUser()
+                        ViewModelFactory.newInstance(this)
                         val intent = Intent(this, AuthActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)

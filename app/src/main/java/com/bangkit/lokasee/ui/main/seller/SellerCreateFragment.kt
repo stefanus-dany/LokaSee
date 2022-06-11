@@ -1,6 +1,9 @@
 package com.bangkit.lokasee.ui.main.seller
 
 import android.app.Activity
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,10 +14,15 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.Slide
+import com.bangkit.lokasee.R
 import com.bangkit.lokasee.databinding.FragmentSellerCreateBinding
 import com.bangkit.lokasee.ui.main.seller.adapter.InputPostImageListAdapter
+import com.bangkit.lokasee.util.themeColor
 import com.bangkit.lokasee.util.uriToFile
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialFadeThrough
 import java.io.File
 
 /**
@@ -24,8 +32,16 @@ class SellerCreateFragment : Fragment() {
 
     private var _binding: FragmentSellerCreateBinding? = null
     private val binding get() = _binding!!
-    private var selectedImages = mutableListOf<File>()
+    private var selectedImages = mutableListOf<Bitmap>()
     private lateinit var listPostImageListAdapter: InputPostImageListAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        enterTransition = MaterialFadeThrough().apply {
+            duration = resources.getInteger(R.integer.lokasee_motion_duration_large).toLong()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,6 +78,12 @@ class SellerCreateFragment : Fragment() {
                     startForInputImageResult.launch(intent)
                 }
         }
+
+        returnTransition = Slide().apply {
+            duration = resources.getInteger(R.integer.lokasee_motion_duration_medium).toLong()
+            addTarget(R.id.constraintLayout1)
+        }
+
     }
 
     override fun onDestroyView() {
@@ -76,7 +98,8 @@ class SellerCreateFragment : Fragment() {
             if (resultCode == Activity.RESULT_OK) {
                 val fileUri = data?.data!!
                 val imageFile = uriToFile(fileUri, requireContext())
-                selectedImages.add(imageFile)
+                val bitmap = BitmapFactory.decodeFile(imageFile.path)
+                selectedImages.add(bitmap)
                 listPostImageListAdapter.notifyDataSetChanged()
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
                 Toast.makeText(activity, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()

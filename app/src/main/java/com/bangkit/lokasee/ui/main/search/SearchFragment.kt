@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bangkit.lokasee.R
 import com.bangkit.lokasee.databinding.FragmentSearchBinding
+import com.bangkit.lokasee.ui.main.FilterBottomSheet
+import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 
 class SearchFragment : Fragment() {
@@ -17,10 +19,7 @@ class SearchFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-            duration = resources.getInteger(R.integer.lokasee_motion_duration_large).toLong()
-        }
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+        enterTransition = MaterialFadeThrough().apply {
             duration = resources.getInteger(R.integer.lokasee_motion_duration_large).toLong()
         }
     }
@@ -37,6 +36,9 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.searchToolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
+        }
+        binding.btnFilter.setOnClickListener {
+            getFragmentManager()?.let { FilterBottomSheet().show(it, FilterBottomSheet.TAG) }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             findNavController().navigateUp()

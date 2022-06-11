@@ -58,6 +58,10 @@ fun getAvatarUrl(user: User): String {
     else "${HOST}/${user.avatarUrl}"
 }
 
+fun getStorageUrl(url: String): String {
+    return "${HOST}/${url}"
+}
+
 fun <K, V> Map<out K?, V?>.filterNotNull(): Map<K, V> = this.mapNotNull {
     it.key?.let { key ->
         it.value?.let { value ->

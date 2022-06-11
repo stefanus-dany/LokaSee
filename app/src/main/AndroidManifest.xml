@@ -20,16 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LokaSee.DayNight">
         <activity
-            android:name="com.bangkit.lokasee.ui.main.MainActivity2"
-            android:exported="false"/>
-        <activity
-            android:name=".ui.seller.SellerActivity"
-            android:exported="false"
-            android:label="@string/title_activity_seller"
-            android:theme="@style/Theme.LokaSee.DayNight.NoActionBar" />
-        <activity
             android:name=".ui.main.MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".ui.auth.AuthActivity"
             android:exported="true">

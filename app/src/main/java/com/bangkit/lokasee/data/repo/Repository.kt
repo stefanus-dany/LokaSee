@@ -108,6 +108,16 @@ class Repository(private val apiService: ApiService, private val pref: AppPrefer
         }
     }
 
+    fun getUserPosts(): LiveData<Result<PostListResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getUserPosts(currentUser.id)
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
     fun getPost(id: Int): LiveData<Result<PostGetCreateUpdateDeleteResponse>> = liveData {
         emit(Result.Loading)
         try {
