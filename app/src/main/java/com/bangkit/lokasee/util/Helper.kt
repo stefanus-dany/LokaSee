@@ -134,3 +134,5 @@ fun getKecamatan( param: Any, list : List<Kecamatan>) : Kecamatan {
         it.id == param
     }.first()
 }
+
+fun String.capitalizeWords(): String = split(" ").map { it.toLowerCase().capitalize() }.joinToString(" ")

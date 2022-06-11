@@ -18,15 +18,16 @@ const val KECAMATAN = "kecamatan"
 
 object FilterStore {
     val liveFilter = MutableLiveData<HashMap<String, Int?>>()
+    val locationString = MutableLiveData<String>()
 
     var currentFilter : HashMap<String, Int?> = HashMap()
     var provinsiList = mutableListOf<Provinsi>()
     var kabupatenList = mutableListOf<Kabupaten>()
     var kecamatanList = mutableListOf<Kecamatan>()
 
-    lateinit var currentProvinsi: Provinsi
-    lateinit var currentKabupaten: Kabupaten
-    lateinit var currentKecamatan: Kecamatan
+    var currentProvinsi: Provinsi? = null
+    var currentKabupaten: Kabupaten? = null
+    var currentKecamatan: Kecamatan? = null
 
     init {
         currentFilter[PRICE_MIN] = null

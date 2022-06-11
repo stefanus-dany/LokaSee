@@ -17,6 +17,8 @@ import com.bangkit.lokasee.data.Result
 import com.bangkit.lokasee.databinding.FragmentSellerHomeBinding
 import com.bangkit.lokasee.ui.ViewModelFactory
 import com.bangkit.lokasee.ui.main.seller.adapter.SellerPostListAdapter
+import com.bangkit.lokasee.util.ViewHelper.gone
+import com.bangkit.lokasee.util.ViewHelper.visible
 import com.google.android.material.transition.MaterialFadeThrough
 
 /**
@@ -53,21 +55,20 @@ class SellerHomeFragment : Fragment() {
     }
 
     private fun loadPost() {
-        val pDialog = SweetAlertDialog(activity, SweetAlertDialog.PROGRESS_TYPE)
-        pDialog.progressHelper.barColor = Color.parseColor("#A5DC86")
-        pDialog.titleText = "Loading Post"
-        pDialog.setCancelable(false)
-
         sellerViewModel.getUserPost().observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
-                        pDialog.show()
+                        binding.progSellerHome.visible()
+                        binding.txtErrorSellerHome.gone()
+                        binding.btnReloadSellerHome.gone()
                     }
 
                     is Result.Success -> {
+                        binding.progSellerHome.gone()
+                        binding.txtErrorSellerHome.gone()
+                        binding.btnReloadSellerHome.gone()
                         Log.e("Get User Posts", result.data.toString())
-                        pDialog.hide()
                         val resultResponse = result.data.data
                         if (resultResponse != null){
                             listPost = resultResponse as MutableList<Post>
@@ -76,15 +77,12 @@ class SellerHomeFragment : Fragment() {
                     }
 
                     is Result.Error -> {
-                        val errror = if(result.error.contains("404")) "Empty Post" else result.error
-                        pDialog.setTitleText(errror)
-                            .setConfirmText("Reload")
-                            .setCancelText("Close")
-                            .setConfirmClickListener {
-                                pDialog.dismiss()
-                                loadPost()
-                            }
-                            .changeAlertType(SweetAlertDialog.ERROR_TYPE)
+                        val error = if(result.error.contains("404")) "You don't have any post!" else "Something went wrong!"
+                        binding.progSellerHome.gone()
+                        binding.txtErrorSellerHome.visible()
+                        binding.btnReloadSellerHome.visible()
+                        binding.txtErrorSellerHome.text = error
+
                     }
                 }
             }

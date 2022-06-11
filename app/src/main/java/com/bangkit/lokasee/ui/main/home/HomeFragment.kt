@@ -18,6 +18,7 @@ import com.bangkit.lokasee.data.store.FilterStore.currentKabupaten
 import com.bangkit.lokasee.data.store.FilterStore.currentKecamatan
 import com.bangkit.lokasee.data.store.FilterStore.currentProvinsi
 import com.bangkit.lokasee.data.store.FilterStore.liveFilter
+import com.bangkit.lokasee.data.store.FilterStore.locationString
 import com.bangkit.lokasee.data.store.KECAMATAN
 import com.bangkit.lokasee.data.store.UserStore.currentUserToken
 import com.bangkit.lokasee.databinding.FragmentHomeBinding
@@ -26,6 +27,7 @@ import com.bangkit.lokasee.ui.auth.login.LoginViewModel
 import com.bangkit.lokasee.ui.main.MainViewModel
 import com.bangkit.lokasee.util.ViewHelper.gone
 import com.bangkit.lokasee.util.ViewHelper.visible
+import com.bangkit.lokasee.util.capitalizeWords
 import com.bangkit.lokasee.util.themeColor
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialFadeThrough
@@ -68,15 +70,18 @@ class HomeFragment : Fragment() {
 
     private fun loadPost() {
         homeViewModel.getAllPostsFiltered().observe(viewLifecycleOwner) { result ->
-
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
-                        binding.progressBar.visible()
+                        binding.progHome.visible()
+                        binding.txtErrorHome.gone()
+                        binding.btnReloadHome.gone()
                     }
 
                     is Result.Success -> {
-                        binding.progressBar.gone()
+                        binding.progHome.gone()
+                        binding.txtErrorHome.gone()
+                        binding.btnReloadHome.gone()
                         val resultResponse = result.data.data
                         if (resultResponse != null){
                             listPost = resultResponse as MutableList<Post>
@@ -85,15 +90,12 @@ class HomeFragment : Fragment() {
                     }
 
                     is Result.Error -> {
-                        binding.progressBar.gone()
-                        AlertDialog.Builder(requireContext()).apply {
-                            setTitle(getString(R.string.title_alert_failed))
-                            setMessage(result.error)
-                            setPositiveButton(getString(R.string.back)) { dialog, _ ->
-                                dialog.dismiss()
-                            }
-                            create()
-                            show()
+                        binding.progHome.gone()
+                        binding.txtErrorHome.visible()
+                        binding.btnReloadHome.visible()
+                        binding.txtErrorHome.text = "Something went wrong!"
+                        binding.btnReloadHome.setOnClickListener {
+                            loadPost()
                         }
                     }
                 }
@@ -104,15 +106,9 @@ class HomeFragment : Fragment() {
     private fun observeFilter(){
         liveFilter.observe(viewLifecycleOwner){
             loadPost()
-            if(currentKabupaten!= null && currentKecamatan == null){
-                binding.txtLocationFilter.text = "${currentKabupaten!!.title}, ${currentProvinsi!!.title}"
-            }
-            if(currentProvinsi != null && currentKabupaten == null){
-                binding.txtLocationFilter.text = "${currentProvinsi!!.title}, Indonesia"
-            }
-            if(currentProvinsi == null){
-                binding.txtLocationFilter.text = "INDONESIA"
-            }
+        }
+        locationString.observe(viewLifecycleOwner){
+            binding.txtLocationFilter.text = it.capitalizeWords()
         }
     }
 
