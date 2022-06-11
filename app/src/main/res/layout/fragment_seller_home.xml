@@ -32,4 +32,45 @@
         app:layout_constraintTop_toBottomOf="@id/txtSellerHomeTitle"
         tools:listitem="@layout/item_post" />
 
+    <ProgressBar
+        android:id="@+id/progSellerHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="90dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtSellerHomeTitle"
+        app:layout_constraintVertical_bias="0.35"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/btnReloadSellerHome"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:text="Reload"
+        android:textAppearance="@style/TextAppearance.LokaSee.Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtErrorSellerHome" />
+
+    <TextView
+        android:id="@+id/txtErrorSellerHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/TextAppearance.LokaSee.Body2"
+        android:textColor="@color/lokasee_red_200"
+        app:layout_constraintBottom_toTopOf="@+id/btnReloadSellerHome"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progSellerHome" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

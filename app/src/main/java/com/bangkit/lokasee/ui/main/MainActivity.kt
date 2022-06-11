@@ -14,6 +14,7 @@ import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -22,6 +23,8 @@ import androidx.navigation.fragment.findNavController
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.bangkit.lokasee.R
 import com.bangkit.lokasee.data.Result
+import com.bangkit.lokasee.data.store.UserStore.currentUser
+import com.bangkit.lokasee.data.store.UserStore.currentUserToken
 import com.bangkit.lokasee.databinding.ActivityMainBinding
 import com.bangkit.lokasee.ui.ViewModelFactory
 import com.bangkit.lokasee.ui.auth.AuthActivity
@@ -214,7 +217,23 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
         when(item.id){
             0 -> navigateToHome()
             1 -> navigateToMap()
-            2 -> navigateToSeller()
+            2 -> {
+                if (currentUserToken == "") {
+                        val pDialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                        pDialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+                        pDialog.titleText = "Opps!"
+                        pDialog.contentText = "You need to login first!"
+                        pDialog.confirmText = "Login"
+                        pDialog.setCancelable(true)
+                        pDialog.setConfirmClickListener {
+                            val intent = Intent(this, AuthActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                            startActivity(intent)
+                        }
+                        pDialog.show()
+                    }
+                else navigateToSeller()
+                }
             3 -> navigateToProfile()
             4 -> logout()
         }

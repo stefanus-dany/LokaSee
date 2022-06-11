@@ -15,9 +15,17 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_location"
+        android:backgroundTint="@color/lokasee_blue_200"
         android:clickable="true"
         android:foreground="@drawable/bottom_app_bar_title_foreground"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:padding="4dp"
+        android:paddingEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -32,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="INDONESIA"
+            android:text="Indonesia"
             android:textAppearance="@style/TextAppearance.LokaSee.Body1"
             android:textColor="@color/lokasee_blue_600" />
 
@@ -78,22 +86,53 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvNearbyLand"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnMoreNearbyLand" />
+        app:layout_constraintTop_toBottomOf="@+id/btnMoreNearbyLand"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/progHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="90dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvNearbyLand"
+        app:layout_constraintVertical_bias="0.35"
         tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/btnReloadHome"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:text="Reload"
+        android:textAppearance="@style/TextAppearance.LokaSee.Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtErrorHome" />
+
+    <TextView
+        android:id="@+id/txtErrorHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/TextAppearance.LokaSee.Body2"
+        android:textColor="@color/lokasee_red_200"
+        app:layout_constraintBottom_toTopOf="@+id/btnReloadHome"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progHome" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

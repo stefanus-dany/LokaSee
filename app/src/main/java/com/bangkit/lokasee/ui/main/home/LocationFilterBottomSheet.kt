@@ -21,10 +21,12 @@ import com.bangkit.lokasee.data.store.FilterStore.currentProvinsi
 import com.bangkit.lokasee.data.store.FilterStore.kabupatenList
 import com.bangkit.lokasee.data.store.FilterStore.kecamatanList
 import com.bangkit.lokasee.data.store.FilterStore.liveFilter
+import com.bangkit.lokasee.data.store.FilterStore.locationString
 import com.bangkit.lokasee.data.store.FilterStore.provinsiList
 import com.bangkit.lokasee.databinding.ModalLocationFilterBinding
 import com.bangkit.lokasee.util.ViewHelper.gone
 import com.bangkit.lokasee.util.ViewHelper.visible
+import com.bangkit.lokasee.util.capitalizeWords
 import com.bangkit.lokasee.util.getKabupaten
 import com.bangkit.lokasee.util.getKecamatan
 import com.bangkit.lokasee.util.getProvinsi
@@ -66,6 +68,22 @@ class LocationFilterBottomSheet(homeViewModel: HomeViewModel) : BottomSheetDialo
                 currentFilter[KABUPATEN] = tempFilter[KABUPATEN]
                 currentFilter[KECAMATAN] = tempFilter[KECAMATAN]
                 liveFilter.value = currentFilter
+                if(currentFilter[KABUPATEN] != null && currentFilter[KECAMATAN] != null){
+                    locationString.value = "${binding.selectFilterKecamatan.editText?.text.toString()}, ${binding.selectFilterKabupaten.editText?.text.toString()}"
+                }
+                else if(currentFilter[PROVINSI] != null && currentFilter[KABUPATEN] != null && currentFilter[KECAMATAN] == null){
+                    locationString.value = "${binding.selectFilterKabupaten.editText?.text.toString()}, ${binding.selectFilterProvinsi.editText?.text.toString()}"
+                }
+                else if(currentFilter[PROVINSI] != null && currentFilter[KABUPATEN] == null){
+                    locationString.value = "${binding.selectFilterProvinsi.editText?.text.toString()}, Indonesia"
+                }
+                else if (currentFilter[PROVINSI] == null){
+                    locationString.value = "Indonesia"
+                }
+
+                for ((key, value) in currentFilter) {
+                    Log.e(key, value.toString())
+                }
                 dismiss()
             }
         }
@@ -90,12 +108,9 @@ class LocationFilterBottomSheet(homeViewModel: HomeViewModel) : BottomSheetDialo
                         }
 
                         if (tempFilter[PROVINSI] != null) {
-                            binding.selectFilterProvinsi.editText?.setText(
-                                getProvinsi(
-                                    tempFilter[PROVINSI]!!,
-                                    provinsiList
-                                ).title
-                            )
+                            val selectedProvinsi = getProvinsi(tempFilter[PROVINSI]!!, provinsiList)
+                            binding.selectFilterProvinsi.editText?.setText(selectedProvinsi.title)
+                            currentProvinsi = selectedProvinsi
                             getKabupatenByProvinsi(tempFilter[PROVINSI]!!)
                         }
 
@@ -141,9 +156,9 @@ class LocationFilterBottomSheet(homeViewModel: HomeViewModel) : BottomSheetDialo
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
+                        binding.progLocation.visible()
                         binding.selectFilterKabupaten.gone()
                         binding.selectFilterKecamatan.gone()
-                        binding.progLocation.visible()
                         binding.lnrApply.gone()
                         binding.btnReload.gone()
                     }
@@ -154,12 +169,9 @@ class LocationFilterBottomSheet(homeViewModel: HomeViewModel) : BottomSheetDialo
                         }
 
                         if (tempFilter[KABUPATEN] != null) {
-                            binding.selectFilterKabupaten.editText?.setText(
-                                getKabupaten(
-                                    tempFilter[KABUPATEN]!!,
-                                    kabupatenList
-                                ).title
-                            )
+                            val selectedKabupaten =  getKabupaten(tempFilter[KABUPATEN]!!,kabupatenList)
+                            binding.selectFilterKabupaten.editText?.setText(selectedKabupaten.title)
+                            currentKabupaten = selectedKabupaten
                             getKecamatanByKabupaten(tempFilter[KABUPATEN]!!)
                         }
 
@@ -215,12 +227,9 @@ class LocationFilterBottomSheet(homeViewModel: HomeViewModel) : BottomSheetDialo
                         }
 
                         if (tempFilter[KECAMATAN] != null) {
-                            binding.selectFilterKecamatan.editText?.setText(
-                                getKecamatan(
-                                    tempFilter[KECAMATAN]!!,
-                                    kecamatanList
-                                ).title
-                            )
+                            val selectedKecamatan = getKecamatan(tempFilter[KECAMATAN]!!, kecamatanList)
+                            binding.selectFilterKecamatan.editText?.setText(selectedKecamatan.title)
+                            currentKecamatan = selectedKecamatan
                         }
 
                         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, kecamatanList)

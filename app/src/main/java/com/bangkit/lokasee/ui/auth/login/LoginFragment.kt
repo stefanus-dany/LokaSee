@@ -119,8 +119,7 @@ class LoginFragment : Fragment() {
                                 setMessage(getString(R.string.message_alert_login_success))
                                 setPositiveButton(getString(R.string.next)) { _, _ ->
                                     val intent = Intent(requireContext(), MainActivity::class.java)
-                                    intent.flags =
-                                        Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                                     startActivity(intent)
                                     activity?.finish()
                                 }
