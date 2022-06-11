@@ -24,6 +24,10 @@ object FilterStore {
     var kabupatenList = mutableListOf<Kabupaten>()
     var kecamatanList = mutableListOf<Kecamatan>()
 
+    lateinit var currentProvinsi: Provinsi
+    lateinit var currentKabupaten: Kabupaten
+    lateinit var currentKecamatan: Kecamatan
+
     init {
         currentFilter[PRICE_MIN] = null
         currentFilter[PRICE_MAX] = null

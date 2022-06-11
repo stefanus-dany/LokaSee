@@ -28,10 +28,11 @@
             android:backgroundTint="@color/lokasee_blue_600" />
 
         <TextView
+            android:id="@+id/txtLocationFilter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Jebres, Kota Surakarta"
+            android:text="INDONESIA"
             android:textAppearance="@style/TextAppearance.LokaSee.Body1"
             android:textColor="@color/lokasee_blue_600" />
 

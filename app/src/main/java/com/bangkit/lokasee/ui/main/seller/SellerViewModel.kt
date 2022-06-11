@@ -17,6 +17,7 @@ class SellerViewModel(private val repository: Repository) : ViewModel() {
     fun getUserPost() = repository.getUserPosts()
     fun getPost(id: Int) = repository.getPost(id)
     fun createPost(params: Map<String, RequestBody>, images: Array<MultipartBody.Part>) = repository.createPost(params, images)
+    fun updatePost(id: Int, params: Map<String, RequestBody>, images: Array<MultipartBody.Part?>) = repository.updatePost(id, params, images)
 
     //LOCATION
     fun getAllProvinsi() = repository.getAllProvinsi()

@@ -9,6 +9,9 @@ import com.bangkit.lokasee.R
 import com.bangkit.lokasee.data.Post
 import com.bangkit.lokasee.databinding.ItemPostBinding
 import com.bangkit.lokasee.data.retrofit.ApiConfig
+import com.bangkit.lokasee.util.getAvatarUrl
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
 class SellerPostListAdapter(private var data:MutableList<Post>): RecyclerView.Adapter<SellerPostListAdapter.ListViewHolder>() {
@@ -24,11 +27,21 @@ class SellerPostListAdapter(private var data:MutableList<Post>): RecyclerView.Ad
         data[position].images.forEach {
             imageUrlList.add(CarouselItem(ApiConfig.HOST + it))
         }
-        holder.binding.carouselPost.setData(imageUrlList)
-        holder.binding.cardPost.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putParcelable("POST", data[position])
-            it.findNavController().navigate(R.id.action_sellerHomeFragment_to_sellerUpdateFragment, bundle)
+        with(holder.binding){
+            carouselPost.setData(imageUrlList)
+            txtPostTitle.text = data[position].title
+            txtPostPrice.text = "Rp ${data[position].price.toString()}"
+            txtPostArea.text = "${data[position].area} m²"
+            txtPostLocation.text = "${data[position].kecamatan!!.title}, ${data[position].kabupaten!!.title}"
+            Glide.with(root)
+                .load(getAvatarUrl(data[position].user!!))
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .into(imgPostSellerProfile)
+            cardPost.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putParcelable("POST", data[position])
+                it.findNavController().navigate(R.id.action_sellerHomeFragment_to_sellerUpdateFragment, bundle)
+            }
         }
     }
     override fun getItemCount(): Int = data.size

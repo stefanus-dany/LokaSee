@@ -15,6 +15,9 @@ import com.bangkit.lokasee.data.Provinsi
 import com.bangkit.lokasee.data.Result
 import com.bangkit.lokasee.data.store.*
 import com.bangkit.lokasee.data.store.FilterStore.currentFilter
+import com.bangkit.lokasee.data.store.FilterStore.currentKabupaten
+import com.bangkit.lokasee.data.store.FilterStore.currentKecamatan
+import com.bangkit.lokasee.data.store.FilterStore.currentProvinsi
 import com.bangkit.lokasee.data.store.FilterStore.kabupatenList
 import com.bangkit.lokasee.data.store.FilterStore.kecamatanList
 import com.bangkit.lokasee.data.store.FilterStore.liveFilter
@@ -109,6 +112,7 @@ class LocationFilterBottomSheet(homeViewModel: HomeViewModel) : BottomSheetDialo
                                 tempFilter[PROVINSI] = selectedProvinsi.id
                                 tempFilter[KABUPATEN] = null
                                 tempFilter[KECAMATAN] = null
+                                currentProvinsi = selectedProvinsi
                                 getKabupatenByProvinsi(selectedProvinsi.id)
                             }
                         }
@@ -169,6 +173,7 @@ class LocationFilterBottomSheet(homeViewModel: HomeViewModel) : BottomSheetDialo
                                 )
                                 tempFilter[KABUPATEN] = selectedKabupaten.id
                                 tempFilter[KECAMATAN] = null
+                                currentKabupaten = selectedKabupaten
                                 binding.selectFilterKecamatan.editText?.text?.clear()
                                 getKecamatanByKabupaten(selectedKabupaten.id)
                             }
@@ -227,6 +232,7 @@ class LocationFilterBottomSheet(homeViewModel: HomeViewModel) : BottomSheetDialo
                                     kecamatanList
                                 )
                                 tempFilter[KECAMATAN] = selectedKecamatan.id
+                                currentKecamatan = selectedKecamatan
                             }
                         }
                         binding.progLocation.gone()

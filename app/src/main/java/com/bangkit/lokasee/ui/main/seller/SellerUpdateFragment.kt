@@ -3,9 +3,9 @@ package com.bangkit.lokasee.ui.main.seller
 import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.transition.Transition
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,8 +18,10 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.bangkit.lokasee.R
 import com.bangkit.lokasee.data.*
+import com.bangkit.lokasee.data.store.UserStore.currentUser
 import com.bangkit.lokasee.databinding.FragmentSellerUpdateBinding
 import com.bangkit.lokasee.ui.ViewModelFactory
 import com.bangkit.lokasee.ui.main.seller.adapter.InputPostImageListAdapter
@@ -30,10 +32,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.transition.MaterialFadeThrough
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import java.net.URL
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.MultipartBody.Part.Companion.create
+import okhttp3.RequestBody
+import java.io.File
+
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -114,12 +119,88 @@ class SellerUpdateFragment : Fragment() {
                 }
         }
         binding.btnPostUpdate.setOnClickListener{
-            //TODO ADD UPDATE LOGIC
+            updatePost()
         }
         binding.btnPostDelete.setOnClickListener{
             //TODO ADD DELETE LOGIC
         }
     }
+
+    private fun updatePost(){
+        val postTitle = binding.inputPostTitle.editText?.text.toString()
+        val postDesc = binding.inputPostDesc.editText?.text.toString()
+        val postPrice = binding.inputPostPrice.editText?.text.toString()
+        val postArea = binding.inputPostArea.editText?.text.toString()
+        val postAddress = binding.inputPostAddress.editText?.text.toString()
+        Log.e("Provinsi", provinsiList.toString())
+        Log.e("Kabupaten", kabupatenList.toString())
+        Log.e("Kecamatan", kecamatanList.toString())
+        val postProvinsi = getProvinsi(
+            binding.selectPostProvinsi.editText?.text.toString(), provinsiList
+        )
+        val postKabupaten = getKabupaten(
+            binding.selectPostKabupaten.editText?.text.toString(), kabupatenList
+        )
+        val postKecamatan = getKecamatan(
+            binding.selectPostKecamatan.editText?.text.toString(),
+            kecamatanList
+        )
+        val postLatitude = "10.8888"
+        val postLongitude = "900.9933"
+
+        val requestBody: HashMap<String, RequestBody> = HashMap()
+        requestBody["title"] = createPartFromString(postTitle)
+        requestBody["desc"] = createPartFromString(postDesc)
+        requestBody["price"] = createPartFromString(postPrice)
+        requestBody["area"] = createPartFromString(postArea)
+        requestBody["address"] = createPartFromString(postAddress)
+        requestBody["latitude"] = createPartFromString(postLatitude)
+        requestBody["longitude"] = createPartFromString(postLongitude)
+        requestBody["user_id"] = createPartFromString(currentUser.id.toString())
+        requestBody["provinsi_id"] = createPartFromString(postProvinsi.id.toString())
+        requestBody["kabupaten_id"] = createPartFromString(postKabupaten.id.toString())
+        requestBody["kecamatan_id"] = createPartFromString(postKecamatan.id.toString())
+
+        val postImagesParts: Array<MultipartBody.Part?> = arrayOfNulls(
+            selectedImages.size
+        )
+
+        val postImagesFile = mutableListOf<File>()
+
+        for (index in 0 until selectedImages.size) {
+            postImagesFile.add(convertBitmapToFile(selectedImages[index], requireContext()))
+            val surveyBody: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), postImagesFile[index])
+            postImagesParts[index] =  MultipartBody.Part.createFormData("images[]", postImagesFile[index].nameWithoutExtension, surveyBody);
+        }
+
+        val pDialog = SweetAlertDialog(requireContext(), SweetAlertDialog.PROGRESS_TYPE)
+        pDialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+        pDialog.titleText = "Updating Post"
+        pDialog.setCancelable(false)
+        pDialog.show()
+
+        sellerViewModel.updatePost(post.id, requestBody, postImagesParts).observe(viewLifecycleOwner) {result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Success -> {
+                        val provinsiData = result.data.data
+                        if (provinsiData != null){
+                            pDialog.dismiss()
+                            findNavController().navigateUp()
+                            Toast.makeText(requireContext(), "Success Update", Toast.LENGTH_LONG).show()
+                        }
+                        pDialog.hide()
+                    }
+                    is Result.Error -> {
+                        pDialog.hide()
+                        Log.e("Error",  result.error)
+                        Toast.makeText(requireContext(), result.error, Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
+    }
+
 
     private fun getPostImages() {
         post.images.forEach { url ->
@@ -176,6 +257,7 @@ class SellerUpdateFragment : Fragment() {
                         binding.selectPostProvinsi.visible()
                     }
                     is Result.Error -> {
+                        Log.e("Error",  result.error)
                         Toast.makeText(requireContext(), result.error, Toast.LENGTH_LONG).show()
                         binding.progLocation.gone()
                         binding.selectPostProvinsi.gone()
@@ -222,6 +304,7 @@ class SellerUpdateFragment : Fragment() {
                         binding.btnReload.gone()
                     }
                     is Result.Error -> {
+                        Log.e("Error",  result.error)
                         Toast.makeText(requireContext(), result.error, Toast.LENGTH_LONG).show()
                         binding.progLocation.gone()
                         binding.selectPostKabupaten.gone()
@@ -265,6 +348,7 @@ class SellerUpdateFragment : Fragment() {
                         binding.btnReload.gone()
                     }
                     is Result.Error -> {
+                        Log.e("Error",  result.error)
                         Toast.makeText(requireContext(), result.error, Toast.LENGTH_LONG).show()
                         binding.progLocation.gone()
                         binding.selectPostKecamatan.gone()
@@ -279,7 +363,7 @@ class SellerUpdateFragment : Fragment() {
     }
 
     private fun setupViewModel(){
-        val factory: ViewModelFactory = ViewModelFactory.getInstance(requireContext())
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(requireActivity())
         sellerViewModel = factory.create(SellerViewModel::class.java)
     }
 

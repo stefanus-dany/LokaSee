@@ -34,6 +34,8 @@ import com.bangkit.lokasee.ui.main.profile.ProfileFragmentDirections
 import com.bangkit.lokasee.ui.main.search.SearchFragmentDirections
 import com.bangkit.lokasee.ui.main.seller.SellerHomeFragmentDirections
 import com.bangkit.lokasee.util.*
+import com.google.android.material.bottomappbar.BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+import com.google.android.material.bottomappbar.BottomAppBar.FAB_ALIGNMENT_MODE_END
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 
@@ -129,11 +131,12 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
                 binding.fabMain.hide()
             }
             R.id.mapFragment ->{
-
+                binding.bottomAppBar.fabAlignmentMode =  FAB_ALIGNMENT_MODE_CENTER
             }
             R.id.postFragment ->{
                 hideBottomAppBar()
                 binding.fabMain.hide()
+                binding.bottomAppBar.fabAlignmentMode =  FAB_ALIGNMENT_MODE_CENTER
             }
             R.id.profileFragment ->{
 
@@ -157,28 +160,34 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
         val dest = destination ?: findNavController(R.id.nav_host_fragment).currentDestination
         return when (dest?.id) {
             R.id.homeFragment -> R.menu.bottom_app_bar_home_menu
-            else -> R.menu.bottom_app_bar_home_menu
+            else -> R.menu.bottom_app_bar_no_menu
         }
     }
 
     private fun setBottomAppBarForHome(@MenuRes menuRes: Int) {
         binding.run {
+            fabMain.setImageResource(R.drawable.ic_add)
             fabMain.setImageState(intArrayOf(-android.R.attr.state_activated), true)
             bottomAppBar.visibility = View.VISIBLE
             bottomAppBar.replaceMenu(menuRes)
             bottomAppBarTitle.visibility = View.VISIBLE
             bottomAppBar.performShow()
             fabMain.show()
+            bottomAppBar.fabAlignmentMode =  FAB_ALIGNMENT_MODE_CENTER
+
         }
     }
 
     private fun setBottomAppBarForSellerHome() {
         binding.run {
+            fabMain.setImageResource(R.drawable.ic_add)
             fabMain.setImageState(intArrayOf(-android.R.attr.state_activated), true)
             bottomAppBar.visibility = View.VISIBLE
             bottomAppBarTitle.visibility = View.VISIBLE
             bottomAppBar.performShow()
             fabMain.show()
+            bottomAppBar.fabAlignmentMode =  FAB_ALIGNMENT_MODE_END
+
         }
     }
 
@@ -276,9 +285,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
         mainViewModel.logout().observe(this) { result ->
             if (result != null) {
                 when (result) {
-                    is Result.Loading -> {
-
-                    }
                     is Result.Success -> {
                         pDialog.hide()
                         mainViewModel.deleteUser()

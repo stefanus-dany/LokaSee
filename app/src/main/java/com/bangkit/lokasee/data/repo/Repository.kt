@@ -109,6 +109,7 @@ class Repository(private val apiService: ApiService, private val pref: AppPrefer
     }
 
     fun getUserPosts(): LiveData<Result<PostListResponse>> = liveData {
+        Log.e("User Id", currentUser.id.toString())
         emit(Result.Loading)
         try {
             val response = apiService.getUserPosts(currentUser.id)
@@ -142,6 +143,16 @@ class Repository(private val apiService: ApiService, private val pref: AppPrefer
         emit(Result.Loading)
         try {
             val response = apiService.testCreatePost(params, images)
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun updatePost(id: Int, params: Map<String, RequestBody>, images: Array<MultipartBody.Part?>): LiveData<Result<PostGetCreateUpdateDeleteResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.testUpdatePost( id, "PUT", params, images)
             emit(Result.Success(response))
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))

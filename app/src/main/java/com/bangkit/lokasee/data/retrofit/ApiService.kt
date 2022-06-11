@@ -38,6 +38,15 @@ interface ApiService {
     ): PostGetCreateUpdateDeleteResponse
 
     @Multipart
+    @POST("post/{id}")
+    suspend fun testUpdatePost(
+        @Path("id") id: Int,
+        @Query("_method") _method: String = "PUT",
+        @PartMap params: @JvmSuppressWildcards Map<String,RequestBody>,
+        @Part images: @JvmSuppressWildcards Array<MultipartBody.Part?>,
+    ): PostGetCreateUpdateDeleteResponse
+
+    @Multipart
     @POST("post")
     suspend fun createPost(
         @Part("title") title: RequestBody,

@@ -2,6 +2,7 @@ package com.bangkit.lokasee.ui.main.seller
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -65,6 +66,7 @@ class SellerHomeFragment : Fragment() {
                     }
 
                     is Result.Success -> {
+                        Log.e("Get User Posts", result.data.toString())
                         pDialog.hide()
                         val resultResponse = result.data.data
                         if (resultResponse != null){
@@ -97,7 +99,7 @@ class SellerHomeFragment : Fragment() {
     }
 
     private fun setupViewModel() {
-        val factory: ViewModelFactory = ViewModelFactory.getInstance(requireContext())
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(requireActivity())
         sellerViewModel = factory.create(SellerViewModel::class.java)
     }
 

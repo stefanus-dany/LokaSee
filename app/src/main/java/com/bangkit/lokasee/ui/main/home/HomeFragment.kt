@@ -14,7 +14,11 @@ import androidx.transition.Slide
 import com.bangkit.lokasee.R
 import com.bangkit.lokasee.data.Post
 import com.bangkit.lokasee.data.Result
+import com.bangkit.lokasee.data.store.FilterStore.currentKabupaten
+import com.bangkit.lokasee.data.store.FilterStore.currentKecamatan
+import com.bangkit.lokasee.data.store.FilterStore.currentProvinsi
 import com.bangkit.lokasee.data.store.FilterStore.liveFilter
+import com.bangkit.lokasee.data.store.KECAMATAN
 import com.bangkit.lokasee.data.store.UserStore.currentUserToken
 import com.bangkit.lokasee.databinding.FragmentHomeBinding
 import com.bangkit.lokasee.ui.ViewModelFactory
@@ -100,6 +104,15 @@ class HomeFragment : Fragment() {
     private fun observeFilter(){
         liveFilter.observe(viewLifecycleOwner){
             loadPost()
+            if(currentKabupaten!= null && currentKecamatan == null){
+                binding.txtLocationFilter.text = "${currentKabupaten!!.title}, ${currentProvinsi!!.title}"
+            }
+            if(currentProvinsi != null && currentKabupaten == null){
+                binding.txtLocationFilter.text = "${currentProvinsi!!.title}, Indonesia"
+            }
+            if(currentProvinsi == null){
+                binding.txtLocationFilter.text = "INDONESIA"
+            }
         }
     }
 
@@ -111,7 +124,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupViewModel() {
-        val factory: ViewModelFactory = ViewModelFactory.getInstance(requireContext())
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(requireActivity())
         homeViewModel = factory.create(HomeViewModel::class.java)
     }
 
