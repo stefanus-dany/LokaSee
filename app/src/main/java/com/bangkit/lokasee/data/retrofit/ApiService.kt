@@ -6,6 +6,7 @@ import com.bangkit.lokasee.data.response.*
 import com.bangkit.lokasee.data.store.UserStore.currentUserToken
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Call
 import retrofit2.http.*
 
 interface ApiService {
@@ -33,8 +34,8 @@ interface ApiService {
     @Multipart
     @POST("post")
     suspend fun testCreatePost(
-        @PartMap params: Map<String,RequestBody>,
-        @Part images: Array<MultipartBody.Part>,
+        @PartMap params: @JvmSuppressWildcards Map<String,RequestBody>,
+        @Part images: @JvmSuppressWildcards Array<MultipartBody.Part>,
     ): PostGetCreateUpdateDeleteResponse
 
     @Multipart
@@ -46,7 +47,7 @@ interface ApiService {
         @Part images: @JvmSuppressWildcards Array<MultipartBody.Part?>,
     ): PostGetCreateUpdateDeleteResponse
 
-    @Multipart
+    /* @Multipart
     @POST("post")
     suspend fun createPost(
         @Part("title") title: RequestBody,
@@ -80,7 +81,7 @@ interface ApiService {
         @Part("kabupaten_id") kabupaten_id: RequestBody,
         @Part("kecamatan_id") kecamatan_id: RequestBody,
         @Part images: Array<MultipartBody.Part>,
-    ): PostGetCreateUpdateDeleteResponse
+    ): PostGetCreateUpdateDeleteResponse */
 
     @GET("location/provinsi")
     suspend fun getAllProvinsi(): ProvinsiListResponse
@@ -94,6 +95,20 @@ interface ApiService {
     suspend fun getKecamatanByKabupaten(
         @Query("kabupaten") kabupaten: Int,
     ): KecamatanListResponse
+
+    @GET("user/{id}")
+    suspend fun getUser(
+        @Path("id") id: Int,
+    ): UserUpdateResponse
+
+    @Multipart
+    @POST("user/{id}")
+    fun updateUser(
+        @Path("id") id: Int,
+        @Query("_method") _method: String = "PUT",
+        @PartMap params: @JvmSuppressWildcards Map<String,RequestBody>,
+        @Part image: MultipartBody.Part,
+    ): UserUpdateResponse
 
     @POST("login")
     suspend fun login(@Body params: BodyLogin): LoginResponse

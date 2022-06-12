@@ -86,14 +86,23 @@ class HomeFragment : Fragment() {
                         if (resultResponse != null){
                             listPost = resultResponse as MutableList<Post>
                             setPostData(listPost)
+                            if (listPost.isEmpty()){
+                                val empty = "Nothing match with filter!"
+                                binding.btnReloadHome.visible()
+                                binding.txtErrorHome.visible()
+                                binding.txtErrorHome.text = empty
+                                binding.btnReloadHome.setOnClickListener {
+                                    loadPost()
+                                }
+                            }
                         }
                     }
 
                     is Result.Error -> {
+                        val error = "Something went wrong!"
                         binding.progHome.gone()
                         binding.txtErrorHome.visible()
-                        binding.btnReloadHome.visible()
-                        binding.txtErrorHome.text = "Something went wrong!"
+                        binding.txtErrorHome.text = result.error
                         binding.btnReloadHome.setOnClickListener {
                             loadPost()
                         }

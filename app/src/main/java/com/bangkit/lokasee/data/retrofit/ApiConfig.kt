@@ -1,10 +1,5 @@
 package com.bangkit.lokasee.data.retrofit
 
-import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
-import com.bangkit.lokasee.data.AppPreferences
 import com.bangkit.lokasee.data.store.UserStore.currentUserToken
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient

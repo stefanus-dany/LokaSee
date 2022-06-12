@@ -23,7 +23,7 @@ data class Post(
 	var area: Int,
 
 	@field:SerializedName("price")
-	var price: Int,
+	var price: Long,
 
 	@field:SerializedName("address")
 	var address: String,
@@ -66,9 +66,4 @@ data class Post(
 
 	@field:SerializedName("deleted_at")
 	var deletedAt: String? = null,
-) : Parcelable{
-
-	fun getImageUrl(url: String): String {
-		return "${ApiConfig.HOST}/${url}"
-	}
-}
+) : Parcelable

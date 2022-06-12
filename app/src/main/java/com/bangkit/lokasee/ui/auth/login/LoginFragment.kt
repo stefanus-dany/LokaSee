@@ -1,6 +1,7 @@
 package com.bangkit.lokasee.ui.auth.login
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Patterns
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.bangkit.lokasee.R
 import com.bangkit.lokasee.databinding.FragmentLoginBinding
 import com.bangkit.lokasee.ui.main.MainActivity
@@ -16,6 +18,7 @@ import com.bangkit.lokasee.data.Result
 import com.bangkit.lokasee.data.store.UserStore.currentUserToken
 import com.bangkit.lokasee.di.Injection
 import com.bangkit.lokasee.ui.ViewModelFactory
+import com.bangkit.lokasee.ui.auth.AuthActivity
 import com.bangkit.lokasee.util.ViewHelper.gone
 import com.bangkit.lokasee.util.ViewHelper.visible
 
@@ -46,7 +49,6 @@ class LoginFragment : Fragment() {
 
     private fun setupAction() {
         binding.btnLogin.setOnClickListener {
-            binding.progressBar.visible()
             val email = binding.inputEmail.text.toString()
             val password = binding.inputPassword.text.toString()
             when {
@@ -54,29 +56,25 @@ class LoginFragment : Fragment() {
                     with(binding) {
                         inputEmail.error = getString(R.string.error_input_email)
                         inputEmail.requestFocus()
-                        progressBar.gone()
                     }
                 }
                 !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
                     with(binding) {
                         inputEmail.error = getString(R.string.error_email_not_valid)
                         inputEmail.requestFocus()
-                        progressBar.gone()
                     }
                 }
                 password.isEmpty() -> {
                     with(binding) {
                         inputPassword.error = getString(R.string.error_input_password)
                         inputPassword.requestFocus()
-                        progressBar.gone()
                     }
                 }
-                password.length < 6 -> {
+                password.length < 8 -> {
                     with(binding) {
                         inputPassword.error =
-                            getString(R.string.error_password_less_than_6_char)
+                            getString(R.string.error_password_less_than_8_char)
                         inputPassword.requestFocus()
-                        progressBar.gone()
                     }
                 }
                 else -> {
@@ -91,15 +89,16 @@ class LoginFragment : Fragment() {
     }
 
     private fun loginUser(email: String, password: String) {
+        val pDialog = SweetAlertDialog(requireContext(), SweetAlertDialog.PROGRESS_TYPE)
+        pDialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+        pDialog.titleText = "Logging In"
+        pDialog.setCancelable(false)
+        pDialog.show()
+
         loginViewModel.login(email, password).observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
-                    is Result.Loading -> {
-                        binding.progressBar.visible()
-                    }
-
                     is Result.Success -> {
-                        binding.progressBar.gone()
                         val resultResponse = result.data.data
                         if (resultResponse!=null){
                             val token = result.data.accessToken
@@ -112,44 +111,25 @@ class LoginFragment : Fragment() {
                                     resultResponse.avatarUrl,
                                     token,
                                     )
-
                             }
-                            AlertDialog.Builder(requireContext()).apply {
-                                setTitle(getString(R.string.title_alert_success))
-                                setMessage(getString(R.string.message_alert_login_success))
-                                setPositiveButton(getString(R.string.next)) { _, _ ->
-                                    val intent = Intent(requireContext(), MainActivity::class.java)
-                                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                                    startActivity(intent)
-                                    activity?.finish()
-                                }
-                                create()
-                                show()
-                            }
+                            pDialog.hide()
+                            val intent = Intent(context, MainActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                            startActivity(intent)
+                            requireActivity().finish()
                         } else {
-                            AlertDialog.Builder(requireContext()).apply {
-                                setTitle(getString(R.string.title_alert_failed))
-                                setMessage(getString(R.string.message_alert_login_failed))
-                                setPositiveButton(getString(R.string.back)) { dialog, _ ->
-                                    dialog.dismiss()
-                                }
-                                create()
-                                show()
-                            }
+                            pDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE)
+                            pDialog.titleText = getString(R.string.title_alert_failed)
+                            pDialog.contentText = getString(R.string.message_alert_login_failed)
+                            pDialog.show()
                         }
                     }
 
                     is Result.Error -> {
-                        binding.progressBar.gone()
-                        AlertDialog.Builder(requireContext()).apply {
-                            setTitle(getString(R.string.title_alert_failed))
-                            setMessage(getString(R.string.message_alert_login_failed))
-                            setPositiveButton(getString(R.string.back)) { dialog, _ ->
-                                dialog.dismiss()
-                            }
-                            create()
-                            show()
-                        }
+                        pDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE)
+                        pDialog.titleText = getString(R.string.title_alert_failed)
+                        pDialog.contentText = getString(R.string.message_alert_login_failed)
+                        pDialog.show()
                     }
                 }
             }
