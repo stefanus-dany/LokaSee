@@ -44,7 +44,7 @@ class ProfileFragment : Fragment() {
 
         binding.txtUserName.text = currentUser.name
         binding.txtUserEmail.text = currentUser.email
-        binding.imgProfile.setOnClickListener {
+        binding.imgUserProfile.setOnClickListener {
             ImagePicker.with(this)
                 .compress(1024)
                 .crop(2f, 2f)
@@ -62,7 +62,7 @@ class ProfileFragment : Fragment() {
         Glide.with(requireActivity())
             .load(getAvatarUrl(currentUser))
             .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-            .into(binding.imgProfile)
+            .into(binding.imgUserProfile)
 
         if(currentUser.avatarUrl != ""){
             Glide.with(this)
@@ -95,7 +95,7 @@ class ProfileFragment : Fragment() {
                 Glide.with(requireActivity())
                     .load(bitmap)
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .into(binding.imgProfile)
+                    .into(binding.imgUserProfile)
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
                 Toast.makeText(activity, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
             }

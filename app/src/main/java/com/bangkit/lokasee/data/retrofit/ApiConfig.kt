@@ -9,7 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiConfig {
-    const val HOST: String = "http://34.77.53.105"
+    const val HOST: String = "http://34.128.89.112"
 
     fun getApiService(): ApiService {
         val loggingInterceptor =

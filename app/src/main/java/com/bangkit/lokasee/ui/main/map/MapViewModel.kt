@@ -9,5 +9,10 @@ import com.bangkit.lokasee.data.response.PostListResponse
 
 class MapViewModel(private val repository: Repository) : ViewModel() {
 
-    fun getAllPosts() = repository.getAllPosts()
+    fun getAllPostsFiltered() = repository.getAllPostsFiltered()
+
+    //LOCATION
+    fun getAllProvinsi() = repository.getAllProvinsi()
+    fun getKabupatenByProvinsi(provinsiId: Int) = repository.getKabupatenByProvinsi(provinsiId)
+    fun getKecamatanByKabupaten(kabupatenId: Int) = repository.getKecamatanByKabupaten(kabupatenId)
 }

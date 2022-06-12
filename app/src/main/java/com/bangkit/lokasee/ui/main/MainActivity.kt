@@ -316,12 +316,12 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
             pDialog.titleText = "Logging Out"
             pDialog.setCancelable(false)
             pDialog.show()
+        mainViewModel.deleteUser()
         mainViewModel.logout().observe(this) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Success -> {
                         pDialog.hide()
-                        mainViewModel.deleteUser()
                         ViewModelFactory.newInstance(this)
                         val intent = Intent(this, AuthActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)

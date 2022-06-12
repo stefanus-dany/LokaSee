@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bangkit.lokasee.R
@@ -62,7 +63,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun loadPost() {
-        mapViewModel.getAllPosts().observe(viewLifecycleOwner) { result ->
+        mapViewModel.getAllPostsFiltered().observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
@@ -105,10 +106,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     }
 
                     is Result.Error -> {
-                        Snackbar.make(
-                            binding.root,
+                        Toast.makeText(
+                            requireContext(),
                             getString(R.string.message_alert_register_failed),
-                            Snackbar.LENGTH_LONG
+                            Toast.LENGTH_LONG
                         ).show()
                     }
                 }

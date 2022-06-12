@@ -12,5 +12,4 @@
         android:icon="@drawable/ic_filter"
         app:showAsAction="ifRoom"
         android:title="Filter"/>
-
 </menu>
