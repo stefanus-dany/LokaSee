@@ -12,6 +12,9 @@
         android:id="@+id/mapFragment"
         android:name="com.bangkit.lokasee.ui.main.map.MapFragment"
         android:label="MapFragment">
+        <action
+            android:id="@+id/action_mapFragment_to_postFragment"
+            app:destination="@id/postFragment" />
     </fragment>
     <fragment
         android:id="@+id/postFragment"

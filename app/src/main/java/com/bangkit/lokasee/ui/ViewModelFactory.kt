@@ -9,6 +9,7 @@ import com.bangkit.lokasee.ui.auth.login.LoginViewModel
 import com.bangkit.lokasee.ui.auth.register.RegisterViewModel
 import com.bangkit.lokasee.ui.main.MainViewModel
 import com.bangkit.lokasee.ui.main.home.HomeViewModel
+import com.bangkit.lokasee.ui.main.map.MapViewModel
 import com.bangkit.lokasee.ui.main.seller.SellerViewModel
 
 class ViewModelFactory(private val repository: Repository) :  ViewModelProvider.NewInstanceFactory() {
@@ -30,6 +31,9 @@ class ViewModelFactory(private val repository: Repository) :  ViewModelProvider.
             }
             modelClass.isAssignableFrom(SellerViewModel::class.java) -> {
                 SellerViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(MapViewModel::class.java) -> {
+                MapViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

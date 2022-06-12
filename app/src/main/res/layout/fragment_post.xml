@@ -285,30 +285,26 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/containerMap"
+                    android:id="@+id/containerMaps"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:orientation="vertical"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tabPost" >
-
-                    <TextView
-                        android:id="@+id/txtPostAddress"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="TextView"
-                        app:layout_wrapBehaviorInParent="vertical_only" />
+                    app:layout_constraintTop_toBottomOf="@+id/tabPost"
+                    tools:visibility="visible">
 
                     <fragment
                         android:id="@+id/map"
                         android:name="com.google.android.gms.maps.SupportMapFragment"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="300dp" />
                 </LinearLayout>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

@@ -56,4 +56,14 @@
             android:paddingBottom="4dp"
             android:textAppearance="@style/TextAppearance.LokaSee.Subtitle1" />
     </com.google.android.material.card.MaterialCardView>
+
+    <fragment
+        android:id="@+id/map"
+        app:layout_constraintTop_toBottomOf="@id/containerSearch"
+        android:layout_marginTop="10dp"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="0dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
