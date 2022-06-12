@@ -134,15 +134,16 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
                 binding.fabMain.hide()
             }
             R.id.mapFragment ->{
-                binding.bottomAppBar.fabAlignmentMode =  FAB_ALIGNMENT_MODE_CENTER
+                setBottomAppBarForMap(getBottomAppBarMenuForDestination(destination))
             }
             R.id.postFragment ->{
                 hideBottomAppBar()
                 binding.fabMain.hide()
-                binding.bottomAppBar.fabAlignmentMode =  FAB_ALIGNMENT_MODE_CENTER
             }
             R.id.profileFragment ->{
-
+                binding.bottomAppBar.performShow()
+                binding.fabMain.show()
+                binding.bottomAppBar.fabAlignmentMode =  FAB_ALIGNMENT_MODE_CENTER
             }
             R.id.sellerHomeFragment ->{
                 setBottomAppBarForSellerHome()
@@ -163,7 +164,22 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
         val dest = destination ?: findNavController(R.id.nav_host_fragment).currentDestination
         return when (dest?.id) {
             R.id.homeFragment -> R.menu.bottom_app_bar_home_menu
+            R.id.mapFragment -> R.menu.bottom_app_bar_map_menu
             else -> R.menu.bottom_app_bar_no_menu
+        }
+    }
+
+    private fun setBottomAppBarForMap(@MenuRes menuRes: Int) {
+        binding.run {
+            fabMain.setImageResource(R.drawable.ic_add)
+            fabMain.setImageState(intArrayOf(-android.R.attr.state_activated), true)
+            bottomAppBar.visibility = View.VISIBLE
+            bottomAppBar.replaceMenu(menuRes)
+            bottomAppBarTitle.visibility = View.VISIBLE
+            bottomAppBar.performShow()
+            fabMain.show()
+            binding.bottomAppBar.fabAlignmentMode =  FAB_ALIGNMENT_MODE_CENTER
+
         }
     }
 
@@ -177,9 +193,9 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
             bottomAppBar.performShow()
             fabMain.show()
             bottomAppBar.fabAlignmentMode =  FAB_ALIGNMENT_MODE_CENTER
-
         }
     }
+
 
     private fun setBottomAppBarForSellerHome() {
         binding.run {
@@ -213,7 +229,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
     }
 
     override fun onNavMenuItemClicked(item: NavigationModelItem.NavMenuItem) {
-        Toast.makeText(this, item.title, Toast.LENGTH_LONG).show()
         when(item.id){
             0 -> navigateToHome()
             1 -> navigateToMap()

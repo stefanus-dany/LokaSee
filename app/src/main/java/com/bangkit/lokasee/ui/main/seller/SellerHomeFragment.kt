@@ -1,16 +1,12 @@
 package com.bangkit.lokasee.ui.main.seller
 
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import cn.pedant.SweetAlert.SweetAlertDialog
 import com.bangkit.lokasee.R
 import com.bangkit.lokasee.data.Post
 import com.bangkit.lokasee.data.Result
@@ -55,7 +51,7 @@ class SellerHomeFragment : Fragment() {
     }
 
     private fun loadPost() {
-        sellerViewModel.getUserPost().observe(viewLifecycleOwner) { result ->
+        sellerViewModel.getAuthUserPost().observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
@@ -82,7 +78,9 @@ class SellerHomeFragment : Fragment() {
                         binding.txtErrorSellerHome.visible()
                         binding.btnReloadSellerHome.visible()
                         binding.txtErrorSellerHome.text = error
-
+                        binding.btnReloadSellerHome.setOnClickListener {
+                            loadPost()
+                        }
                     }
                 }
             }

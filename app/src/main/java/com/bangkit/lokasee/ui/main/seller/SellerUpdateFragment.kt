@@ -100,9 +100,19 @@ class SellerUpdateFragment : Fragment() {
             selectPostKabupaten.editText?.setText(post.kabupaten?.title)
             selectPostKecamatan.editText?.setText(post.kecamatan?.title)
         }
+
         binding.btnBack.setOnClickListener {
             findNavController().navigateUp()
         }
+
+        binding.btnPostUpdate.setOnClickListener{
+            updatePost()
+        }
+
+        binding.btnPostDelete.setOnClickListener{
+            deletePost()
+        }
+
         binding.btnPostAddImage.setOnClickListener{
             ImagePicker.with(this)
                 .compress(2048)
@@ -117,12 +127,6 @@ class SellerUpdateFragment : Fragment() {
                 .createIntent { intent ->
                     startForInputImageResult.launch(intent)
                 }
-        }
-        binding.btnPostUpdate.setOnClickListener{
-            updatePost()
-        }
-        binding.btnPostDelete.setOnClickListener{
-            //TODO ADD DELETE LOGIC
         }
     }
 
@@ -187,7 +191,7 @@ class SellerUpdateFragment : Fragment() {
                         if (provinsiData != null){
                             pDialog.dismiss()
                             findNavController().navigateUp()
-                            Toast.makeText(requireContext(), "Success Update", Toast.LENGTH_LONG).show()
+                            Toast.makeText(requireContext(), "Post successfully updated!", Toast.LENGTH_LONG).show()
                         }
                         pDialog.hide()
                     }
@@ -201,6 +205,37 @@ class SellerUpdateFragment : Fragment() {
         }
     }
 
+    private fun deletePost(){
+        val pDialog = SweetAlertDialog(requireContext(), SweetAlertDialog.WARNING_TYPE)
+        pDialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+        pDialog.titleText = "Are You Sure?"
+        pDialog.confirmText = "Delete"
+        pDialog.setCancelable(true)
+        pDialog.setConfirmClickListener {
+            pDialog.changeAlertType(SweetAlertDialog.PROGRESS_TYPE)
+            sellerViewModel.deletePost(post.id).observe(viewLifecycleOwner) {result ->
+                if (result != null) {
+                    when (result) {
+                        is Result.Success -> {
+                            val provinsiData = result.data.data
+                            if (provinsiData != null){
+                                pDialog.dismiss()
+                                findNavController().navigateUp()
+                                Toast.makeText(requireContext(), "Post successfully deleted!", Toast.LENGTH_LONG).show()
+                            }
+                            pDialog.hide()
+                        }
+                        is Result.Error -> {
+                            pDialog.hide()
+                            Log.e("Error",  result.error)
+                            Toast.makeText(requireContext(), result.error, Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+            }
+        }
+        pDialog.show()
+    }
 
     private fun getPostImages() {
         post.images.forEach { url ->
@@ -379,8 +414,6 @@ class SellerUpdateFragment : Fragment() {
                 listPostImageListAdapter.notifyDataSetChanged()
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
                 Toast.makeText(activity, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(activity, "Task Cancelled", Toast.LENGTH_SHORT).show()
             }
         }
 

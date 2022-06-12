@@ -8,9 +8,7 @@ import com.bangkit.lokasee.data.Result
 import com.bangkit.lokasee.data.body.BodyLogin
 import com.bangkit.lokasee.data.body.BodyRegister
 import com.bangkit.lokasee.data.response.*
-import com.bangkit.lokasee.data.retrofit.ApiConfig
 import com.bangkit.lokasee.data.retrofit.ApiService
-import com.bangkit.lokasee.data.store.FilterStore
 import com.bangkit.lokasee.data.store.FilterStore.currentFilter
 import com.bangkit.lokasee.data.store.UserStore.currentUser
 import com.bangkit.lokasee.data.store.UserStore.currentUserToken
@@ -21,7 +19,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.http.QueryMap
 
 class Repository(private val apiService: ApiService, private val pref: AppPreferences) {
     // Auth Repo
@@ -29,11 +26,12 @@ class Repository(private val apiService: ApiService, private val pref: AppPrefer
         name: String,
         email: String,
         phoneNumber: String,
+        address: String,
         password: String
     ): LiveData<Result<RegisterResponse>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.register(BodyRegister(name, email, phoneNumber, password))
+            val response = apiService.register(BodyRegister(name, email, phoneNumber, address, password))
             emit(Result.Success(response))
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
@@ -61,7 +59,27 @@ class Repository(private val apiService: ApiService, private val pref: AppPrefer
         }
     }
 
-    fun saveUser(
+    fun getUser(id: Int): LiveData<Result<UserUpdateResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getUser(id)
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun updateUser(id: Int, params: Map<String, RequestBody>, image: MultipartBody.Part): LiveData<Result<UserUpdateResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.updateUser( id, "PUT", params, image)
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun saveAuthUser(
         userId: Int,
         userName: String,
         email: String,
@@ -77,7 +95,7 @@ class Repository(private val apiService: ApiService, private val pref: AppPrefer
         }
     }
 
-    fun deleteUser( ) {
+    fun deleteAuthUser( ) {
         CoroutineScope(Dispatchers.IO).launch {
             pref.deleteUserLogin()
             currentUser = pref.getUserLogin()
@@ -108,11 +126,10 @@ class Repository(private val apiService: ApiService, private val pref: AppPrefer
         }
     }
 
-    fun getUserPosts(): LiveData<Result<PostListResponse>> = liveData {
-        Log.e("User Id", currentUser.id.toString())
+    fun getUserPosts(id: Int): LiveData<Result<PostListResponse>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.getUserPosts(currentUser.id)
+            val response = apiService.getUserPosts(id)
             emit(Result.Success(response))
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))

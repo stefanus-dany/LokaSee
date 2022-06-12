@@ -18,6 +18,9 @@ data class User(
 	@field:SerializedName("phone_number")
 	var phoneNumber: String,
 
+	@field:SerializedName("address")
+	var address: String,
+
 	@field:SerializedName("avatar_url")
 	var avatarUrl: String,
 
