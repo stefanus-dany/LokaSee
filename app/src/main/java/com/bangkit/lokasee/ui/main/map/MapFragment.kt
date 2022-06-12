@@ -44,6 +44,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupViewModel()
+        setupMapView()
         with(binding) {
             btnBack.setOnClickListener {
                 findNavController().navigateUp()
@@ -62,6 +64,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun loadPost() {
+        val defaultCameraSetup = LatLng(-6.200000, 106.816666)
+        mMap.animateCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                defaultCameraSetup,
+                5f
+            )
+        )
         mapViewModel.getAllPosts().observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
@@ -79,17 +88,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                                         MarkerOptions()
                                             .position(latLng)
                                             .title(it.title)
+                                    )
+                                    mMap.addMarker(
+                                        MarkerOptions()
+                                            .position(latLng)
+                                            .title(it.title)
                                     )?.let { it1 -> mapMarker.put(it.id, it1)  }
                                 }
                             }
-
-                            val defaultCameraSetup = LatLng(-6.200000, 106.816666)
-                            mMap.animateCamera(
-                                CameraUpdateFactory.newLatLngZoom(
-                                    defaultCameraSetup,
-                                    5f
-                                )
-                            )
 
                             mMap.setOnMarkerClickListener {
                                 for (i in mapMarker){
@@ -123,9 +129,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         mMap.uiSettings.isIndoorLevelPickerEnabled = true
         mMap.uiSettings.isCompassEnabled = true
         mMap.uiSettings.isMapToolbarEnabled = true
-
-        setupViewModel()
-        setupMapView()
         loadPost()
     }
 }
