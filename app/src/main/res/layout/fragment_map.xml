@@ -59,11 +59,10 @@
 
     <fragment
         android:id="@+id/map"
-        app:layout_constraintTop_toBottomOf="@id/containerSearch"
-        android:layout_marginTop="10dp"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_height="0dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

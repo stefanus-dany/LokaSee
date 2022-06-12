@@ -43,7 +43,7 @@ class AppPreferences private constructor(private val dataStore: DataStore<Prefer
     }
 
     suspend fun getUserLogin(): User{
-        val currentUser = User(-1, "", "", "", "", "",null, null, null)
+        val currentUser = User(-1, "", "", "", "", "",null, null, null, null, null, null, null, null, null)
             currentUser.id = dataStore.data.map { preferences ->
                 preferences[USER_ID_KEY] ?: -1
             }.first()

@@ -1,8 +1,6 @@
 package com.bangkit.lokasee.data.store
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
 import com.bangkit.lokasee.data.Kabupaten
 import com.bangkit.lokasee.data.Kecamatan
 import com.bangkit.lokasee.data.Provinsi
