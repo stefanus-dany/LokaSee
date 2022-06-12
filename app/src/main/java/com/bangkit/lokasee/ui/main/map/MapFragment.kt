@@ -1,6 +1,7 @@
 package com.bangkit.lokasee.ui.main.map
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialFadeThrough
@@ -71,7 +71,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 5f
             )
         )
-        mapViewModel.getAllPosts().observe(viewLifecycleOwner) { result ->
+        mapViewModel.getAllPostsFiltered().observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
@@ -88,24 +88,24 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                                         MarkerOptions()
                                             .position(latLng)
                                             .title(it.title)
-                                    )
-                                    mMap.addMarker(
-                                        MarkerOptions()
-                                            .position(latLng)
-                                            .title(it.title)
                                     )?.let { it1 -> mapMarker.put(it.id, it1)  }
                                 }
                             }
 
-                            mMap.setOnMarkerClickListener {
+                            mMap.setOnInfoWindowClickListener {
                                 for (i in mapMarker){
                                     if (i.value == it){
-                                        val bundle = Bundle()
-                                        bundle.putParcelable("POST", resultResponse[i.key])
-                                        findNavController().navigate(R.id.action_mapFragment_to_postFragment, bundle)
+                                        for (j in resultResponse){
+                                            if (j != null) {
+                                                if (j.id == i.key){
+                                                    val bundle = Bundle()
+                                                    bundle.putParcelable("POST", j)
+                                                    findNavController().navigate(R.id.action_mapFragment_to_postFragment, bundle)
+                                                }
+                                            }
+                                        }
                                     }
                                 }
-                                false
                             }
                         }
                     }
