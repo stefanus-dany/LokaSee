@@ -1,4 +1,4 @@
-package com.bangkit.lokasee.ui.main.map
+package com.bangkit.lokasee.ui.main
 
 import android.os.Bundle
 import android.util.Log
@@ -24,6 +24,7 @@ import com.bangkit.lokasee.data.store.FilterStore.liveFilter
 import com.bangkit.lokasee.data.store.FilterStore.locationString
 import com.bangkit.lokasee.data.store.FilterStore.provinsiList
 import com.bangkit.lokasee.databinding.ModalLocationFilterBinding
+import com.bangkit.lokasee.ui.main.map.MapViewModel
 import com.bangkit.lokasee.util.ViewHelper.gone
 import com.bangkit.lokasee.util.ViewHelper.visible
 import com.bangkit.lokasee.util.getKabupaten
@@ -32,9 +33,9 @@ import com.bangkit.lokasee.util.getProvinsi
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
-class LocationFilterBottomSheet(mapViewModel: MapViewModel) : BottomSheetDialogFragment() {
+class LocationFilterBottomSheet(mainViewModel: MainViewModel) : BottomSheetDialogFragment() {
     private var tempFilter: HashMap<String, Int?> = HashMap()
-    private val homeViewModel = mapViewModel
+    private val mainViewModel = mainViewModel
     private lateinit var binding: ModalLocationFilterBinding
 
     override fun onCreateView(
@@ -79,17 +80,13 @@ class LocationFilterBottomSheet(mapViewModel: MapViewModel) : BottomSheetDialogF
                 else if (currentFilter[PROVINSI] == null){
                     locationString.value = "Indonesia"
                 }
-
-                for ((key, value) in currentFilter) {
-                    Log.e(key, value.toString())
-                }
                 dismiss()
             }
         }
     }
 
     private fun getProvinsiData() {
-        homeViewModel.getAllProvinsi().observe(this) { result ->
+        mainViewModel.getAllProvinsi().observe(this) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
@@ -151,7 +148,7 @@ class LocationFilterBottomSheet(mapViewModel: MapViewModel) : BottomSheetDialogF
     }
 
     private fun getKabupatenByProvinsi(provinsiId: Int) {
-        homeViewModel.getKabupatenByProvinsi(provinsiId).observe(this) { result ->
+        mainViewModel.getKabupatenByProvinsi(provinsiId).observe(this) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
@@ -210,7 +207,7 @@ class LocationFilterBottomSheet(mapViewModel: MapViewModel) : BottomSheetDialogF
     }
 
     private fun getKecamatanByKabupaten(kabupatenId: Int) {
-        homeViewModel.getKecamatanByKabupaten(kabupatenId).observe(this) { result ->
+        mainViewModel.getKecamatanByKabupaten(kabupatenId).observe(this) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {

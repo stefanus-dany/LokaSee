@@ -3,6 +3,7 @@ package com.bangkit.lokasee.ui.auth.login
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.bangkit.lokasee.R
 import com.bangkit.lokasee.databinding.FragmentLoginBinding
 import com.bangkit.lokasee.ui.main.MainActivity
 import com.bangkit.lokasee.data.Result
+import com.bangkit.lokasee.data.store.UserStore.currentUser
 import com.bangkit.lokasee.data.store.UserStore.currentUserToken
 import com.bangkit.lokasee.di.Injection
 import com.bangkit.lokasee.ui.ViewModelFactory
@@ -103,15 +105,18 @@ class LoginFragment : Fragment() {
                         if (resultResponse!=null){
                             val token = result.data.accessToken
                             if (token != null) {
+                                Log.e("Ini Sebelum saveuser", resultResponse.toString())
                                 loginViewModel.saveUser(
                                     resultResponse.id,
                                     resultResponse.name,
                                     resultResponse.email,
                                     resultResponse.phoneNumber,
+                                    resultResponse.address,
                                     resultResponse.avatarUrl,
                                     token,
                                     )
                             }
+                            Log.e("Ini Habis saveuser", currentUser.toString())
                             pDialog.hide()
                             val intent = Intent(context, MainActivity::class.java)
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)

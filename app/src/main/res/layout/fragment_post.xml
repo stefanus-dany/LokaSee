@@ -41,14 +41,14 @@
         app:shapeAppearanceOverlay="@style/roundedImageViewRounded">
 
         <ImageButton
-            android:id="@+id/btnRoute"
+            android:id="@+id/btnPhone"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_margin="4dp"
             android:background="?attr/actionBarItemBackground"
             android:padding="@dimen/grid_0_5"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_navigation"
+            app:srcCompat="@drawable/ic_phone"
             app:tint="@color/lokasee_orange_400" />
     </com.google.android.material.card.MaterialCardView>
 
@@ -57,6 +57,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="-24dp"
         android:layout_marginBottom="-24dp"
+        android:paddingBottom="24dp"
         app:cardBackgroundColor="@color/lokasee_blue_50"
         app:cardCornerRadius="@dimen/lokasee_small_component_corner_radius"
         app:cardElevation="@dimen/plane_02"
@@ -302,7 +303,8 @@
                         android:id="@+id/map"
                         android:name="com.google.android.gms.maps.SupportMapFragment"
                         android:layout_width="match_parent"
-                        android:layout_height="300dp" />
+                        android:layout_height="350dp"
+                        android:layout_marginBottom="24dp" />
                 </LinearLayout>
 
 

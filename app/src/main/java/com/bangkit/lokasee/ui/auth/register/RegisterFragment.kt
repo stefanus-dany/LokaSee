@@ -140,7 +140,7 @@ class RegisterFragment : Fragment() {
                         is Result.Error -> {
                             pDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE)
                             pDialog.titleText = getString(R.string.title_alert_failed)
-                            pDialog.contentText = getString(R.string.message_alert_register_failed)
+                            pDialog.contentText = result.error
                             pDialog.show()
                         }
                     }

@@ -31,7 +31,9 @@ class Repository(private val apiService: ApiService, private val pref: AppPrefer
     ): LiveData<Result<RegisterResponse>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.register(BodyRegister(name, email, phoneNumber, address, password))
+            val bodyRegister = BodyRegister(name, email, phoneNumber, address, password)
+            Log.e("Body Register", bodyRegister.toString())
+            val response = apiService.register(bodyRegister)
             emit(Result.Success(response))
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
@@ -84,11 +86,12 @@ class Repository(private val apiService: ApiService, private val pref: AppPrefer
         userName: String,
         email: String,
         phoneNumber: String,
+        address: String,
         avatarUrl: String,
         token: String
     ) {
         CoroutineScope(Dispatchers.IO).launch {
-            pref.saveUserLogin(userId, userName, email, phoneNumber, avatarUrl, token)
+            pref.saveUserLogin(userId, userName, email, phoneNumber,  address, avatarUrl, token)
             currentUser = pref.getUserLogin()
             currentUserToken = pref.getUserToken().first()
             Log.e("Ini habis login", currentUserToken)
@@ -119,7 +122,18 @@ class Repository(private val apiService: ApiService, private val pref: AppPrefer
         emit(Result.Loading)
         try {
             val filter = currentFilter.filterNotNull()
-            val response = apiService.getAllPostsFiltered(filter)
+            val response = apiService.getAllPostsFiltered(null, filter)
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun searchPostsFiltered(search: String, filter: Map<String, Int?>): LiveData<Result<PostListResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val filterNotNull = filter.filterNotNull()
+            val response = apiService.getAllPostsFiltered(search, filterNotNull)
             emit(Result.Success(response))
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))

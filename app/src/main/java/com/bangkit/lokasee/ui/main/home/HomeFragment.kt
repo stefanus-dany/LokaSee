@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -14,6 +15,7 @@ import androidx.transition.Slide
 import com.bangkit.lokasee.R
 import com.bangkit.lokasee.data.Post
 import com.bangkit.lokasee.data.Result
+import com.bangkit.lokasee.data.store.FilterStore
 import com.bangkit.lokasee.data.store.FilterStore.currentKabupaten
 import com.bangkit.lokasee.data.store.FilterStore.currentKecamatan
 import com.bangkit.lokasee.data.store.FilterStore.currentProvinsi
@@ -28,6 +30,7 @@ import com.bangkit.lokasee.ui.main.MainViewModel
 import com.bangkit.lokasee.util.ViewHelper.gone
 import com.bangkit.lokasee.util.ViewHelper.visible
 import com.bangkit.lokasee.util.capitalizeWords
+import com.bangkit.lokasee.util.isMapEmpty
 import com.bangkit.lokasee.util.themeColor
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialFadeThrough
@@ -85,8 +88,16 @@ class HomeFragment : Fragment() {
                         val resultResponse = result.data.data
                         if (resultResponse != null){
                             listPost = resultResponse as MutableList<Post>
-                            setPostData(listPost)
-                            if (listPost.isEmpty()){
+                            if(FilterStore.currentFilter.isMapEmpty() && listPost.isEmpty()){
+                                val empty = "There is no post yet!"
+                                binding.btnReloadHome.visible()
+                                binding.txtErrorHome.visible()
+                                binding.txtErrorHome.text = empty
+                                binding.btnReloadHome.setOnClickListener {
+                                    loadPost()
+                                }
+                            }
+                            else if(!FilterStore.currentFilter.isMapEmpty() && listPost.isEmpty()){
                                 val empty = "Nothing match with filter!"
                                 binding.btnReloadHome.visible()
                                 binding.txtErrorHome.visible()
@@ -95,6 +106,7 @@ class HomeFragment : Fragment() {
                                     loadPost()
                                 }
                             }
+                            else setPostData(listPost)
                         }
                     }
 

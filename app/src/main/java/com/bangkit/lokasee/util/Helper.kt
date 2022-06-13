@@ -99,6 +99,15 @@ fun <K, V> Map<out K?, V?>.filterNotNull(): Map<K, V> = this.mapNotNull {
     }
 }.toMap()
 
+fun <K, V> Map<out K?, V?>.isMapEmpty(): Boolean {
+    for (v in this.values) {
+        if (v != null) {
+            return false
+        }
+    }
+    return true
+}
+
 fun getProvinsi( param: Any, list : List<Provinsi>) : Provinsi {
     val temp = list
     return if (param is String)

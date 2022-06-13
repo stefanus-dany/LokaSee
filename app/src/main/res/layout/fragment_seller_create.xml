@@ -296,6 +296,23 @@
                 android:visibility="gone"
                 app:iconPadding="8dp" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="Long Click to Select Location"
+                android:textAppearance="@style/TextAppearance.LokaSee.Subtitle1" />
+
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_marginTop="8dp" />
+
             <Button
                 android:id="@+id/btnPostAddImage"
                 android:layout_width="wrap_content"

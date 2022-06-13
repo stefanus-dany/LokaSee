@@ -37,6 +37,7 @@ import com.bangkit.lokasee.ui.main.profile.ProfileFragmentDirections
 import com.bangkit.lokasee.ui.main.search.SearchFragmentDirections
 import com.bangkit.lokasee.ui.main.seller.SellerHomeFragmentDirections
 import com.bangkit.lokasee.util.*
+import com.bangkit.lokasee.util.ViewHelper.gone
 import com.google.android.material.bottomappbar.BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
 import com.google.android.material.bottomappbar.BottomAppBar.FAB_ALIGNMENT_MODE_END
 import com.google.android.material.transition.MaterialFadeThrough
@@ -127,13 +128,16 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
     ) {
         when (destination.id) {
             R.id.homeFragment -> {
+                binding.bottomAppBarTitle.text = "Home"
                 setBottomAppBarForHome(getBottomAppBarMenuForDestination(destination))
             }
             R.id.searchFragment -> {
+                binding.bottomAppBarTitle.text = "Search"
                 hideBottomAppBar()
                 binding.fabMain.hide()
             }
             R.id.mapFragment ->{
+                binding.bottomAppBarTitle.text = "Map"
                 setBottomAppBarForMap(getBottomAppBarMenuForDestination(destination))
             }
             R.id.postFragment ->{
@@ -141,11 +145,13 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
                 binding.fabMain.hide()
             }
             R.id.profileFragment ->{
+                binding.bottomAppBarTitle.text = "Profile"
                 binding.bottomAppBar.performShow()
                 binding.fabMain.show()
                 binding.bottomAppBar.fabAlignmentMode =  FAB_ALIGNMENT_MODE_CENTER
             }
             R.id.sellerHomeFragment ->{
+                binding.bottomAppBarTitle.text = "Management"
                 setBottomAppBarForSellerHome()
             }
             R.id.sellerCreateFragment ->{
@@ -155,6 +161,10 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
             R.id.sellerUpdateFragment ->{
                 hideBottomAppBar()
                 binding.fabMain.hide()
+            }
+            else -> {
+                setBottomAppBarForOther()
+                binding.bottomAppBarTitle.text = ""
             }
         }
     }
@@ -207,6 +217,18 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener, NavCo
             fabMain.show()
             bottomAppBar.fabAlignmentMode =  FAB_ALIGNMENT_MODE_END
 
+        }
+    }
+
+    private fun setBottomAppBarForOther() {
+        binding.run {
+            fabMain.setImageResource(R.drawable.ic_add)
+            fabMain.setImageState(intArrayOf(-android.R.attr.state_activated), true)
+            bottomAppBar.visibility = View.VISIBLE
+            bottomAppBarTitle.gone()
+            bottomAppBar.performShow()
+            fabMain.show()
+            bottomAppBar.fabAlignmentMode =  FAB_ALIGNMENT_MODE_END
         }
     }
 

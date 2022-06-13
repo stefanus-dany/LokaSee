@@ -1,5 +1,7 @@
 package com.bangkit.lokasee.ui.main.post
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.transition.MaterialFadeThrough
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
+
 
 class PostFragment : Fragment(), OnMapReadyCallback {
     private lateinit var post: Post
@@ -63,8 +66,10 @@ class PostFragment : Fragment(), OnMapReadyCallback {
             btnBack.setOnClickListener {
                 findNavController().navigateUp()
             }
-            btnRoute.setOnClickListener {
-
+            btnPhone.setOnClickListener {
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = Uri.parse("tel:${post.user?.phoneNumber}")
+                startActivity(intent)
             }
             tabPost.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {

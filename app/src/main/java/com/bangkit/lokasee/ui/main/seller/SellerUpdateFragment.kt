@@ -1,6 +1,9 @@
 package com.bangkit.lokasee.ui.main.seller
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -14,6 +17,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -31,6 +35,12 @@ import com.bangkit.lokasee.util.ViewHelper.visible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.transition.MaterialFadeThrough
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -43,7 +53,7 @@ import java.io.File
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
-class SellerUpdateFragment : Fragment() {
+class SellerUpdateFragment : Fragment(), OnMapReadyCallback {
 
     private var _binding: FragmentSellerUpdateBinding? = null
     private val binding get() = _binding!!
@@ -57,6 +67,9 @@ class SellerUpdateFragment : Fragment() {
     private lateinit var sellerViewModel: SellerViewModel
     private lateinit var listPostImageListAdapter: InputPostImageListAdapter
     private lateinit var post: Post
+    private lateinit var mMap: GoogleMap
+    private var marker: Marker? = null
+    private var latLong: LatLng? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,6 +85,7 @@ class SellerUpdateFragment : Fragment() {
     ): View? {
         _binding = FragmentSellerUpdateBinding.inflate(inflater, container, false)
         setupViewModel()
+        setupMapView()
         post = arguments?.getParcelable("POST")!!
         listPostImageListAdapter = InputPostImageListAdapter(selectedImages)
         binding.rvPostImageList.setHasFixedSize(true)
@@ -81,6 +95,7 @@ class SellerUpdateFragment : Fragment() {
         getKabupatenByProvinsi(post.provinsiId)
         getKecamatanByKabupaten(post.kabupatenId)
         getPostImages()
+        latLong = LatLng(post.latitude, post.longitude)
 
         return binding.root
     }
@@ -130,6 +145,53 @@ class SellerUpdateFragment : Fragment() {
         }
     }
 
+    private fun setupMapView() {
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+        mMap.uiSettings.isZoomControlsEnabled = true
+        mMap.uiSettings.isCompassEnabled = true
+        mMap.uiSettings.isMapToolbarEnabled = true
+        mMap.uiSettings.setAllGesturesEnabled(true)
+        requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+
+        marker = mMap.addMarker(MarkerOptions().position(latLong!!).title("Post Position"))
+
+        mMap.setOnMapLongClickListener {
+            latLong = LatLng(it.latitude, it.longitude)
+            marker!!.remove()
+            marker = mMap.addMarker(MarkerOptions().position(latLong!!).title("New Post Position"))
+        }
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission())
+        { isGranted: Boolean ->
+            if (isGranted) {
+                getMyLocation()
+            }
+            else{
+                Toast.makeText(
+                    requireContext(),
+                    "You need grant permission to access location",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+    @SuppressLint("MissingPermission")
+    private fun getMyLocation() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        ) {
+            mMap.isMyLocationEnabled = true
+        } else {
+            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+    }
+
     private fun updatePost(){
         val postTitle = binding.inputPostTitle.editText?.text.toString()
         val postDesc = binding.inputPostDesc.editText?.text.toString()
@@ -149,8 +211,8 @@ class SellerUpdateFragment : Fragment() {
             binding.selectPostKecamatan.editText?.text.toString(),
             kecamatanList
         )
-        val postLatitude = "10.8888"
-        val postLongitude = "900.9933"
+        val postLatitude = latLong?.latitude
+        val postLongitude = latLong!!.longitude
 
         val requestBody: HashMap<String, RequestBody> = HashMap()
         requestBody["title"] = createPartFromString(postTitle)
@@ -158,8 +220,8 @@ class SellerUpdateFragment : Fragment() {
         requestBody["price"] = createPartFromString(postPrice)
         requestBody["area"] = createPartFromString(postArea)
         requestBody["address"] = createPartFromString(postAddress)
-        requestBody["latitude"] = createPartFromString(postLatitude)
-        requestBody["longitude"] = createPartFromString(postLongitude)
+        requestBody["latitude"] = createPartFromString(postLatitude.toString())
+        requestBody["longitude"] = createPartFromString(postLongitude.toString())
         requestBody["user_id"] = createPartFromString(currentUser.id.toString())
         requestBody["provinsi_id"] = createPartFromString(postProvinsi.id.toString())
         requestBody["kabupaten_id"] = createPartFromString(postKabupaten.id.toString())
@@ -173,11 +235,12 @@ class SellerUpdateFragment : Fragment() {
 
         for (index in 0 until selectedImages.size) {
             postImagesFile.add(convertBitmapToFile(selectedImages[index], requireContext()))
-            val surveyBody: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), postImagesFile[index])
-            postImagesParts[index] =  MultipartBody.Part.createFormData("images[]", postImagesFile[index].nameWithoutExtension, surveyBody);
+            val imagesBody: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), postImagesFile[index])
+            postImagesParts[index] =  MultipartBody.Part.createFormData("images[]", postImagesFile[index].nameWithoutExtension, imagesBody)
         }
 
         val pDialog = SweetAlertDialog(requireContext(), SweetAlertDialog.PROGRESS_TYPE)
+        
         pDialog.progressHelper.barColor = Color.parseColor("#A5DC86")
         pDialog.titleText = "Updating Post"
         pDialog.setCancelable(false)

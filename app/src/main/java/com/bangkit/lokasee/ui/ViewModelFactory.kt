@@ -10,6 +10,7 @@ import com.bangkit.lokasee.ui.auth.register.RegisterViewModel
 import com.bangkit.lokasee.ui.main.MainViewModel
 import com.bangkit.lokasee.ui.main.home.HomeViewModel
 import com.bangkit.lokasee.ui.main.map.MapViewModel
+import com.bangkit.lokasee.ui.main.profile.ProfileViewModel
 import com.bangkit.lokasee.ui.main.seller.SellerViewModel
 
 class ViewModelFactory(private val repository: Repository) :  ViewModelProvider.NewInstanceFactory() {
@@ -23,11 +24,14 @@ class ViewModelFactory(private val repository: Repository) :  ViewModelProvider.
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
                 LoginViewModel(repository) as T
             }
+            modelClass.isAssignableFrom(MainViewModel::class.java) -> {
+                MainViewModel(repository) as T
+            }
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
                HomeViewModel(repository) as T
             }
-            modelClass.isAssignableFrom(MainViewModel::class.java) -> {
-                MainViewModel(repository) as T
+            modelClass.isAssignableFrom(ProfileViewModel::class.java) -> {
+                ProfileViewModel(repository) as T
             }
             modelClass.isAssignableFrom(SellerViewModel::class.java) -> {
                 SellerViewModel(repository) as T

@@ -5,6 +5,7 @@ import com.bangkit.lokasee.data.Kabupaten
 import com.bangkit.lokasee.data.Kecamatan
 import com.bangkit.lokasee.data.Provinsi
 
+
 const val PRICE_MIN = "price_min"
 const val PRICE_MAX = "price_max"
 const val AREA_MIN = "area_min"

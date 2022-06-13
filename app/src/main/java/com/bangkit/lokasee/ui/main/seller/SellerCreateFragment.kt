@@ -1,6 +1,9 @@
 package com.bangkit.lokasee.ui.main.seller
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -14,6 +17,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,6 +36,13 @@ import com.bangkit.lokasee.util.*
 import com.bangkit.lokasee.util.ViewHelper.gone
 import com.bangkit.lokasee.util.ViewHelper.visible
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.transition.MaterialFadeThrough
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -42,7 +53,7 @@ import java.io.File
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
-class SellerCreateFragment : Fragment() {
+class SellerCreateFragment : Fragment(), OnMapReadyCallback {
 
     private var _binding: FragmentSellerCreateBinding? = null
     private val binding get() = _binding!!
@@ -55,6 +66,9 @@ class SellerCreateFragment : Fragment() {
     private lateinit var selectedKecamatan: Kecamatan
     private lateinit var sellerViewModel: SellerViewModel
     private lateinit var listPostImageListAdapter: InputPostImageListAdapter
+    private lateinit var mMap: GoogleMap
+    private var marker: Marker? = null
+    private var latLong: LatLng? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +84,7 @@ class SellerCreateFragment : Fragment() {
     ): View? {
         _binding = FragmentSellerCreateBinding.inflate(inflater, container, false)
         setupViewModel()
+        setupMapView()
         listPostImageListAdapter = InputPostImageListAdapter(selectedImages)
         binding.rvPostImageList.setHasFixedSize(true)
         binding.rvPostImageList.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
@@ -145,6 +160,57 @@ class SellerCreateFragment : Fragment() {
         }
 
     }
+    private fun setupMapView() {
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+
+        mMap.uiSettings.isZoomControlsEnabled = true
+        mMap.uiSettings.isCompassEnabled = true
+        mMap.uiSettings.isMapToolbarEnabled = true
+        mMap.uiSettings.setAllGesturesEnabled(true)
+        requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+
+        mMap.setOnMapLongClickListener {
+            if(latLong == null){
+                latLong = LatLng(it.latitude, it.longitude)
+                marker = mMap.addMarker(MarkerOptions().position(latLong!!).title("New Post Position"))
+            }
+            else{
+                latLong = LatLng(it.latitude, it.longitude)
+                marker!!.remove()
+                marker = mMap.addMarker(MarkerOptions().position(latLong!!).title("New Post Position"))
+            }
+        }
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission())
+        { isGranted: Boolean ->
+            if (isGranted) {
+                getMyLocation()
+            }
+            else{
+                Toast.makeText(
+                    requireContext(),
+                    "You need grant permission to access location",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+    @SuppressLint("MissingPermission")
+    private fun getMyLocation() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        ) {
+            mMap.isMyLocationEnabled = true
+        } else {
+            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+    }
 
     private fun createPost(){
         val postTitle = binding.inputPostTitle.editText?.text.toString()
@@ -163,8 +229,8 @@ class SellerCreateFragment : Fragment() {
             binding.selectPostKecamatan.editText?.text.toString(), kecamatanList
         )
 
-        val postLatitude = "10.8888"
-        val postLongitude = "900.9933"
+        val postLatitude = latLong?.latitude
+        val postLongitude = latLong?.longitude
 
         val requestBody: HashMap<String, RequestBody> = HashMap()
         requestBody["title"] = createPartFromString(postTitle)
@@ -172,8 +238,8 @@ class SellerCreateFragment : Fragment() {
         requestBody["price"] = createPartFromString(postPrice)
         requestBody["area"] = createPartFromString(postArea)
         requestBody["address"] = createPartFromString(postAddress)
-        requestBody["latitude"] = createPartFromString(postLatitude)
-        requestBody["longitude"] = createPartFromString(postLongitude)
+        requestBody["latitude"] = createPartFromString(postLatitude.toString())
+        requestBody["longitude"] = createPartFromString(postLongitude.toString())
         requestBody["user_id"] = createPartFromString(UserStore.currentUser.id.toString())
         requestBody["provinsi_id"] = createPartFromString(postProvinsi.id.toString())
         requestBody["kabupaten_id"] = createPartFromString(postKabupaten.id.toString())
@@ -308,6 +374,7 @@ class SellerCreateFragment : Fragment() {
                         if (kecamatanData?.isNotEmpty() == true){
                             kecamatanList = kecamatanData as MutableList<Kecamatan>
                         }
+                        Log.e("ddd", kecamatanList.toString())
 
                         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, kecamatanList)
                         binding.atvKecamatan.setAdapter(arrayAdapter)

@@ -15,6 +15,7 @@ interface ApiService {
 
     @GET("post/filter")
     suspend fun getAllPostsFiltered(
+        @Query("search") search: String?,
         @QueryMap options: Map<String, Int?>
     ): PostListResponse
 
@@ -114,7 +115,7 @@ interface ApiService {
     suspend fun login(@Body params: BodyLogin): LoginResponse
 
     @POST("register")
-    suspend fun register(@Body params: BodyRegister): RegisterResponse
+    suspend fun register(@Body register: BodyRegister): RegisterResponse
 
     @POST("logout")
     suspend fun logout(): LogoutResponse

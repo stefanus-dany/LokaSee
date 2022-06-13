@@ -3,7 +3,6 @@ package com.bangkit.lokasee.ui.main.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bangkit.lokasee.data.Post
 import com.bangkit.lokasee.data.repo.Repository
 import com.bangkit.lokasee.data.response.PostListResponse
 
