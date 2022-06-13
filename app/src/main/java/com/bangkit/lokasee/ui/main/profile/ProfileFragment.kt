@@ -85,7 +85,7 @@ class ProfileFragment : Fragment() {
             binding.inputUserPhone.editText?.setText(currentUser.phoneNumber)
         }
 
-        binding.btnUpdateProfile.setOnClickListener {
+        /*binding.btnUpdateProfile.setOnClickListener {
             when {
                 binding.inputUserPhone.editText?.text.toString().isEmpty() -> {
                     with(binding) {
@@ -118,6 +118,7 @@ class ProfileFragment : Fragment() {
                     startForInputImageResult.launch(intent)
                 }
         }
+        */
 
         Glide.with(requireActivity())
             .load(getAvatarUrl(currentUser))
